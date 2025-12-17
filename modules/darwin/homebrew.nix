@@ -1,0 +1,90 @@
+{
+  enable = true;
+  taps = [
+    "charmbracelet/tap"
+    "mayowa-ojo/tap"
+    "noborus/tap"
+  ];
+
+  brews = [
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Core CLI ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    "clipboard"
+    "mayowa-ojo/tap/chmod-cli"
+
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Development ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    "flit" # possibly https://search.nixos.org/packages?channel=25.05&query=flit
+
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━ Git & Version Control ━━━━━━━━━━━━━━━━━━━━━━━━━
+    "czg"
+
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━ Networking ━━━━━━━━━━━━━━━━━━━━━━━━━
+    "ucspi-tcp"
+    "zrok"
+
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━ Creative & Media ━━━━━━━━━━━━━━━━━━━━━━━━━
+    "huggingface-cli"
+
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━ TeX & Docs ━━━━━━━━━━━━━━━━━━━━━━━━━
+    "latexindent"
+
+    # --- Literally just claude-code
+
+  ];
+
+  casks = [
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Development ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    "netron" # On nixpkgs but not darwin
+    "postman"
+
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Communication ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    "signal"
+    "whatsapp"
+
+    # ━━━━━━━━━━━━━━━━━━━━━━━━ Media & Creative ━━━━━━━━━━━━━━━━━━━━━━━━
+    "adobe-creative-cloud"
+    "clipgrab"
+    "loom"
+    "notunes"
+    "obs"
+    "vlc"
+
+    # ━━━━━━━━━━━━━━━━━━━━━━━ Productivity & Utilities ━━━━━━━━━━━━━━━━━━━━━━━
+    "applite"
+    "flux-app"
+    "bartender"
+
+    # ━━━━━━━━━━━━━━━━━━━━━━━━ Office & Knowledge ━━━━━━━━━━━━━━━━━━━━━━━━
+    "dropbox"
+    "freedom"
+    "memory"
+    "microsoft-auto-update"
+    "microsoft-office"
+    "notion"
+    "notion-calendar"
+    "notion-mail"
+
+    # ━━━━━━━━━━━━━━━━━━━━━━━ Security & Terminals ━━━━━━━━━━━━━━━━━━━━━━━
+    "burp-suite"
+    "ghostty"
+    "protonvpn"
+    "qflipper"
+
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Gaming ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    "epic-games"
+    "gog-galaxy"
+    "minecraft"
+    "steam"
+
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ AI ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    "claude"
+
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Fonts ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    "font-nova-round"
+  ];
+
+  masApps = {
+    "image2icon" = 992115977;
+    Xcode = 497799835;
+    # "1Password for Safari" = 1569813296;
+  };
+}
