@@ -41,7 +41,6 @@ in
       passwordCommand = "lpass show 5216794005647503185 --password";
     };
   };
-  # TODO: Complete in the future
   calendar.accounts = {
     "test-calendar" = {
       primary = true;

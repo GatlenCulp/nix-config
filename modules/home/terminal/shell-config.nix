@@ -1,8 +1,6 @@
 { pkgs, secrets }:
 let
   sharedShellInit = ''
-    # TODO: Convert to use LastPass
-    # TODO: Convert to use the envvars nix api
     export EDITOR=cursor
     export PAGER='ov -F'
     export PSQL_PAGER='ov -F -C -d "|" -H1 --column-rainbow --align'
@@ -42,7 +40,6 @@ let
     fastfetch
   '';
 in
-# TODO: fix bat caching
 {
   bash = {
     enable = true;

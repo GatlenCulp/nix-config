@@ -20,9 +20,6 @@
   # 1. Base -- E.g. I always want to select all. I always want to treat "loguru.logger" as a logger-object. I always want quote-style double, indent-style space
   # 2.
 
-  # TODO: Would also be nice to have some kind of PROFILE to distinguish code I'M writing from code that others have written(?)
-
-  # TODO: Add banned imports (e.g. logging, matplotlib, etc. Recommend replacements instead.)
 
   # Dangerous
   unsafe-fixes = true;

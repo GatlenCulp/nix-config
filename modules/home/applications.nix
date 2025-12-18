@@ -122,15 +122,12 @@ in
   };
 
   zed-editor.enable = true;
-  # TODO: Obisidan edits
   obsidian.enable = true;
   fabric-ai = {
     enable = true;
     enableBashIntegration = true;
     enableZshIntegration = true;
   };
-  # TODO: Claude-code edits
-  # Note: The below was copied and pasted from the example
   claude-code = {
     enable = true;
     mcpServers = mcpServers;
@@ -166,7 +163,6 @@ in
         ];
       };
       includeCoAuthoredBy = false;
-      # model = "claude-3-5-sonnet-20241022";
       permissions = {
         # additionalDirectories = [ "../docs/" ]; Add personal files?
         allow = [
@@ -193,7 +189,6 @@ in
         disableBypassPermissionsMode = "disable";
       };
       statusLine = {
-        # TODO: check more cc theme stuff. Also actually install this more globally.
         command = "bunx ccstatusline@latest";
         padding = 0;
         type = "command";

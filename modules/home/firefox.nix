@@ -79,13 +79,48 @@
         iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
         definedAliases = [ "@nw" ];
       };
+      nix-home-manager = {
+        name = "Nix Home Manager Option Search";
+        urls = [
+          {
+            template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=release-25.11";
+          }
+        ];
+        definedAliases = [ "@hm" ];
+      };
+
+      youtube = {
+        name = "YouTube";
+        urls = [
+          {
+            template = "https://www.youtube.com/results?search_query={searchTerms}";
+          }
+        ];
+        definedAliases = [ "@yt" ];
+      };
+
+      nixvim = {
+        name = "Nixvim Options Search";
+        urls = [
+          {
+            template = "https://nix-community.github.io/nixvim/search/?query={searchTerms}";
+          }
+        ];
+        definedAliases = [ "@nv" ];
+      };
+
+      perplexity = {
+        name = "Perplexity";
+        urls = [ { template = "https://www.perplexity.ai/search?q={searchTerms}"; } ];
+        definedAlias = [ "@p" ];
+      };
 
       bing.metaData.hidden = true;
       google.metaData.alias = "@g"; # builtin engines only support specifying one additional alias
     };
 
     settings = {
-      "browser.startup.homepage" = "https://nixos.org";
+      "browser.startup.homepage" = "https://dormsoup.mit.edu";
     };
   };
 }

@@ -28,7 +28,6 @@ with pkgs;
   texlivePackages.sansmathfonts
   texlivePackages.notomath
 
-  # TODO: Find material icons nerd font for eza and such.
 
   # Display
   blackout

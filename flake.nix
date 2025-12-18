@@ -3,10 +3,6 @@
 #
 # nix-darwin: https://nix-darwin.github.io/nix-darwin/manual/index.html
 # home-manager: https://nix-community.github.io/home-manager/options.xhtml
-# TODO: Modularize as flake-parts, as modules, etc.
-# TODO: Also put this into some kind of better template
-# TODO: Make declarative dock https://github.com/dustinlyons/nixos-config/blob/8a14e1f0da074b3f9060e8c822164d922bfeec29/modules/darwin/home-manager.nix#L74
-# TODO: Understand https://github.com/cpick/nix-rosetta-builder
 {
   description = "Gatlen's nix-darwin macOS nix configuration";
 
@@ -31,11 +27,13 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-        nix-rosetta-builder = {
+    nix-rosetta-builder = {
       url = "github:cpick/nix-rosetta-builder";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-nix-homebrew = { url = "github:zhaofengli/nix-homebrew"; };
+    nix-homebrew = {
+      url = "github:zhaofengli/nix-homebrew";
+    };
     # tytanic = {
     # tytanic references apple_sdk.
     #   url = "github:typst-community/tytanic/v0.3.1";
@@ -65,17 +63,11 @@ nix-homebrew = { url = "github:zhaofengli/nix-homebrew"; };
       # tytanic,
       nixvim,
       nvix,
-nix-homebrew,
-nix-rosetta-builder,
+      nix-homebrew,
+      nix-rosetta-builder,
       ...
     }:
     let
-      # Import secrets (create secrets.nix based on secrets-template.nix)
-      # secrets = import "${self}/secrets/secrets.nix";
-      #
-      # NOTE: Flakes only include git-tracked files in `self`. Since `secrets/secrets.nix`
-      # is intentionally ignored/untracked, we must import it impurely from the live
-      # filesystem. Run rebuilds with `--impure` (your `rebuild` alias already does).
       secrets = import "/Users/gat/.config/nix-config/secrets/secrets.nix";
       systemPackages = pkgs: import "${self}/modules/darwin/system-packages.nix" { inherit pkgs; };
       homebrewConfig = import "${self}/modules/darwin/homebrew.nix";
@@ -110,8 +102,7 @@ nix-rosetta-builder,
           home.stateVersion = "25.05";
           home.enableNixpkgsReleaseCheck = false; # So I can use old nixpkgs with new home-manager. Can't update nixpkgs bc then nix-darwin freaks.
           home.shellAliases = {
-            config = "$EDITOR ~/.config/nix-config";
-            # TODO: Eventually make pure (using references to my assets dir)
+           config = "$EDITOR ~/.config/nix-config";
             rebuild = "sudo darwin-rebuild switch --flake ~/.config/nix-config --show-trace --impure";
             upgrade = "topgrade";
             lsr = "eza -T --git-ignore"; # List repo with ezaf
@@ -168,7 +159,17 @@ nix-rosetta-builder,
         { pkgs, ... }:
         {
           # Core Setup
-          imports = [ home-manager.darwinModules.home-manager nix-homebrew.darwinModules.nix-homebrew {nix-homebrew = {enable = true; enableRosetta = true; user = "gat";};} ];
+          imports = [
+            home-manager.darwinModules.home-manager
+            nix-homebrew.darwinModules.nix-homebrew
+            {
+              nix-homebrew = {
+                enable = true;
+                enableRosetta = true;
+                user = "gat";
+              };
+            }
+          ];
           # Not working atm. Fix later.
           nixpkgs.config.allowUnfree = true;
           nixpkgs.hostPlatform = "aarch64-darwin";
@@ -284,19 +285,21 @@ nix-rosetta-builder,
 
     in
     {
-      darwinConfigurations."gatty" = nix-darwin.lib.darwinSystem { modules = [
-      configuration
-        # An existing Linux builder is needed to initially bootstrap `nix-rosetta-builder`.
-        # If one isn't already available: comment out the `nix-rosetta-builder` module below,
-        # uncomment this `linux-builder` module, and run `darwin-rebuild switch`:
-        # { nix.linux-builder.enable = true; }
-        # Then: uncomment `nix-rosetta-builder`, remove `linux-builder`, and `darwin-rebuild switch`
-        # a second time. Subsequently, `nix-rosetta-builder` can rebuild itself.
-        #nix-rosetta-builder.darwinModules.default
-        #{
+      darwinConfigurations."gatty" = nix-darwin.lib.darwinSystem {
+        modules = [
+          configuration
+          # An existing Linux builder is needed to initially bootstrap `nix-rosetta-builder`.
+          # If one isn't already available: comment out the `nix-rosetta-builder` module below,
+          # uncomment this `linux-builder` module, and run `darwin-rebuild switch`:
+          # { nix.linux-builder.enable = true; }
+          # Then: uncomment `nix-rosetta-builder`, remove `linux-builder`, and `darwin-rebuild switch`
+          # a second time. Subsequently, `nix-rosetta-builder` can rebuild itself.
+          #nix-rosetta-builder.darwinModules.default
+          #{
           # see available options in module.nix's `options.nix-rosetta-builder`
           # nix-rosetta-builder.onDemand = true;
-        # }
-      ]; };
+          # }
+        ];
+      };
     };
 }

@@ -1,9 +1,6 @@
 ''
   #!/usr/bin/env zsh
 
-  # TODO: Setup, not working D:
-  # https://github.com/FelixKratz/SketchyBar/discussions/47?sort=top
-
   FONT_FACE="JetBrainsMono Nerd Font"
 
   # PLUGIN_DIR="$HOME/.config/sketchybar/plugins-laptop"

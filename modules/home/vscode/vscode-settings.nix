@@ -630,6 +630,3 @@ let
   ];
 in
 builtins.foldl' (acc: next: acc // next) { } selected
-
-# TODO: Add icons in panel
-# TODO: Add small tabs

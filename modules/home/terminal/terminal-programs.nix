@@ -303,9 +303,6 @@
 
   # Editors
   helix.enable = true;
-  # Maybe with learning: https://youtu.be/w7i4amO_zaE
-  # neovim = import ./vim.nix { inherit pkgs; };  # Replaced by nixvim
-  # nixvim = import ./nixvim.nix { inherit pkgs inputs; };
   nixvim = {
     enable = true;
     viAlias = true;
