@@ -127,7 +127,7 @@ let
       # bartender # Only version 5
       lastpass-cli
       raycast
-      spotify
+      # spotify
       tailscale
       zotero
       desktoppr # Hopefully works

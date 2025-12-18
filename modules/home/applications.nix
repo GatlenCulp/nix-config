@@ -114,12 +114,12 @@ in
   };
 
   # Oddly not in packages?
-  # desktoppr = {
-  #   enable = true;
-  #   settings = {
-  #     picture = /Users/gat/.config/nix-config/assets/wallpaper-cyberpunk.jpg;
-  #   };
-  # };
+  desktoppr = {
+    enable = true;
+    settings = {
+      picture = /Users/gat/.config/nix-config/assets/wallpaper-cyberpunk.jpg;
+    };
+  };
 
   zed-editor.enable = true;
   # TODO: Obisidan edits
