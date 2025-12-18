@@ -84,7 +84,7 @@
 
   masApps = {
     "image2icon" = 992115977;
-    Xcode = 497799835;
+    # Xcode = 497799835; # Note: Takes almost an hour to download, skip for fast install
     # "1Password for Safari" = 1569813296;
   };
 }

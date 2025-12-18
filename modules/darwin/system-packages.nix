@@ -94,7 +94,7 @@ let
     lean = [ lean4 ];
 
     media = [
-      blender
+      # blender
       charm-freeze
       vhs
     ];
@@ -130,6 +130,7 @@ let
       spotify
       tailscale
       zotero
+      desktoppr # Hopefully works
     ];
 
     python = [

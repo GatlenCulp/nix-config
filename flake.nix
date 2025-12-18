@@ -1,25 +1,25 @@
-# Initial installation: sudo nix run nix-darwin -- switch --flake ~/.config/nix-darwin
-# Subsequent updates: darwin-rebuild switch --flake ~/.config/nix-darwin
+#Initial installation: sudo nix run nix-darwin -- switch --flake ~/.config/nix-config
+# Subsequent updates: darwin-rebuild switch --flake ~/.config/nix-config
 #
 # nix-darwin: https://nix-darwin.github.io/nix-darwin/manual/index.html
 # home-manager: https://nix-community.github.io/home-manager/options.xhtml
 # TODO: Modularize as flake-parts, as modules, etc.
 # TODO: Also put this into some kind of better template
+# TODO: Make declarative dock https://github.com/dustinlyons/nixos-config/blob/8a14e1f0da074b3f9060e8c822164d922bfeec29/modules/darwin/home-manager.nix#L74
+# TODO: Understand https://github.com/cpick/nix-rosetta-builder
 {
   description = "Gatlen's nix-darwin macOS nix configuration";
 
   inputs = {
-    nixpkgs-stable-darwin.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
+    nixpkgs-stable-darwin.url = "github:NixOS/nixpkgs/nixpkgs-25.11-darwin";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
     nixpkgs.follows = "nixpkgs-unstable";
     nix-darwin = {
-      url = "github:LnL7/nix-darwin/nix-darwin-25.05";
+      url = "github:LnL7/nix-darwin/nix-darwin-25.11";
       inputs.nixpkgs.follows = "nixpkgs-stable-darwin";
     };
     home-manager = {
-      # url = "github:nix-community/home-manager/release-25.05";
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
@@ -31,6 +31,11 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+        nix-rosetta-builder = {
+      url = "github:cpick/nix-rosetta-builder";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+nix-homebrew = { url = "github:zhaofengli/nix-homebrew"; };
     # tytanic = {
     # tytanic references apple_sdk.
     #   url = "github:typst-community/tytanic/v0.3.1";
@@ -60,6 +65,8 @@
       # tytanic,
       nixvim,
       nvix,
+nix-homebrew,
+nix-rosetta-builder,
       ...
     }:
     let
@@ -69,7 +76,7 @@
       # NOTE: Flakes only include git-tracked files in `self`. Since `secrets/secrets.nix`
       # is intentionally ignored/untracked, we must import it impurely from the live
       # filesystem. Run rebuilds with `--impure` (your `rebuild` alias already does).
-      secrets = import "/Users/gat/.config/nix-darwin/secrets/secrets.nix";
+      secrets = import "/Users/gat/.config/nix-config/secrets/secrets.nix";
       systemPackages = pkgs: import "${self}/modules/darwin/system-packages.nix" { inherit pkgs; };
       homebrewConfig = import "${self}/modules/darwin/homebrew.nix";
       systemDefaults = import "${self}/modules/darwin/system-defaults.nix";
@@ -103,9 +110,9 @@
           home.stateVersion = "25.05";
           home.enableNixpkgsReleaseCheck = false; # So I can use old nixpkgs with new home-manager. Can't update nixpkgs bc then nix-darwin freaks.
           home.shellAliases = {
-            config = "$EDITOR ~/.config/nix-darwin";
+            config = "$EDITOR ~/.config/nix-config";
             # TODO: Eventually make pure (using references to my assets dir)
-            rebuild = "sudo darwin-rebuild switch --flake ~/.config/nix-darwin --show-trace --impure";
+            rebuild = "sudo darwin-rebuild switch --flake ~/.config/nix-config --show-trace --impure";
             upgrade = "topgrade";
             lsr = "eza -T --git-ignore"; # List repo with ezaf
           };
@@ -161,7 +168,7 @@
         { pkgs, ... }:
         {
           # Core Setup
-          imports = [ home-manager.darwinModules.home-manager ];
+          imports = [ home-manager.darwinModules.home-manager nix-homebrew.darwinModules.nix-homebrew {nix-homebrew = {enable = true; enableRosetta = true; user = "gat";};} ];
           # Not working atm. Fix later.
           nixpkgs.config.allowUnfree = true;
           nixpkgs.hostPlatform = "aarch64-darwin";
@@ -172,7 +179,7 @@
 
           # Environment
           environment = {
-            darwinConfig = "$HOME/.config/nix-darwin";
+            darwinConfig = "$HOME/.config/nix-config";
             pathsToLink = [
               "/share/zsh"
               "/share/bash-completion"
@@ -233,7 +240,7 @@
           # Nix Configuration
           nix = {
             # Was false and pkgs.nix I believe
-            enable = false; # Handled by Determinate Nix
+            enable = true; # Handled by Determinate Nix
             package = pkgs.lixPackageSets.stable.lix; # Not used, convert in the future
             settings."extra-experimental-features" = [
               "nix-command"
@@ -277,6 +284,19 @@
 
     in
     {
-      darwinConfigurations."gatty" = nix-darwin.lib.darwinSystem { modules = [ configuration ]; };
+      darwinConfigurations."gatty" = nix-darwin.lib.darwinSystem { modules = [
+      configuration
+        # An existing Linux builder is needed to initially bootstrap `nix-rosetta-builder`.
+        # If one isn't already available: comment out the `nix-rosetta-builder` module below,
+        # uncomment this `linux-builder` module, and run `darwin-rebuild switch`:
+        # { nix.linux-builder.enable = true; }
+        # Then: uncomment `nix-rosetta-builder`, remove `linux-builder`, and `darwin-rebuild switch`
+        # a second time. Subsequently, `nix-rosetta-builder` can rebuild itself.
+        #nix-rosetta-builder.darwinModules.default
+        #{
+          # see available options in module.nix's `options.nix-rosetta-builder`
+          # nix-rosetta-builder.onDemand = true;
+        # }
+      ]; };
     };
 }

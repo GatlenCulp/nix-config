@@ -36,7 +36,7 @@ let
       "cSpell.customDictionaries" = {
         "custom-dictionary-user" = {
           "name" = "custom-dictionary-user";
-          "path" = "~/.config/nix-darwin/assets/.cspell/custom-dictionary-user.txt";
+          "path" = "~/.config/nix-config/assets/.cspell/custom-dictionary-user.txt";
           "addWords" = true;
           "scope" = "user";
         };
@@ -343,13 +343,13 @@ let
           };
           "options" = {
             "home-manager" = {
-              "expr" = ''(builtins.getFlake "/Users/gat/.config/nix-darwin").darwinConfigurations.gatty.options'';
+              "expr" = ''(builtins.getFlake "/Users/gat/.config/nix-config").darwinConfigurations.gatty.options'';
             };
-            "nix-darwin" = {
-              "expr" = ''(builtins.getFlake "/Users/gat/.config/nix-darwin").darwinConfigurations.gatty.options'';
+            "nix-config" = {
+              "expr" = ''(builtins.getFlake "/Users/gat/.config/nix-config").darwinConfigurations.gatty.options'';
             };
             "nixos" = {
-              "expr" = ''(builtins.getFlake "/Users/gat/.config/nix-darwin").darwinConfigurations.gatty.options'';
+              "expr" = ''(builtins.getFlake "/Users/gat/.config/nix-config").darwinConfigurations.gatty.options'';
             };
           };
         };

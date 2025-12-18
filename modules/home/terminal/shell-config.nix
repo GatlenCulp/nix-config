@@ -32,7 +32,7 @@ let
 
     ### COOKIECUTTER
     # TODO: Update to use dynamic xdg config
-    export COOKIECUTTER_CONFIG="/Users/gat/.config/nix-darwin/assets/gatlen-cookiecutter-config.yaml"
+    export COOKIECUTTER_CONFIG="/Users/gat/.config/nix-config/assets/gatlen-cookiecutter-config.yaml"
 
     ### AWS COMPLETION (perhaps future plugin, not on prezto)
     autoload -U bashcompinit && bashcompinit

@@ -52,7 +52,7 @@ in
 
   # Browsers
   # chromium = { enable = true; }; # Not available on darwin?
-  # firefox = import ../firefox.nix { inherit pkgs; }; # Takes a while
+  firefox = import ./firefox.nix { inherit pkgs; }; # Takes a while
 
   discord = {
     enable = true;
@@ -112,6 +112,14 @@ in
       };
     };
   };
+
+  # Oddly not in packages?
+  # desktoppr = {
+  #   enable = true;
+  #   settings = {
+  #     picture = /Users/gat/.config/nix-config/assets/wallpaper-cyberpunk.jpg;
+  #   };
+  # };
 
   zed-editor.enable = true;
   # TODO: Obisidan edits

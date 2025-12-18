@@ -32,7 +32,7 @@
     enable = true;
     config = {
       theme = "Dracula";
-      pager = "ov -F H3";
+      pager = "ov -F -H3";
     };
     # Run with --impure bc not changing this yet lol
     # themes.Dracula.src = "/Users/gat/.config/nix-darwin/assets/Dracula.tmTheme";

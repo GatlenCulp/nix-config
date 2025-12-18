@@ -12,7 +12,7 @@ with pkgs;
 
   # Math Fonts
   dejavu_fonts
-  fira-math
+  # fira-math
   newcomputermodern
   lato
   libertinus
