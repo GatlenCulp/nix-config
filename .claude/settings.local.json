@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(himalaya --version:*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(darwin-rebuild switch:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -48,6 +48,7 @@ in
   };
   himalaya = {
     enable = true;
+    package = pkgs.himalaya.override { withNotmuchBackend = true; };
   };
 
   # Media
