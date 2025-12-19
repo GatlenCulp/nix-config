@@ -18,10 +18,13 @@ let
       showSignature = "append";
     };
     thunderbird.enable = true;
-    mbsync.enable = true;
-    mbsync.create = "maildir";
+    mbsync = {
+      enable = true;
+      create = "maildir";
+    };
     msmtp.enable = true;
     notmuch.enable = true;
+    himalaya.enable = true;
   };
 in
 {

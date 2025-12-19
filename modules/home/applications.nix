@@ -46,13 +46,16 @@ in
       preNew = "mbsync --all";
     };
   };
+  himalaya = {
+    enable = true;
+  };
 
   # Media
   mpv.enable = true;
 
   # Browsers
   # chromium = { enable = true; }; # Not available on darwin?
-  firefox = import ./firefox.nix { inherit pkgs; }; # Takes a while
+  firefox = import ./firefox/default.nix { inherit pkgs; }; # Takes a while
 
   discord = {
     enable = true;

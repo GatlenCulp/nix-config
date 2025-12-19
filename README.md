@@ -57,8 +57,9 @@ nix-collect-garbage
 - [nix] Turn on python.repl.sendtonativerepl (for vscode?)
 - [nix] Have a defined Dracula theme. Set all colors for vscode from there
 - Disable almost all macos keybindings (in particular for screenshot tools and spotlight search) and remap them to things I used (raycast and rectangle/aerospace)
-- Firefox: make basic home screen
+- Firefox: make basic home screen (No Firefox Home Content)
 - Switch lpass to SOPS-nix
+- Disable all autofill for firefox
 
 ## Claude-Code Specific TODOs
 
