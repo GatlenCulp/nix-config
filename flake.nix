@@ -249,6 +249,9 @@
             ];
           };
 
+          # Let Home-manager Manage itself (doesn't work?)
+          # programs.home-manager.enable = true;
+
           # Homebrew
           homebrew = homebrewConfig;
 

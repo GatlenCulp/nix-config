@@ -50,3 +50,79 @@ nix-collect-garbage
 - Set up nix-based calendar accounts
 - TODO: For ruff, Would also be nice to have some kind of PROFILE to distinguish code I'M writing from code that others have written(?)
 - TODO: For ruff Add banned imports (e.g. logging, matplotlib, etc. Recommend replacements instead.)
+- [nix-ruff] Have vscode turn off auto-fixable linter codes (--linter-args ignore fixable or something)
+- [nix-ruff] Figure out if I can disable the display  of a ton of diffent ruff things which are distracting while  still letting it format whatever.
+- [nix-ruff] Figure out how to combine ruff fixes and formats (or maybe just format on save?)
+- [nix-home-manager] Save some set of AI rules to a place where cursor and other agents can access in MDC form(?)
+- [nix] Turn on python.repl.sendtonativerepl (for vscode?)
+- [nix] Have a defined Dracula theme. Set all colors for vscode from there
+- Disable almost all macos keybindings (in particular for screenshot tools and spotlight search) and remap them to things I used (raycast and rectangle/aerospace)
+- Firefox: make basic home screen
+- Switch lpass to SOPS-nix
+
+## Claude-Code Specific TODOs
+
+check out https://claudelog.com/configuration/
+
+Add claude code to vscode extensions
+
+TODO: add keybinds
+Installed Cursor terminal Shift+Enter key binding
+     See /Users/gat/Library/Application Support/Cursor/User/keybindings.json!
+
+TODO: claude code plugins?
+
+TODO: Configure an askpass??
+
+https://github.com/hesreallyhim/awesome-claude-code
+
+TODO: look into https://github.com/dyoshikawa/rulesync
+
+https://github.com/NeoLabHQ/context-engineering-kit
+
+https://github.com/Haleclipse/CCometixLine
+
+
+https://github.com/diet103/claude-code-infrastructure-showcase/tree/main
+
+https://github.com/disler/just-prompt/tree/main/.claude/commands
+
+https://github.com/GWUDCAP/cc-sessions
+
+https://github.com/davila7/claude-code-templates
+
+SUPER COOL:
+https://github.com/SuperClaude-Org/SuperClaude_Framework
+
+
+https://github.com/Maciek-roboblog/Claude-Code-Usage-Monitor
+
+https://github.com/ruvnet/claude-code-flow
+
+(so many more orchestrators)
+
+
+https://github.com/sirmalloc/ccstatusline
+
+https://github.com/nizos/tdd-guard
+
+https://github.com/evmts/tevm-monorepo/blob/main/.claude/commands/commit.md
+
+https://github.com/liam-hq/liam/blob/main/.claude/commands/create-pull-request.md
+
+https://github.com/metabase/metabase/blob/master/.claude/commands/fix-issue.md
+
+https://github.com/metabase/metabase/blob/master/.claude/commands/fix-pr.md
+
+https://github.com/scopecraft/command/blob/main/.claude/commands/create-command.md
+
+https://github.com/spylang/spy/blob/main/CLAUDE.md
+
+https://github.com/badass-courses/course-builder/blob/main/CLAUDE.md
+
+
+https://github.com/eastlondoner/cursor-tools/blob/main/CLAUDE.md
+
+https://github.com/soramimi/Guitar/blob/master/CLAUDE.md
+
+https://github.com/basicmachines-co/basic-memory/blob/main/CLAUDE.md

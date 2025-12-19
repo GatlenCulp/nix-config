@@ -115,6 +115,12 @@
         definedAlias = [ "@p" ];
       };
 
+      google-maps = {
+        name = "Google Maps";
+        urls = [ { template = "https://www.google.com/maps/search/?api=1&{searchTerms}"; } ];
+        definedAlias = [ "@maps" ];
+      };
+
       bing.metaData.hidden = true;
       google.metaData.alias = "@g"; # builtin engines only support specifying one additional alias
     };
