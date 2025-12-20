@@ -40,6 +40,7 @@ let
       # awscli
       devcontainer
       docker
+      orbstack
       hadolint
       terraform
     ];

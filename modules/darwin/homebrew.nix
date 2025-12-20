@@ -62,6 +62,7 @@
     "notion"
     "notion-calendar"
     "notion-mail"
+    "cleanshot"
 
     # ━━━━━━━━━━━━━━━━━━━━━━━ Security & Terminals ━━━━━━━━━━━━━━━━━━━━━━━
     "burp-suite"

@@ -121,11 +121,11 @@
         "poetry"
       ];
       commands = {
-        "Upgrade Determinate Nix" = "sudo determinate-nixd upgrade";
+        # "Upgrade Determinate Nix" = "sudo determinate-nixd upgrade"; # No longer needed, using lix
         # TODO: Make this pure, not reference local filesystem.
-        "Upgrade nix-darwin Flake " = "nix flake update --flake ~/.config/nix-darwin";
-        "Rebuild nix-darwin Flake" =
-          "sudo darwin-rebuild switch --flake ~/.config/nix-darwin --show-trace --impure";
+        "Upgrade nix-config Flake " = "nix flake update --flake ~/.config/nix-config";
+        "Rebuild nix-darwin" =
+          "sudo darwin-rebuild switch --flake ~/.config/nix-config --show-trace --impure";
       };
     };
   };

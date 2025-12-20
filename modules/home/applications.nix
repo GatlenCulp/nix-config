@@ -35,6 +35,12 @@ in
     profiles."GatlenCulp@gmail.com" = {
       isDefault = true;
     };
+    # Go to settings then about:config
+    settings = {
+      mailnews.message_display.disable_remote_image = false; # Borderline unusable without remote images unfortunately
+      # mail.threadpane.listview = 1; # I think table view instead of list view messages(?)
+    };
+    # extensions = [  ]; Basically not workable lol
   };
 
   # Copied here
@@ -48,7 +54,7 @@ in
   };
   himalaya = {
     enable = true;
-    package = pkgs.himalaya.override { withNotmuchBackend = true; };
+    # package = pkgs.himalaya.override { withNotmuchBackend = true; };
   };
 
   # Media
@@ -67,7 +73,7 @@ in
     settings = {
       theme = "dracula";
       cursor.blinking = true;
-      window.opactiy = 0.8;
+      window.opacity = 0.8;
       fonts = {
         size = 11;
         family = "FiraCode Nerd Font";
