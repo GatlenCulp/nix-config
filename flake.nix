@@ -101,7 +101,8 @@
         {
           imports = [
             "${self}/modules/home/vscode"
-            "${self}/modules/home/firefox"
+            # "${self}/modules/home/firefox"
+            "${self}/modules/home/git"
           ];
 
           home.stateVersion = "25.05";
