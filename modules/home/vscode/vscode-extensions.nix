@@ -366,6 +366,7 @@ let
     # langs.julia
     # langs.lean
     # langs.lisp
+    langs.makefile
     langs.nix
     # langs.powershell
     langs.python

@@ -1,17 +1,18 @@
 { pkgs, self, ... }:
 {
-  enable = true;
-  # enableMcpIntegration = true; # Error?
-  profiles.default = {
-    extensions = import "${self}/modules/home/vscode/vscode-extensions.nix" {
-      inherit pkgs;
+  programs.vscode = {
+    enable = true;
+    # enableMcpIntegration = true; # Error?
+    profiles.default = {
+      extensions = import ./vscode-extensions.nix { inherit pkgs; };
+      userSettings = import ./vscode-settings.nix { inherit self; };
+      keybindings = [
+        {
+          key = "cmd+l";
+          command = "claude-vscode.insertAtMention";
+          when = "editorTextFocus";
+        }
+      ];
     };
-    userSettings = import "${self}/modules/home/vscode/vscode-settings.nix" { inherit self; };
-    keybindings = [
-      {
-        key = "cmd+l";
-        command = "";
-      }
-    ];
   };
 }

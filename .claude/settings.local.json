@@ -8,6 +8,9 @@
       "Bash(nix flake check:*)"
     ],
     "deny": [],
-    "ask": []
+    "ask": [
+      "Edit",
+      "Write"
+    ]
   }
 }

@@ -92,8 +92,6 @@
 
       applicationPrograms = pkgs: import "${self}/modules/home/applications.nix" { inherit pkgs; };
 
-      vsCodeConfig = pkgs: import "${self}/modules/home/vscode/default.nix" { inherit pkgs self; };
-
       ruffSettings = import "${self}/modules/home/ruff.nix";
       sketchybarSettings = import "${self}/modules/home/sketchybar.nix";
 
@@ -101,6 +99,12 @@
       homeManagerConfig =
         { pkgs, ... }:
         {
+          imports = [
+            "${self}/modules/home/vscode"
+            "${self}/modules/home/firefox"
+            "${self}/modules/home/aerospace"
+          ];
+
           home.stateVersion = "25.05";
           home.enableNixpkgsReleaseCheck = false; # So I can use old nixpkgs with new home-manager. Can't update nixpkgs bc then nix-darwin freaks.
           home.shellAliases = {
@@ -133,7 +137,6 @@
               };
             }
             // {
-              vscode = vsCodeConfig pkgs;
               sketchybar = {
                 enable = false;
                 config = sketchybarSettings;
@@ -211,10 +214,10 @@
           fonts.packages = import "${self}/modules/darwin/fonts.nix" { inherit pkgs; };
 
           # Services
-          services.aerospace = {
-            enable = true;
-            settings = import "${self}/modules/home/aerospace-config.nix";
-          };
+          # services.aerospace = {
+          #   enable = true;
+          #   settings = import "${self}/modules/home/aerospace-config.nix";
+          # };
           programs.gnupg.agent.enable = true;
           services.spotifyd = {
             enable = true;
@@ -286,6 +289,9 @@
                 ];
               }
             ];
+            extraSpecialArgs = {
+              inherit self;
+            };
             backupFileExtension = "backup";
             useGlobalPkgs = true;
             useUserPackages = true;

@@ -115,7 +115,7 @@
     enable = true;
     settings = {
       misc.disable = [
-        "nix"
+        # "nix"
         "chezmoi"
         "node"
         "pnpm"
@@ -123,6 +123,7 @@
         "github_cli_extensions"
         "uv"
         "poetry"
+        "containers"
       ];
       commands = {
         # "Upgrade Determinate Nix" = "sudo determinate-nixd upgrade"; # No longer needed, using lix

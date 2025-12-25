@@ -65,7 +65,7 @@ in
 
   # Browsers
   # chromium = { enable = true; }; # Not available on darwin?
-  firefox = import ./firefox/default.nix { inherit pkgs; }; # Takes a while
+  # firefox is now a module imported in homeManagerConfig
 
   discord = {
     enable = true;
