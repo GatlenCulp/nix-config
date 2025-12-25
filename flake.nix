@@ -102,7 +102,6 @@
           imports = [
             "${self}/modules/home/vscode"
             "${self}/modules/home/firefox"
-            "${self}/modules/home/aerospace"
           ];
 
           home.stateVersion = "25.05";
@@ -153,6 +152,7 @@
           imports = [
             home-manager.darwinModules.home-manager
             nix-homebrew.darwinModules.nix-homebrew
+            "${self}/modules/darwin/aerospace"
             {
               nix-homebrew = {
                 enable = true;
@@ -214,10 +214,6 @@
           fonts.packages = import "${self}/modules/darwin/fonts.nix" { inherit pkgs; };
 
           # Services
-          # services.aerospace = {
-          #   enable = true;
-          #   settings = import "${self}/modules/home/aerospace-config.nix";
-          # };
           programs.gnupg.agent.enable = true;
           services.spotifyd = {
             enable = true;
