@@ -1,2 +1,12 @@
 secrets.nix
 secrets/secrets.nix
+# Devenv
+.devenv*
+devenv.local.nix
+devenv.local.yaml
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml

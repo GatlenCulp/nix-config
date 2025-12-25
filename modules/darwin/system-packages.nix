@@ -43,6 +43,7 @@ let
       orbstack
       hadolint
       terraform
+      devenv
     ];
 
     docs = [

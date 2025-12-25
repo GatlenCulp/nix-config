@@ -106,6 +106,10 @@
     settings = import ./fastfetch-config.nix;
   };
   less.enable = true;
+  emacs = {
+    enable = true;
+    # package = pkgs.
+  };
   topgrade = {
     # https://github.com/topgrade-rs/topgrade/blob/main/config.example.toml
     enable = true;

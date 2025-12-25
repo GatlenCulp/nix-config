@@ -244,10 +244,13 @@
             # Was false and pkgs.nix I believe
             enable = true; # Handled by Determinate Nix
             package = pkgs.lixPackageSets.stable.lix; # Not used, convert in the future
-            settings."extra-experimental-features" = [
-              "nix-command"
-              "flakes"
-            ];
+            settings = {
+              "extra-experimental-features" = [
+                "nix-command"
+                "flakes"
+              ];
+              trusted-users = [ "root" "gat" ];
+            };
           };
 
           # Let Home-manager Manage itself (doesn't work?)

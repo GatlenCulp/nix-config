@@ -152,8 +152,8 @@ let
       html = [
         ecmel.vscode-html-css
         formulahendry.auto-rename-tag
-        mkaufman.htmlhint
         zignd.html-css-class-completion
+        # HTMLHint.vscode-htmlhint (not available?)
         # prettier.prettier-vscode
       ];
 

@@ -34,6 +34,7 @@ let
     };
 
     general = {
+      "chat.mcp.gallery.enabled" = true;
       "cSpell.customDictionaries" = {
         "custom-dictionary-user" = {
           "name" = "custom-dictionary-user";
