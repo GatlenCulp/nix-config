@@ -92,7 +92,6 @@
 
       applicationPrograms = pkgs: import "${self}/modules/home/applications.nix" { inherit pkgs; };
 
-      ruffSettings = import "${self}/modules/home/ruff.nix";
       sketchybarSettings = import "${self}/modules/home/sketchybar.nix";
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Home Manager Configuration ━━━━━━━━━━━━━━━━━━━━━━━━━━━ #
@@ -103,6 +102,10 @@
             "${self}/modules/home/vscode"
             # "${self}/modules/home/firefox"
             "${self}/modules/home/git"
+            "${self}/modules/home/ruff"
+            "${self}/modules/home/obsidian"
+            "${self}/modules/home/rio"
+            "${self}/modules/home/claude-code"
           ];
 
           home.stateVersion = "25.05";
@@ -130,12 +133,6 @@
             terminalPrograms pkgs
             // shellConfig pkgs
             // applicationPrograms pkgs
-            // {
-              ruff = {
-                enable = true;
-                settings = ruffSettings;
-              };
-            }
             // {
               sketchybar = {
                 enable = false;
