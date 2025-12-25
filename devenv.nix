@@ -76,4 +76,10 @@
   # # Use alternative pre-commit implementations
   # git-hooks.package = pkgs.prek;
   # };
+
+  # tytanic = {
+    # tytanic references apple_sdk.
+    #   url = "github:typst-community/tytanic/v0.3.1";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 }

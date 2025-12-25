@@ -1,8 +1,3 @@
-#Initial installation: sudo nix run nix-darwin -- switch --flake ~/.config/nix-config
-# Subsequent updates: darwin-rebuild switch --flake ~/.config/nix-config
-#
-# nix-darwin: https://nix-darwin.github.io/nix-darwin/manual/index.html
-# home-manager: https://nix-community.github.io/home-manager/options.xhtml
 {
   description = "Gatlen's nix-darwin macOS nix configuration";
 
@@ -34,13 +29,7 @@
     nix-homebrew = {
       url = "github:zhaofengli/nix-homebrew";
     };
-    # tytanic = {
-    # tytanic references apple_sdk.
-    #   url = "github:typst-community/tytanic/v0.3.1";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-    # TODO: Global nix-colors, which is fine but they only have Base16 standard. Will define my own for now.
-    # nix-colors= {url = "github:misterio77/nix-colors"};
+
     nixvim = {
       url = "github:nix-community/nixvim";
       # Recommends not using following
@@ -60,7 +49,6 @@
       home-manager,
       nix-vscode-extensions,
       nur,
-      # tytanic,
       nixvim,
       nvix,
       nix-homebrew,
@@ -72,46 +60,48 @@
       systemPackages = pkgs: import "${self}/modules/darwin/system-packages.nix" { inherit pkgs; };
       homebrewConfig = import "${self}/modules/darwin/homebrew.nix";
       systemDefaults = import "${self}/modules/darwin/system-defaults.nix";
-      terminalPrograms =
-        pkgs:
-        import "${self}/modules/home/terminal/terminal-programs.nix" {
-          inherit pkgs inputs secrets;
-        };
-      accountsConfig = import "${self}/modules/home/accounts.nix";
-      customSystemPackages =
-        { inputs, pkgs }:
-        import "${self}/modules/darwin/custom-system-packages.nix" {
-          inherit inputs pkgs;
-        };
-
-      shellConfig =
-        pkgs:
-        import "${self}/modules/home/terminal/shell-config.nix" {
-          inherit pkgs secrets;
-        };
-
-      applicationPrograms = pkgs: import "${self}/modules/home/applications.nix" { inherit pkgs; };
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Home Manager Configuration ━━━━━━━━━━━━━━━━━━━━━━━━━━━ #
       homeManagerConfig =
         { pkgs, ... }:
         {
           imports = [
+            "${self}/modules/home/_accounts"
+            "${self}/modules/home/_cli-tools"
+            "${self}/modules/home/_go"
+            "${self}/modules/home/_js"
+            "${self}/modules/home/_nix"
+            "${self}/modules/home/_python"
+            "${self}/modules/home/_sql"
+            "${self}/modules/home/_tex"
+
             "${self}/modules/home/atuin"
             "${self}/modules/home/claude-code"
-            # "${self}/modules/home/firefox"
+            "${self}/modules/home/desktoppr"
             "${self}/modules/home/fastfetch"
+            # "${self}/modules/home/firefox"
             "${self}/modules/home/git"
+            "${self}/modules/home/helix"
             "${self}/modules/home/jq"
+            "${self}/modules/home/less"
+            "${self}/modules/home/mise"
+            "${self}/modules/home/mpv"
+            "${self}/modules/home/neovide"
             "${self}/modules/home/obsidian"
             "${self}/modules/home/rio"
             "${self}/modules/home/ruff"
+            "${self}/modules/home/shells"
             "${self}/modules/home/sketchybar"
+            "${self}/modules/home/spotify"
             "${self}/modules/home/ssh"
             "${self}/modules/home/starship"
+            "${self}/modules/home/thunderbird"
             "${self}/modules/home/topgrade"
             "${self}/modules/home/vscode"
+            "${self}/modules/home/zed"
             "${self}/modules/home/zellij"
+
+            "${self}/modules/home/applications.nix"
           ];
 
           home.stateVersion = "25.05";
@@ -120,13 +110,11 @@
             config = "$EDITOR ~/.config/nix-config";
             rebuild = "sudo darwin-rebuild switch --flake ~/.config/nix-config --show-trace --impure";
             upgrade = "topgrade";
-            lsr = "eza -T --git-ignore"; # List repo with ezaf
+            lsr = "eza -T --git-ignore";
           };
           home.shell = {
             enableShellIntegration = true;
           };
-
-          accounts = accountsConfig;
 
           xdg = {
             enable = true;
@@ -134,8 +122,6 @@
             configHome = "/Users/gat/.config";
             dataHome = "/Users/gat/.local/share";
           };
-
-          programs = terminalPrograms pkgs // shellConfig pkgs // applicationPrograms pkgs;
         };
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Main Darwin Configuration ━━━━━━━━━━━━━━━━━━━━━━━━━━━ #
@@ -170,7 +156,7 @@
               "/share/zsh"
               "/share/bash-completion"
             ];
-            systemPackages = (systemPackages pkgs) ++ (customSystemPackages { inherit inputs pkgs; });
+            systemPackages = (systemPackages pkgs);
             systemPath = [
               "/Users/gat/.cargo/bin"
               "/Users/gat/.local/share/../bin"
@@ -178,15 +164,15 @@
           };
 
           # launchd
-          launchd.user.agents = {
-            zed-test = {
-              command = "${pkgs.zed}/bin/zed";
-              serviceConfig = {
-                KeepAlive = false;
-                RunAtLoad = true;
-              };
-            };
-          };
+          # launchd.user.agents = {
+          #   zed-test = {
+          #     command = "${pkgs.zed}/bin/zed";
+          #     serviceConfig = {
+          #       KeepAlive = false;
+          #       RunAtLoad = true;
+          #     };
+          #   };
+          # };
 
           # System Configuration
           system = systemDefaults // {
@@ -258,29 +244,35 @@
             sharedModules = [
               nixvim.homeModules.nixvim
               {
-                programs.nixvim.imports = with nvix.nvixPlugins; [
-                  ai
-                  common
-                  lang
-                  lsp
-                  lualine
-                  snacks
-                  autosession
-                  blink-cmp
-                  buffer
-                  firenvim
-                  git
-                  noice
-                  precognition
-                  smear-cursor
-                  tex
-                  treesitter
-                  ux
-                ];
+                programs.nixvim = {
+                  enable = true;
+                  viAlias = true;
+                  vimAlias = true;
+                  imports = with nvix.nvixPlugins; [
+                    ai
+                    common
+                    lang
+                    lsp
+                    lualine
+                    snacks
+                    autosession
+                    blink-cmp
+                    buffer
+                    firenvim
+                    git
+                    noice
+                    precognition
+                    smear-cursor
+                    tex
+                    treesitter
+                    ux
+                  ];
+                };
               }
             ];
             extraSpecialArgs = {
               inherit self;
+              inherit secrets;
             };
             backupFileExtension = "backup";
             useGlobalPkgs = true;

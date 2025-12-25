@@ -1,5 +1,6 @@
 # Terminal Multiplexers & Session Management
 {
+  programs.tmux.enable = false;
   programs.zellij = {
     enable = true;
     # A bit annoying

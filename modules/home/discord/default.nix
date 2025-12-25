@@ -1,0 +1,5 @@
+{
+  discord = {
+    enable = true;
+  };
+}

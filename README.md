@@ -18,13 +18,11 @@ To Upgrade
 upgrade
 ```
 
-
 ## Collect Garbage
 
 ```bash
 nix store gc
 ```
-
 
 ## TODO
 
@@ -83,7 +81,6 @@ https://github.com/NeoLabHQ/context-engineering-kit
 
 https://github.com/Haleclipse/CCometixLine
 
-
 https://github.com/diet103/claude-code-infrastructure-showcase/tree/main
 
 https://github.com/disler/just-prompt/tree/main/.claude/commands
@@ -95,13 +92,11 @@ https://github.com/davila7/claude-code-templates
 SUPER COOL:
 https://github.com/SuperClaude-Org/SuperClaude_Framework
 
-
 https://github.com/Maciek-roboblog/Claude-Code-Usage-Monitor
 
 https://github.com/ruvnet/claude-code-flow
 
 (so many more orchestrators)
-
 
 https://github.com/sirmalloc/ccstatusline
 
@@ -121,9 +116,22 @@ https://github.com/spylang/spy/blob/main/CLAUDE.md
 
 https://github.com/badass-courses/course-builder/blob/main/CLAUDE.md
 
-
 https://github.com/eastlondoner/cursor-tools/blob/main/CLAUDE.md
 
 https://github.com/soramimi/Guitar/blob/master/CLAUDE.md
 
 https://github.com/basicmachines-co/basic-memory/blob/main/CLAUDE.md
+
+```
+    # TODO: Global nix-colors, which is fine but they only have Base16 standard. Will define my own for now.
+    # nix-colors= {url = "github:misterio77/nix-colors"};
+```
+
+
+```
+#Initial installation: sudo nix run nix-darwin -- switch --flake ~/.config/nix-config
+# Subsequent updates: darwin-rebuild switch --flake ~/.config/nix-config
+#
+# nix-darwin: https://nix-darwin.github.io/nix-darwin/manual/index.html
+# home-manager: https://nix-community.github.io/home-manager/options.xhtml
+```

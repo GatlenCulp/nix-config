@@ -1,4 +1,3 @@
-{ pkgs, self, ... }:
 {
   # Development Tools
   programs.git = {

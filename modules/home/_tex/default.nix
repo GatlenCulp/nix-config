@@ -1,0 +1,3 @@
+{
+  tex-fmt.enable = true;
+}
