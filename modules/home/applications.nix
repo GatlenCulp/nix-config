@@ -43,7 +43,7 @@ in
     # extensions = [  ]; Basically not workable lol
     # Cardbook is better than their regular contacts
     # Auto Profile Picture is also a must-have extension.
-# Thunderbird is kind of ass as a client
+    # Thunderbird is kind of ass as a client
   };
 
   # Copied here

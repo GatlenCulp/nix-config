@@ -104,7 +104,7 @@
           home.stateVersion = "25.05";
           home.enableNixpkgsReleaseCheck = false; # So I can use old nixpkgs with new home-manager. Can't update nixpkgs bc then nix-darwin freaks.
           home.shellAliases = {
-           config = "$EDITOR ~/.config/nix-config";
+            config = "$EDITOR ~/.config/nix-config";
             rebuild = "sudo darwin-rebuild switch --flake ~/.config/nix-config --show-trace --impure";
             upgrade = "topgrade";
             lsr = "eza -T --git-ignore"; # List repo with ezaf
@@ -216,13 +216,14 @@
             settings = import "${self}/modules/home/aerospace-config.nix";
           };
           programs.gnupg.agent.enable = true;
-          services.spotifyd = { enable = true;
+          services.spotifyd = {
+            enable = true;
             settings = {
-                global = {
-    username = "thegamemagnet";
-    password = "${secrets.spotifyPassword}";
-    device_name = "nix";
-  };
+              global = {
+                username = "thegamemagnet";
+                password = "${secrets.spotifyPassword}";
+                device_name = "nix";
+              };
 
             };
           };
@@ -246,7 +247,10 @@
                 "nix-command"
                 "flakes"
               ];
-              trusted-users = [ "root" "gat" ];
+              trusted-users = [
+                "root"
+                "gat"
+              ];
             };
           };
 

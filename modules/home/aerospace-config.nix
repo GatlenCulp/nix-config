@@ -153,7 +153,6 @@
   ];
 }
 
-
 # [[on-window-detected]]
 #     if.app-id = 'org.alacritty'
 #     run = 'move-node-to-workspace T' # mnemonics T - Terminal

@@ -20,7 +20,6 @@
   # 1. Base -- E.g. I always want to select all. I always want to treat "loguru.logger" as a logger-object. I always want quote-style double, indent-style space
   # 2.
 
-
   # Dangerous
   unsafe-fixes = true;
 

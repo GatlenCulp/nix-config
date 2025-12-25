@@ -28,7 +28,6 @@ with pkgs;
   texlivePackages.sansmathfonts
   texlivePackages.notomath
 
-
   # Display
   blackout
   font-awesome

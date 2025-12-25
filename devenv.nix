@@ -1,4 +1,10 @@
-{ pkgs, lib, config, inputs, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}:
 
 {
   # https://devenv.sh/basics/
@@ -43,6 +49,10 @@
   # git-hooks.hooks.shellcheck.enable = true;
 
   # See full reference at https://devenv.sh/reference/options/
+
+  git-hooks.hooks = {
+    nixfmt.enable = true;
+  };
 
   # Temporarily disabled to fix rebuild after deleting pre-commit store paths
   # git-hooks.hooks = {

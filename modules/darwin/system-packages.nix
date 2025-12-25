@@ -43,7 +43,7 @@ let
       orbstack
       hadolint
       terraform
-      # devenv  # Temporarily disabled - re-enable after rebuild
+      devenv # Temporarily disabled - re-enable after rebuild
     ];
 
     docs = [
@@ -76,7 +76,7 @@ let
       nodePackages.cspell
       oxipng
       # pre-commit
-      # prek
+      prek
     ];
 
     git = [
