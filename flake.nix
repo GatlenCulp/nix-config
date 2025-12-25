@@ -92,20 +92,26 @@
 
       applicationPrograms = pkgs: import "${self}/modules/home/applications.nix" { inherit pkgs; };
 
-      sketchybarSettings = import "${self}/modules/home/sketchybar.nix";
-
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Home Manager Configuration ━━━━━━━━━━━━━━━━━━━━━━━━━━━ #
       homeManagerConfig =
         { pkgs, ... }:
         {
           imports = [
-            "${self}/modules/home/vscode"
+            "${self}/modules/home/atuin"
+            "${self}/modules/home/claude-code"
             # "${self}/modules/home/firefox"
+            "${self}/modules/home/fastfetch"
             "${self}/modules/home/git"
-            "${self}/modules/home/ruff"
+            "${self}/modules/home/jq"
             "${self}/modules/home/obsidian"
             "${self}/modules/home/rio"
-            "${self}/modules/home/claude-code"
+            "${self}/modules/home/ruff"
+            "${self}/modules/home/sketchybar"
+            "${self}/modules/home/ssh"
+            "${self}/modules/home/starship"
+            "${self}/modules/home/topgrade"
+            "${self}/modules/home/vscode"
+            "${self}/modules/home/zellij"
           ];
 
           home.stateVersion = "25.05";
@@ -129,17 +135,7 @@
             dataHome = "/Users/gat/.local/share";
           };
 
-          programs =
-            terminalPrograms pkgs
-            // shellConfig pkgs
-            // applicationPrograms pkgs
-            // {
-              sketchybar = {
-                enable = false;
-                config = sketchybarSettings;
-                service.enable = true;
-              };
-            };
+          programs = terminalPrograms pkgs // shellConfig pkgs // applicationPrograms pkgs;
         };
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Main Darwin Configuration ━━━━━━━━━━━━━━━━━━━━━━━━━━━ #
