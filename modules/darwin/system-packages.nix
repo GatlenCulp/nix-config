@@ -43,7 +43,7 @@ let
       orbstack
       hadolint
       terraform
-      devenv
+      # devenv  # Temporarily disabled - re-enable after rebuild
     ];
 
     docs = [
@@ -140,7 +140,7 @@ let
     python = [
       cookiecutter
       cruft
-      nbqa
+      # nbqa  # Temporarily disabled - has broken pre-commit-hooks dependency
       pyright
       python3
       # pylint

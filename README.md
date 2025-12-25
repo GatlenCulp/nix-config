@@ -22,7 +22,7 @@ upgrade
 ## Collect Garbage
 
 ```bash
-nix-collect-garbage
+nix store gc
 ```
 
 
