@@ -4,7 +4,8 @@
       "Bash(himalaya --version:*)",
       "WebSearch",
       "WebFetch(domain:github.com)",
-      "Bash(darwin-rebuild switch:*)"
+      "Bash(darwin-rebuild switch:*)",
+      "Bash(nix flake check:*)"
     ],
     "deny": [],
     "ask": []

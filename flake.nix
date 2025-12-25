@@ -64,7 +64,7 @@
       nixvim,
       nvix,
       nix-homebrew,
-      nix-rosetta-builder,
+      # nix-rosetta-builder,
       ...
     }:
     let
@@ -91,6 +91,8 @@
         };
 
       applicationPrograms = pkgs: import "${self}/modules/home/applications.nix" { inherit pkgs; };
+
+      vsCodeConfig = pkgs: import "${self}/modules/home/vscode/default.nix" { inherit pkgs self; };
 
       ruffSettings = import "${self}/modules/home/ruff.nix";
       sketchybarSettings = import "${self}/modules/home/sketchybar.nix";
@@ -134,18 +136,7 @@
               };
             }
             // {
-              vscode = {
-                enable = true;
-                # enableMcpIntegration = true; # Error?
-                profiles.default = {
-                  extensions = import "${self}/modules/home/vscode/vscode-extensions.nix" {
-                    inherit pkgs;
-                  };
-                  userSettings = import "${self}/modules/home/vscode/vscode-settings.nix";
-                };
-              };
-            }
-            // {
+              vscode = vsCodeConfig pkgs;
               sketchybar = {
                 enable = false;
                 config = sketchybarSettings;
@@ -228,6 +219,16 @@
             settings = import "${self}/modules/home/aerospace-config.nix";
           };
           programs.gnupg.agent.enable = true;
+          services.spotifyd = { enable = true;
+            settings = {
+                global = {
+    username = "thegamemagnet";
+    password = "${secrets.spotifyPassword}";
+    device_name = "nix";
+  };
+
+            };
+          };
           # services.dropbox.enable = true; # Doesn't work? For dropbox cli it seems
           # services.syncthing.enable = true; # Doesn't work for some reason
           # services.ludusavi.enable = true; # Doesn't exist
@@ -273,6 +274,8 @@
                   firenvim
                   git
                   noice
+                  precognition
+                  smear-cursor
                   tex
                   treesitter
                   ux
@@ -285,7 +288,6 @@
             users.gat = homeManagerConfig;
           };
         };
-
     in
     {
       darwinConfigurations."gatty" = nix-darwin.lib.darwinSystem {

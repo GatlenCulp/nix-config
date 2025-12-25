@@ -143,5 +143,25 @@
       };
       run = [ "layout floating" ];
     }
+    {
+      "if" = {
+        # app-name-regex-su = "Firefox";
+        window-title-regex-substring = "Picture-in-Picture";
+      };
+      "run" = [ "layout floating" ];
+    }
   ];
 }
+
+
+# [[on-window-detected]]
+#     if.app-id = 'org.alacritty'
+#     run = 'move-node-to-workspace T' # mnemonics T - Terminal
+#
+# [[on-window-detected]]
+#     if.app-id = 'com.google.Chrome'
+#     run = 'move-node-to-workspace W' # mnemonics W - Web browser
+#
+# [[on-window-detected]]
+#     if.app-id = 'com.jetbrains.intellij'
+#     run = 'move-node-to-workspace I' # mnemonics I - IDE

@@ -52,6 +52,7 @@
     "applite"
     "flux-app"
     "bartender"
+    "spotify" # For some reason, the nixpkgs version is breaking
 
     # ━━━━━━━━━━━━━━━━━━━━━━━━ Office & Knowledge ━━━━━━━━━━━━━━━━━━━━━━━━
     "dropbox"
@@ -63,6 +64,7 @@
     "notion-calendar"
     "notion-mail"
     "cleanshot"
+    "notunes"
 
     # ━━━━━━━━━━━━━━━━━━━━━━━ Security & Terminals ━━━━━━━━━━━━━━━━━━━━━━━
     "burp-suite"

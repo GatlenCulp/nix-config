@@ -12,7 +12,7 @@ let
         ibm.output-colorizer
         mohammadbaqer.better-folding
         usernamehw.errorlens
-        # Anthropic.claude-code # Doesn't work :/
+        anthropic.claude-code
       ];
 
       debugging = [
@@ -153,9 +153,7 @@ let
         ecmel.vscode-html-css
         formulahendry.auto-rename-tag
         mkaufman.htmlhint
-        tht13.html-preview-vscode
         zignd.html-css-class-completion
-        abusaidm.html-snippets
         # prettier.prettier-vscode
       ];
 

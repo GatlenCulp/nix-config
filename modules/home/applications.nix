@@ -41,6 +41,9 @@ in
       # mail.threadpane.listview = 1; # I think table view instead of list view messages(?)
     };
     # extensions = [  ]; Basically not workable lol
+    # Cardbook is better than their regular contacts
+    # Auto Profile Picture is also a must-have extension.
+# Thunderbird is kind of ass as a client
   };
 
   # Copied here
@@ -65,6 +68,10 @@ in
   firefox = import ./firefox/default.nix { inherit pkgs; }; # Takes a while
 
   discord = {
+    enable = true;
+  };
+
+  spotify-player = {
     enable = true;
   };
 
@@ -132,7 +139,18 @@ in
   };
 
   zed-editor.enable = true;
-  obsidian.enable = true;
+  obsidian = {
+    # https://github.com/nix-community/home-manager/pull/6487
+    enable = true;
+    defaultSettings = {
+    };
+    vaults = {
+      "obsidian-main-vault-test" = {
+        enable = true;
+      };
+    };
+
+  };
   fabric-ai = {
     enable = true;
     enableBashIntegration = true;

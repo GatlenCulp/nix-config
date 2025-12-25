@@ -1,3 +1,4 @@
+{ self }:
 let
   # Dracula Color Palette
   # https://draculatheme.com/contribute
@@ -36,7 +37,7 @@ let
       "cSpell.customDictionaries" = {
         "custom-dictionary-user" = {
           "name" = "custom-dictionary-user";
-          "path" = "~/.config/nix-config/assets/.cspell/custom-dictionary-user.txt";
+          "path" = "${self}/assets/.cspell/custom-dictionary-user.txt";
           "addWords" = true;
           "scope" = "user";
         };
@@ -51,6 +52,8 @@ let
       "debug.console.fontFamily" = "FiraCode Nerd Font";
       "debug.console.fontSize" = 10;
       "debug.hideLauncherWhileDebugging" = true;
+      "workbench.welcomePage.walkthroughs.openOnInstall" = false;
+      "workbench.startupEditor" = "readme";
       "debug.internalConsoleOptions" = "openOnSessionStart";
       "debug.showSubSessionsInToolBar" = true;
       "debug.showVariableTypes" = true;
@@ -511,13 +514,13 @@ let
     };
 
     vim = {
+      "vim.disableExtension" = true;
       "vim.cursorStylePerMode.insert" = "line";
       "vim.cursorStylePerMode.normal" = "block-outline";
       "vim.cursorStylePerMode.replace" = "underline";
       "vim.cursorStylePerMode.visual" = "block";
       "vim.cursorStylePerMode.visualblock" = "block";
       "vim.cursorStylePerMode.visualline" = "block";
-      "vim.disableExtension" = false;
       "vim.enableNeovim" = true;
       "vim.highlightedyank.enable" = true;
       "vim.neovimConfigPath" = "~/.config/nvim/init.vim";

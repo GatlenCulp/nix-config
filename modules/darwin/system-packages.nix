@@ -131,7 +131,8 @@ let
       # spotify
       tailscale
       zotero
-      desktoppr # Hopefully works
+      # desktoppr # Hopefully works
+      # mailspring # eh, not a huge fan
     ];
 
     python = [

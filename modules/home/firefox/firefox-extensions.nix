@@ -21,6 +21,7 @@
         proton-vpn
         link-cleaner
         zotero-connector
+        # wakatime
       ];
       # settings."uBlock0@raymondhill.net".force = true;
       settings."uBlock0@raymondhill.net".settings = {
