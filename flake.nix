@@ -111,9 +111,6 @@
           };
           home.shell = {
             enableShellIntegration = true;
-            # Set universally above
-            # enableZshIntegration = true;
-            # enableNushellIntegration = true;
           };
 
           accounts = accountsConfig;
@@ -207,7 +204,7 @@
             name = "gat";
             # Doesn't work?
             # shell = home-manager.pkgs.nushell;
-            shell = pkgs.nushell;
+            # shell = pkgs.nushell;
           };
 
           # Fonts

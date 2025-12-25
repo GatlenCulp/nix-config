@@ -122,7 +122,6 @@ let
       "window.openFilesInNewWindow" = "default";
       "window.title" =
         "🪿 \${separator} 🌳 \${activeRepositoryName} (\${activeRepositoryBranchName}) \${separator} 📁 \${activeEditorMedium}";
-      "workbench.accounts.experimental.showEntitlements" = true;
       "workbench.activityBar.location" = "top";
       "workbench.editor.customLabels.enabled" = true;
       "workbench.editor.customLabels.patterns" = {
@@ -400,14 +399,6 @@ let
       "[javascript]"."editor.defaultFormatter" = "biomejs.biome";
       "[svelte]"."editor.defaultFormatter" = "svelte.svelte-vscode";
       "[typescript]"."editor.defaultFormatter" = "biomejs.biome";
-      "livePreview.customExternalBrowser" = "Chrome";
-      "livePreview.debugOnExternalPreview" = true;
-      "livePreview.defaultPreviewPath" = "https://localhost:4000";
-      "livePreview.httpHeaders" = {
-        "Accept-Ranges" = "bytes";
-      };
-      "livePreview.openPreviewTarget" = "External Browser";
-      "livePreview.portNumber" = 4000;
     };
 
     data_config = {
@@ -591,14 +582,14 @@ let
       "errorLens.messageBackgroundMode" = "message";
       "errorLens.messageEnabled" = true;
       "errorLens.padding" = "2px 1ch";
-      "indentRainbow.colors" = [
-        "rgba(255,255,64,0.03)"
-        "rgba(127,255,127,0.03)"
-        "rgba(255,127,255,0.03)"
-        "rgba(79,236,236,0.03)"
-      ];
-      "indentRainbow.errorColor" = "rgba(128,32,32,0.3)";
-      "indentRainbow.tabmixColor" = "rgba(128,32,96,0.3)";
+      # "indentRainbow.colors" = [
+      #   "rgba(255,255,64,0.03)"
+      #   "rgba(127,255,127,0.03)"
+      #   "rgba(255,127,255,0.03)"
+      #   "rgba(79,236,236,0.03)"
+      # ];
+      # "indentRainbow.errorColor" = "rgba(128,32,32,0.3)";
+      # "indentRainbow.tabmixColor" = "rgba(128,32,96,0.3)";
       "powermode.combo.counterSize" = 1;
       "powermode.combo.location" = "editor";
       "powermode.combo.threshold" = 5;

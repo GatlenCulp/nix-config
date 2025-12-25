@@ -43,4 +43,27 @@
   # git-hooks.hooks.shellcheck.enable = true;
 
   # See full reference at https://devenv.sh/reference/options/
+
+  # Temporarily disabled to fix rebuild after deleting pre-commit store paths
+  # git-hooks.hooks = {
+  #   # Format Nix code
+  #   nixfmt.enable = true;
+  #
+  #   # Lint shell scripts
+  #   shellcheck.enable = true;
+  #
+  #   # Execute shell examples in Markdown files
+  #   mdsh.enable = true;
+  #
+  #   clippy.settings.allFeatures = true;
+  #   # Define your own custom hooks
+  # #   my-custom-hook = {
+  # #     name = "My own hook";
+  # #     exec = "on-pre-commit.sh";
+  # #   };
+  # # };
+  #
+  # # Use alternative pre-commit implementations
+  # git-hooks.package = pkgs.prek;
+  # };
 }

@@ -75,7 +75,8 @@ let
       checkmake
       nodePackages.cspell
       oxipng
-      pre-commit
+      # pre-commit
+      # prek
     ];
 
     git = [
