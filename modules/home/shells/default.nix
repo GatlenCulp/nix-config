@@ -1,8 +1,7 @@
-{ pkgs, secrets, lib, ... }:
+{ pkgs, secrets, lib, config, ... }:
 let
   sharedShellInitData = import ./shared-rc.nix {
-    inherit pkgs;
-    inherit secrets;
+    inherit pkgs secrets config;
   };
   sharedShellInit = sharedShellInitData.sharedShellInit;
   zshConfig = import ./zsh.nix;

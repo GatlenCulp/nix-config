@@ -112,21 +112,13 @@
             upgrade = "topgrade";
             lsr = "eza -T --git-ignore";
           };
-          home.shell = {
-            enableShellIntegration = true;
-          };
 
-          xdg = {
-            enable = true;
-            cacheHome = "/Users/gat/.cache";
-            configHome = "/Users/gat/.config";
-            dataHome = "/Users/gat/.local/share";
-          };
+          xdg.enable = true;
         };
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Main Darwin Configuration ━━━━━━━━━━━━━━━━━━━━━━━━━━━ #
       configuration =
-        { pkgs, ... }:
+        { pkgs, config, ... }:
         {
           # Core Setup
           imports = [
@@ -151,15 +143,14 @@
 
           # Environment
           environment = {
-            darwinConfig = "$HOME/.config/nix-config";
             pathsToLink = [
               "/share/zsh"
               "/share/bash-completion"
             ];
             systemPackages = (systemPackages pkgs);
             systemPath = [
-              "/Users/gat/.cargo/bin"
-              "/Users/gat/.local/share/../bin"
+              "${config.users.users.gat.home}/.cargo/bin"
+              "${config.users.users.gat.home}/.local/bin"
             ];
           };
 

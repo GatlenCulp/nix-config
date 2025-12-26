@@ -1,4 +1,4 @@
-{ pkgs, secrets }:
+{ pkgs, secrets, config }:
 {
   sharedShellInit = ''
     export EDITOR=cursor
@@ -29,8 +29,7 @@
     export CSAIL_USERNAME=${secrets.csailUsername}
 
     ### COOKIECUTTER
-    # TODO: Update to use dynamic xdg config
-    export COOKIECUTTER_CONFIG="/Users/gat/.config/nix-config/assets/gatlen-cookiecutter-config.yaml"
+    export COOKIECUTTER_CONFIG="${config.xdg.configHome}/nix-config/assets/gatlen-cookiecutter-config.yaml"
 
     ### AWS COMPLETION (perhaps future plugin, not on prezto)
     autoload -U bashcompinit && bashcompinit

@@ -1,4 +1,4 @@
-{ self }:
+{ self, config }:
 let
   # Dracula Color Palette
   # https://draculatheme.com/contribute
@@ -108,7 +108,7 @@ let
       };
       "projectManager.cacheProjectsBetweenSessions" = false;
       "projectManager.confirmSwitchOnActiveWindow" = "always";
-      "projectManager.git.baseFolders" = [ "/Users/gat/work/" ];
+      "projectManager.git.baseFolders" = [ "${config.home.homeDirectory}/work/" ];
       "projectManager.sortList" = "Saved";
       "projectManager.tags" = [
         "Personal"
@@ -346,13 +346,13 @@ let
           };
           "options" = {
             "home-manager" = {
-              "expr" = ''(builtins.getFlake "/Users/gat/.config/nix-config").darwinConfigurations.gatty.options'';
+              "expr" = ''(builtins.getFlake "${self}").darwinConfigurations.gatty.options'';
             };
             "nix-config" = {
-              "expr" = ''(builtins.getFlake "/Users/gat/.config/nix-config").darwinConfigurations.gatty.options'';
+              "expr" = ''(builtins.getFlake "${self}").darwinConfigurations.gatty.options'';
             };
             "nixos" = {
-              "expr" = ''(builtins.getFlake "/Users/gat/.config/nix-config").darwinConfigurations.gatty.options'';
+              "expr" = ''(builtins.getFlake "${self}").darwinConfigurations.gatty.options'';
             };
           };
         };

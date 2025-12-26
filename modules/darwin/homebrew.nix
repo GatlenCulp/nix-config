@@ -44,7 +44,6 @@
     "adobe-creative-cloud"
     "clipgrab"
     "loom"
-    "notunes"
     "obs"
     "vlc"
 
