@@ -119,6 +119,7 @@ let
     nix = [
       nixd
       statix
+      deadnix
       nixdoc
       nixfmt-rfc-style # Alejandra is an alternative, but this is fine tbh https://github.com/kamadorueda/alejandra
       cabal-install # haskell but needed for nixfmt sometimes

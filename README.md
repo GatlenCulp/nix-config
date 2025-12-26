@@ -122,11 +122,24 @@ https://github.com/soramimi/Guitar/blob/master/CLAUDE.md
 
 https://github.com/basicmachines-co/basic-memory/blob/main/CLAUDE.md
 
+
+```
+
+          # services.dropbox.enable = true; # Doesn't work? For dropbox cli it seems
+          # services.syncthing.enable = true; # Doesn't work for some reason
+          # services.ludusavi.enable = true; # Doesn't exist
+          # services.flameshot.enable = false; # Doesn't exist
+          # services.gpg-agent = {
+          #   enable = true;
+          #   enableZshIntegration = true;
+          #   enableNushellIntegration = true;
+          # };
+```
+
 ```
     # TODO: Global nix-colors, which is fine but they only have Base16 standard. Will define my own for now.
     # nix-colors= {url = "github:misterio77/nix-colors"};
 ```
-
 
 ```
 #Initial installation: sudo nix run nix-darwin -- switch --flake ~/.config/nix-config

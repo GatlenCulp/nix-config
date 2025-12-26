@@ -1,4 +1,10 @@
-{ pkgs, secrets, lib, config, ... }:
+{
+  pkgs,
+  secrets,
+  lib,
+  config,
+  ...
+}:
 let
   sharedShellInitData = import ./shared-rc.nix {
     inherit pkgs secrets config;
@@ -15,7 +21,7 @@ lib.mkMerge [
   fishConfig
   nushellConfig
   {
-    programs.zsh.initExtra = sharedShellInit;
+    programs.zsh.initContent = sharedShellInit;
     programs.bash.initExtra = sharedShellInit;
   }
 ]

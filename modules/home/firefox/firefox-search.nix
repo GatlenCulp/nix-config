@@ -33,6 +33,16 @@
       iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
       definedAliases = [ "@nw" ];
     };
+    my-nixos = {
+      name = "MyNixOS";
+      urls = [
+        {
+          template = "https://mynixos.com/search?q={searchTerms}";
+        }
+      ];
+      iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
+      definedAliases = [ "@mynixos" ];
+    };
     nix-home-manager = {
       name = "Nix Home Manager Option Search";
       urls = [

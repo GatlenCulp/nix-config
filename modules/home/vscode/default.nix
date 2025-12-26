@@ -3,6 +3,7 @@
   programs.vscode = {
     enable = true;
     # enableMcpIntegration = true; # Error?
+    mutableExtensionsDir = true;
     profiles.default = {
       extensions = import ./vscode-extensions.nix { inherit pkgs; };
       userSettings = import ./vscode-settings.nix { inherit self config; };

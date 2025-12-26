@@ -83,13 +83,13 @@ let
       "editor.wordWrapColumn" = 100;
       "files.associations" = {
         "*.env*" = "dotenv";
-        # "*.nix" = "nix";
         "*.toml.tmpl" = "toml";
         "*Brewfile*" = "ruby";
         ".aliases" = "shellscript";
         ".bashrc" = "shellscript";
         ".envrc" = "shellscript";
         ".zshrc" = "shellscript";
+        "flake.lock" = "json";
       };
       "files.autoSave" = "afterDelay";
       "files.exclude" = {

@@ -13,6 +13,7 @@ let
     "fd"
     "fzf"
     "gh"
+    "gnupg"
     "jujutsu"
     "pandoc"
     "readline"
