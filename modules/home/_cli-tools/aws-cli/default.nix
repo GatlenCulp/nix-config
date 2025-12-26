@@ -1,4 +1,4 @@
-{ secrets }:
+{ secrets, ... }:
 {
   programs.awscli = {
     enable = true;

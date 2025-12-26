@@ -1,4 +1,4 @@
 {
-  poetry.enable = true;
-  uv.enable = true;
+  programs.poetry.enable = true;
+  programs.uv.enable = true;
 }

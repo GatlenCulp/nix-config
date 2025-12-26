@@ -1,6 +1,6 @@
 {
-  nh.enable = true;
-  nix-index = {
+  programs.nh.enable = true;
+  programs.nix-index = {
     enable = true;
     enableBashIntegration = true;
   };

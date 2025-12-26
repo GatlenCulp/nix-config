@@ -1,4 +1,5 @@
 # TODO: Find a better way of doing this
+# Also may be better to use vdirsyncer
 { ... }:
 let
   googleAccountDefaults = {
@@ -30,7 +31,7 @@ let
   };
 in
 {
-  email.accounts = {
+  accounts.email.accounts = {
     "GatlenCulp@gmail.com" = googleAccountDefaults // {
       primary = true;
       realName = "Gatlen Culp";
@@ -46,7 +47,7 @@ in
       passwordCommand = "lpass show 5216794005647503185 --password";
     };
   };
-  calendar.accounts = {
+  accounts.calendar.accounts = {
     "test-calendar" = {
       primary = true;
       remote.type = "google_calendar";

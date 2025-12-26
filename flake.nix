@@ -193,6 +193,9 @@
           # Fonts
           fonts.packages = import "${self}/modules/darwin/fonts.nix" { inherit pkgs; };
 
+          # Programs
+          programs.zsh.enable = true; # Required for home-manager zsh integration
+
           # Services
           programs.gnupg.agent.enable = true;
           services.spotifyd = {
