@@ -1,0 +1,41 @@
+app:App Store.app:com.apple.appstore
+app:Burp Suite Community Edition.app:com.install4j.9806-1938-4586-6531.70
+app:Claude.app:com.anthropic.claudefordesktop
+app:Cursor.app:com.todesktop.230313mzl4w4u92
+app:Discord.app:com.hnc.discord
+app:Emacs.app:org.gnu.emacs
+app:Epic Games Launcher.app:com.epicgames.epicgameslauncher
+app:Games.app:com.apple.games
+app:Ghostty.app:com.mitchellh.ghostty
+app:GitKraken.app:com.axosoft.gitkraken
+app:GOG Galaxy.app:com.gog.galaxy
+app:Image2Icon.app:net.shinyfrog.image2icon
+app:Microsoft Excel.app:com.microsoft.excel
+app:Microsoft OneNote.app:com.microsoft.onenote.mac
+app:Microsoft Outlook.app:com.microsoft.outlook
+app:Microsoft PowerPoint.app:com.microsoft.powerpoint
+app:Microsoft Word.app:com.microsoft.word
+app:Minecraft.app:com.mojang.minecraftlauncher
+app:mpv.app:io.mpv
+app:Neovide.app:com.neovide.neovide
+app:Netron.app:com.lutzroeder.netron
+app:Notes.app:com.apple.notes
+app:Notion Calendar.app:com.cron.electron
+app:Notion Mail.app:notion.mail.id
+app:Notion.app:notion.id
+app:OBS.app:com.obsproject.obs-studio
+app:Obsidian.app:md.obsidian
+app:OrbStack.app:dev.kdrag0n.macvirt
+app:qFlipper.app:com.yourcompany.qflipper
+app:Raycast.app:com.raycast.macos
+app:Rio.app:com.raphaelamorim.rio
+app:Signal.app:org.whispersystems.signal-desktop
+app:Spotify.app:com.spotify.client
+app:Steam.app:com.valvesoftware.steam
+app:Thunderbird.app:org.nixos.thunderbird
+app:Visual Studio Code.app:com.microsoft.vscode
+app:Warp.app:dev.warp.warp-stable
+app:WhatsApp.app:net.whatsapp.whatsapp
+app:Windsurf.app:com.exafunction.windsurf
+app:Zed.app:dev.zed.zed
+app:Zotero.app:org.zotero.zotero

@@ -28,10 +28,11 @@ let
 
       "${self}/home/atuin"
       "${self}/home/claude-code"
+      "${self}/home/cold-turkey"
       "${self}/home/desktoppr"
       "${self}/home/discord"
       "${self}/home/fastfetch"
-      # "${self}/home/firefox"
+      "${self}/home/firefox"
       "${self}/home/git"
       "${self}/home/ghostty"
       "${self}/home/helix"
