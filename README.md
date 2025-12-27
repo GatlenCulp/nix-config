@@ -20,12 +20,15 @@ upgrade
 
 Partially stolen from Ryan Yin's nix-config
 
-
 ## Collect Garbage
 
 ```bash
 nix store gc
 ```
+
+
+
+Age is sort-of a modern version of mixhttps://github.com/FiloSottile/age/discussions/432
 
 ## TODO
 

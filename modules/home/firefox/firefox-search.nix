@@ -79,6 +79,13 @@
       definedAlias = [ "@p" ];
     };
 
+
+    tldr = {
+      name = "TLDR Pages";
+      urls = [ { template = "https://tldr.inbrowser.app/pages/common/{searchTerms}"; } ];
+      definedAlias = [ "@tldr" ];
+    };
+
     google-maps = {
       name = "Google Maps";
       urls = [ { template = "https://www.google.com/maps/search/?api=1&{searchTerms}"; } ];

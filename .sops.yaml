@@ -1,0 +1,10 @@
+# This example uses YAML anchors which allows reuse of multiple keys 
+# without having to repeat yourself.
+keys:
+  - &admin_gatlen age1f7y20kgzwfd2v4cyueg8k7atcnded4nmljn39sf408mth3lcggksrt3ckq
+# Which keys to use when encrypting new files. E.g. when running `sops secrets/my-secret.yaml` which will also unencrypt the file in editor to edit I think?
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *admin_gatlen

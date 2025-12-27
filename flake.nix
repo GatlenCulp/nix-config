@@ -39,6 +39,11 @@
       # url = "path:/Users/gat/personal/nvix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =
@@ -51,6 +56,7 @@
       nixvim,
       nvix,
       nix-homebrew,
+      sops-nix,
       ...
     }:
     let
@@ -63,12 +69,14 @@
         inherit nixvim;
         inherit nvix;
         inherit nix-homebrew;
+        inherit sops-nix;
       };
     in
     {
       darwinConfigurations."gatty" = nix-darwin.lib.darwinSystem {
         modules = [
           gatty-config.gatty-config
+          sops-nix.darwinModules.sops
           "${self}/modules/darwin/fonts.nix"
         ];
       };
