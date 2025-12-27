@@ -78,7 +78,7 @@
           gatty-config.gatty-config
           sops-nix.darwinModules.sops
           "${self}/modules/darwin/fonts.nix"
-          # "${self}/modules/darwin/homebrew.nix"
+          "${self}/modules/darwin/homebrew.nix"
         ];
       };
     };

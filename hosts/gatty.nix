@@ -15,46 +15,46 @@ let
     imports = [
       sops-nix.homeManagerModules.sops
 
-      "${self}/modules/home/_accounts"
-      "${self}/modules/home/_cli-tools"
-      "${self}/modules/home/_cloud"
-      "${self}/modules/home/_encryption"
-      "${self}/modules/home/_go"
-      "${self}/modules/home/_js"
-      "${self}/modules/home/_nix"
-      "${self}/modules/home/_python"
-      "${self}/modules/home/_sql"
-      "${self}/modules/home/_tex"
+      "${self}/home/_accounts"
+      "${self}/home/_cli-tools"
+      "${self}/home/_cloud"
+      "${self}/home/_encryption"
+      "${self}/home/_go"
+      "${self}/home/_js"
+      "${self}/home/_nix"
+      "${self}/home/_python"
+      "${self}/home/_sql"
+      "${self}/home/_tex"
 
-      "${self}/modules/home/atuin"
-      "${self}/modules/home/claude-code"
-      "${self}/modules/home/desktoppr"
-      "${self}/modules/home/discord"
-      "${self}/modules/home/fastfetch"
-      # "${self}/modules/home/firefox"
-      "${self}/modules/home/git"
-      "${self}/modules/home/ghostty"
-      "${self}/modules/home/helix"
-      "${self}/modules/home/jq"
-      "${self}/modules/home/less"
-      "${self}/modules/home/mise"
-      "${self}/modules/home/mpv"
-      "${self}/modules/home/neovide"
-      "${self}/modules/home/obsidian"
-      "${self}/modules/home/rio"
-      "${self}/modules/home/ruff"
-      "${self}/modules/home/shells"
-      "${self}/modules/home/sketchybar"
-      "${self}/modules/home/spotify"
-      "${self}/modules/home/ssh"
-      "${self}/modules/home/starship"
-      "${self}/modules/home/thunderbird"
-      "${self}/modules/home/topgrade"
-      "${self}/modules/home/vscode"
-      "${self}/modules/home/zed"
-      "${self}/modules/home/zellij"
+      "${self}/home/atuin"
+      "${self}/home/claude-code"
+      "${self}/home/desktoppr"
+      "${self}/home/discord"
+      "${self}/home/fastfetch"
+      # "${self}/home/firefox"
+      "${self}/home/git"
+      "${self}/home/ghostty"
+      "${self}/home/helix"
+      "${self}/home/jq"
+      "${self}/home/less"
+      "${self}/home/mise"
+      "${self}/home/mpv"
+      "${self}/home/neovide"
+      "${self}/home/obsidian"
+      "${self}/home/rio"
+      "${self}/home/ruff"
+      "${self}/home/shells"
+      "${self}/home/sketchybar"
+      "${self}/home/spotify"
+      "${self}/home/ssh"
+      "${self}/home/starship"
+      "${self}/home/thunderbird"
+      "${self}/home/topgrade"
+      "${self}/home/vscode"
+      "${self}/home/zed"
+      "${self}/home/zellij"
 
-      "${self}/modules/home/applications.nix"
+      "${self}/home/applications.nix"
     ];
 
     home = {
@@ -100,7 +100,7 @@ in
       imports = [
         home-manager.darwinModules.home-manager
         nix-homebrew.darwinModules.nix-homebrew
-        "${self}/modules/home/aerospace"
+        "${self}/home/aerospace"
         {
           nix-homebrew = {
             enable = true;
@@ -108,8 +108,8 @@ in
             user = "gat";
           };
         }
-        "${self}/modules/home/system-defaults.nix"
-        "${self}/modules/home/system-packages.nix"
+        "${self}/home/system-defaults.nix"
+        "${self}/home/system-packages.nix"
         {
           system = {
             configurationRevision = self.rev or self.dirtyRev or null;
