@@ -1,4 +1,3 @@
-{ ... }:
 {
   services.aerospace = {
     enable = true;

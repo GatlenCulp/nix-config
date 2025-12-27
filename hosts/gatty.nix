@@ -100,7 +100,7 @@ in
       imports = [
         home-manager.darwinModules.home-manager
         nix-homebrew.darwinModules.nix-homebrew
-        "${self}/modules/darwin/aerospace"
+        "${self}/modules/home/aerospace"
         {
           nix-homebrew = {
             enable = true;
@@ -108,8 +108,8 @@ in
             user = "gat";
           };
         }
-        "${self}/modules/darwin/system-defaults.nix"
-        "${self}/modules/darwin/system-packages.nix"
+        "${self}/modules/home/system-defaults.nix"
+        "${self}/modules/home/system-packages.nix"
         {
           system = {
             configurationRevision = self.rev or self.dirtyRev or null;

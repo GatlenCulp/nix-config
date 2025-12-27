@@ -82,15 +82,16 @@ let
       "editor.wordWrap" = "bounded";
       "editor.wordWrapColumn" = 100;
       "files.associations" = {
-        "flake.lock" = "json";
-        "*.env*" = "dotenv";
-        "*.toml.tmpl" = "toml";
-        "*Brewfile*" = "ruby";
-        ".aliases" = "shellscript";
-        ".bashrc" = "shellscript";
-        ".envrc" = "shellscript";
-        ".zshrc" = "shellscript";
-        ".env*" = "dotenv";
+        # Weird errors with opening vscode and it sorting.
+        # "flake.lock" = "json";
+        # "*.env*" = "dotenv";
+        # "*.toml.tmpl" = "toml";
+        # "*Brewfile*" = "ruby";
+        # ".aliases" = "shellscript";
+        # ".bashrc" = "shellscript";
+        # ".envrc" = "shellscript";
+        # ".zshrc" = "shellscript";
+        # ".env*" = "dotenv";
       };
       "files.autoSave" = "afterDelay";
       "files.exclude" = {
