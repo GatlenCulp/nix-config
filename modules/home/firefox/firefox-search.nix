@@ -33,6 +33,17 @@
       iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
       definedAliases = [ "@nw" ];
     };
+
+    noogle = {
+      name = "Noogle";
+      urls = [
+        {
+          template = "https://noogle.dev/q?term={searchTerms}";
+        }
+      ];
+      definedAliases = [ "@noogle" ];
+    };
+
     my-nixos = {
       name = "MyNixOS";
       urls = [

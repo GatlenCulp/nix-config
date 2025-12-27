@@ -5,7 +5,9 @@
       "WebSearch",
       "WebFetch(domain:github.com)",
       "Bash(darwin-rebuild switch:*)",
-      "Bash(nix flake check:*)"
+      "Bash(nix flake check:*)",
+      "Bash(cat:*)",
+      "WebFetch(domain:discourse.nixos.org)"
     ],
     "deny": [],
     "ask": [

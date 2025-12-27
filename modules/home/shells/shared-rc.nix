@@ -1,6 +1,8 @@
-{ pkgs, secrets, config, ... }:
+{ pkgs, config, ... }:
 with config.sops.secrets; {
-  sharedShellInit = ''
+  sharedShellInit = pkgs.writeShellApplication {
+    name = "shared-shell-init";
+    text = ''
     export EDITOR=vim
     export VISUAL=code
     export PAGER='ov -F'
@@ -9,7 +11,7 @@ with config.sops.secrets; {
 
     export SOPS_AGE_KEY_FILE="${config.xdg.configHome}/sops/age/keys-nix-sops.txt"
 
-    ### API KEYS FROM secrets.nix
+    ### API KEYS FROM SOPS
     # AI API KEYS
     export OPENAI_API_KEY=$(cat ${OPENAI_API_KEY.path})
     export ANTHROPIC_API_KEY=$(cat ${ANTHROPIC_API_KEY.path})
@@ -21,11 +23,8 @@ with config.sops.secrets; {
     # export GITHUB_TOKEN=""
 
     ### AWS
-    # No longer needed I believe since I have saved to the AWS config/credentials.
-    # export AWS_DEFAULT_REGION="${secrets.awscli.settings.default.region}"
-    # export AWS_ACCESS_KEY_ID="${secrets.awscli.credentials.default.aws_access_key_id}"
-    # export AWS_SECRET_ACCESS_KEY="${secrets.awscli.credentials.default.aws_secret_access_key}"
-    export AWS_PROFILE="${secrets.awscli.defaultProfileOverrideName}"
+    # Managed by awscli module, only export profile override if needed
+    # export AWS_PROFILE=""
 
     ### MIT
     export CSAIL_USERNAME=$(cat ${CSAIL_USERNAME.path})
@@ -40,4 +39,5 @@ with config.sops.secrets; {
     ### FAST FETCH
     fastfetch
   '';
+  };
 }

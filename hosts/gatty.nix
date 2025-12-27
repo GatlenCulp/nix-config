@@ -82,8 +82,12 @@ let
         "HUGGING_FACE_HUB_TOKEN" = { };
         "GATLEN_PERSONAL_RUNPOD_API_KEY" = { };
         "CSAIL_USERNAME" = { };
-        # "runpod" = { };
-        # "aws" = { };
+
+        # AWS
+        "aws/credentials/default/aws_access_key_id" = { };
+        "aws/credentials/default/aws_secret_access_key" = { };
+        "aws/settings/default/region" = { };
+        # "AWS_PROFILE" = { };
       };
 
     };
@@ -104,8 +108,8 @@ in
             user = "gat";
           };
         }
-        # "${self}/modules/darwin/system-defaults.nix"
-        # "${self}/modules/darwin/system-packages.nix"
+        "${self}/modules/darwin/system-defaults.nix"
+        "${self}/modules/darwin/system-packages.nix"
         {
           system = {
             configurationRevision = self.rev or self.dirtyRev or null;

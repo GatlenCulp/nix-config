@@ -22,7 +22,7 @@ lib.mkMerge [
   nushellConfig
   {
     # home.shellAliases = {};
-    programs.zsh.initContent = sharedShellInit;
-    programs.bash.initExtra = sharedShellInit;
+    programs.zsh.initContent = sharedShellInit.text;
+    programs.bash.initExtra = sharedShellInit.text;
   }
 ]
