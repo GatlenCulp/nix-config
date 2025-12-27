@@ -18,6 +18,9 @@ To Upgrade
 upgrade
 ```
 
+Partially stolen from Ryan Yin's nix-config
+
+
 ## Collect Garbage
 
 ```bash
@@ -121,7 +124,6 @@ https://github.com/eastlondoner/cursor-tools/blob/main/CLAUDE.md
 https://github.com/soramimi/Guitar/blob/master/CLAUDE.md
 
 https://github.com/basicmachines-co/basic-memory/blob/main/CLAUDE.md
-
 
 ```
 

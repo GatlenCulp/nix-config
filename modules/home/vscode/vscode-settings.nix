@@ -597,6 +597,10 @@ let
       "powermode.explosions.maxExplosions" = 3;
       "powermode.explosions.size" = 10;
     };
+
+    claude-code = {
+      "claudeCode.useTerminal" = true;
+    };
   };
 
   selected = with profiles; [
@@ -622,6 +626,7 @@ let
     general_additional_languages
     ruby
     misc
+    claude-code
   ];
 in
 builtins.foldl' (acc: next: acc // next) { } selected

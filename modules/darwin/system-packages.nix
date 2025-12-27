@@ -15,6 +15,7 @@ let
       go-task
       just
       yo
+      gnumake
     ];
 
     communication = [
@@ -37,12 +38,11 @@ let
 
     devops = [
       act
-      # awscli
       devcontainer
       docker
       orbstack
       hadolint
-      terraform
+      # terraform
       devenv # Temporarily disabled - re-enable after rebuild
     ];
 
@@ -114,13 +114,24 @@ let
       tcpflow
       tcpreplay
       xxh
+      curlie # curl with httpie
+      httpie
+      wget
     ];
 
     nix = [
+      # Language Servers
       nixd
       statix
       deadnix
+
+      # Utils
       nixdoc
+      nix-tree # A TUI to visualize the dependency graph of a nix derivation
+      # it provides the command `nom` works just like `nix` with more details log output
+      nix-output-monitor
+
+      # Formatting
       nixfmt-rfc-style # Alejandra is an alternative, but this is fine tbh https://github.com/kamadorueda/alejandra
       cabal-install # haskell but needed for nixfmt sometimes
       nixfmt-tree # only for nix formatting recursively
@@ -184,6 +195,22 @@ let
       prettierd
     ];
 
+    cli = [
+      sad # CLI search and replace, just like sed, but with diff preview.
+      yq-go # yaml processor https://github.com/mikefarah/yq
+      jc # converts the output of popular cli tools & file-types to JSON, YAML
+
+      # Disk Usage
+      duf # Disk Usage/Free Utility - a better 'df' alternative
+      dust # A more intuitive version of `du` in rust
+      gdu # disk usage analyzer(replacement of `du`)
+      ncdu # analyzer your disk usage Interactively, via TUI(replacement of `du`)
+      which
+      procs # a moreden ps
+
+
+    ];
+
     # Retired
     # retired = [
     #   claude-code
@@ -240,6 +267,10 @@ let
     shell
     typst
     web
+    cli
   ];
 in
-builtins.concatLists selected
+{
+  environment.systemPackages = builtins.concatLists selected;
+  # home.packages = builtins.concatLists selected;
+}

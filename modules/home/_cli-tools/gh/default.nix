@@ -1,10 +1,23 @@
 {
+  # gitCredentialHelper.enable = true;
+  # hosts = {
+  #   "github.com" = { user = "GatlenCulp"; };
+  #   settings = { git_protocol = "ssh"; };
+  # };
   programs.gh = {
     enable = true;
-    # gitCredentialHelper.enable = true;
-    # hosts = {
-    #   "github.com" = { user = "GatlenCulp"; };
-    #   settings = { git_protocol = "ssh"; };
-    # };
+    settings = { 
+      git_protocol = "ssh";
+      prompt = "enabled";
+    };
+    # Don't fully understand this setup
+    hosts = {
+      "github.com" = {
+        "users" = {
+          "GatlenCulp" = null;
+        };
+        "user" = "GatlenCulp";
+      };
+    };
   };
 }

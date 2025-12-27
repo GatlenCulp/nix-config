@@ -188,6 +188,11 @@ let
         ms-vscode.makefile-tools
       ];
 
+      just = [
+        # skellock.just # Worse
+        nefrob.vscode-just-syntax
+      ];
+
       nix = [ jnoortheen.nix-ide ];
 
       powershell = [ ms-vscode.powershell ];
@@ -206,6 +211,10 @@ let
         # ms-pyright.pyright # Redundant, anysphere has their own version
         # ms-python.vscode-pylance # Redundant, anysphere has their own version
         # twixes.pypi-assistant
+      ];
+
+      nushell = [
+        thenuprojectcontributors.vscode-nushell-lang
       ];
 
       r = [
@@ -367,6 +376,8 @@ let
     # langs.lean
     # langs.lisp
     langs.makefile
+    langs.just
+    langs.nushell
     langs.nix
     # langs.powershell
     langs.python

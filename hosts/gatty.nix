@@ -14,6 +14,8 @@ let
     imports = [
       "${self}/modules/home/_accounts"
       "${self}/modules/home/_cli-tools"
+      "${self}/modules/home/_cloud"
+      "${self}/modules/home/_encryption"
       "${self}/modules/home/_go"
       "${self}/modules/home/_js"
       "${self}/modules/home/_nix"
@@ -28,6 +30,7 @@ let
       "${self}/modules/home/fastfetch"
       # "${self}/modules/home/firefox"
       "${self}/modules/home/git"
+      "${self}/modules/home/ghostty"
       "${self}/modules/home/helix"
       "${self}/modules/home/jq"
       "${self}/modules/home/less"
@@ -80,6 +83,15 @@ in
             user = "gat";
           };
         }
+        # "${self}/modules/darwin/system-defaults.nix"
+        # "${self}/modules/darwin/system-packages.nix"
+        {
+          system = {
+            configurationRevision = self.rev or self.dirtyRev or null;
+            primaryUser = "gat";
+            stateVersion = 5; # Now at version 6
+          };
+        }
       ];
       nixpkgs = {
         config.allowUnfree = true; # Not working atm. Fix later.
@@ -109,7 +121,6 @@ in
           "/share/zsh"
           "/share/bash-completion"
         ];
-        systemPackages = import "${self}/modules/darwin/system-packages.nix" { inherit pkgs; };
         systemPath = [
           "${config.users.users.gat.home}/.cargo/bin"
           "${config.users.users.gat.home}/.local/bin"
@@ -127,13 +138,6 @@ in
       #   };
       # };
 
-      system = import "${self}/modules/darwin/system-defaults.nix" // {
-        configurationRevision = self.rev or self.dirtyRev or null;
-        primaryUser = "gat";
-        stateVersion = 5; # Now at version 6
-      };
-
-      # User Configuration
       users.users.gat = {
         home = "/Users/gat";
         name = "gat";
@@ -142,12 +146,7 @@ in
         # shell = home-manager.pkgs.nushell;
         # shell = pkgs.nushell;
       };
-
       modules.desktop.fonts.enable = true;
-
-      # Let Home-manager Manage itself (doesn't work?)
-      programs.home-manager.enable = true;
-
       homebrew = import "${self}/modules/darwin/homebrew.nix";
       home-manager = {
         sharedModules = [

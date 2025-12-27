@@ -21,6 +21,7 @@ lib.mkMerge [
   fishConfig
   nushellConfig
   {
+    # home.shellAliases = {};
     programs.zsh.initContent = sharedShellInit;
     programs.bash.initExtra = sharedShellInit;
   }

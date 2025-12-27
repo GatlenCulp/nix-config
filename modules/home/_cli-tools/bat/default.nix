@@ -1,9 +1,10 @@
 {
+  # a cat(1) clone with syntax highlighting and Git integration.
   programs.bat = {
     enable = true;
     config = {
       theme = "Dracula";
-      pager = "ov -F -H3";
+      pager = "ov -FR";
     };
     # Run with --impure bc not changing this yet lol
     # themes.Dracula.src = "/Users/gat/.config/nix-darwin/assets/Dracula.tmTheme";

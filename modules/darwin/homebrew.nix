@@ -1,5 +1,13 @@
 {
-  enable = true;
+  enable = true; # disable homebrew for fast deploy
+
+  onActivation = {
+    autoUpdate = true; # Fetch the newest stable branch of Homebrew's git repo
+    upgrade = true; # Upgrade outdated casks, formulae, and App Store apps
+    # 'zap': uninstalls all formulae(and related files) not listed in the generated Brewfile
+    cleanup = "zap";
+  };
+
   taps = [
     "charmbracelet/tap"
     "mayowa-ojo/tap"
@@ -7,28 +15,14 @@
   ];
 
   brews = [
-    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Core CLI ━━━━━━━━━━━━━━━━━━━━━━━━━━━
     "clipboard"
     "mayowa-ojo/tap/chmod-cli"
-
-    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Development ━━━━━━━━━━━━━━━━━━━━━━━━━━━
     "flit" # possibly https://search.nixos.org/packages?channel=25.05&query=flit
-
-    # ━━━━━━━━━━━━━━━━━━━━━━━━━ Git & Version Control ━━━━━━━━━━━━━━━━━━━━━━━━━
     "czg"
-
-    # ━━━━━━━━━━━━━━━━━━━━━━━━━ Networking ━━━━━━━━━━━━━━━━━━━━━━━━━
     "ucspi-tcp"
     "zrok"
-
-    # ━━━━━━━━━━━━━━━━━━━━━━━━━ Creative & Media ━━━━━━━━━━━━━━━━━━━━━━━━━
     "huggingface-cli"
-
-    # ━━━━━━━━━━━━━━━━━━━━━━━━━ TeX & Docs ━━━━━━━━━━━━━━━━━━━━━━━━━
     "latexindent"
-
-    # --- Literally just claude-code
-
   ];
 
   casks = [
@@ -36,7 +30,7 @@
     "netron" # On nixpkgs but not darwin
     "postman"
 
-    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Communication ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    # ━━━━━━━━━━━━━━━━━━━━━━━━ Communication ━━━━━━━━━━━━━━━━━━━━━━━━
     "signal"
     "whatsapp"
 
