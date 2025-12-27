@@ -82,6 +82,7 @@ let
       "editor.wordWrap" = "bounded";
       "editor.wordWrapColumn" = 100;
       "files.associations" = {
+        "flake.lock" = "json";
         "*.env*" = "dotenv";
         "*.toml.tmpl" = "toml";
         "*Brewfile*" = "ruby";
@@ -89,7 +90,7 @@ let
         ".bashrc" = "shellscript";
         ".envrc" = "shellscript";
         ".zshrc" = "shellscript";
-        "flake.lock" = "json";
+        ".env*" = "dotenv";
       };
       "files.autoSave" = "afterDelay";
       "files.exclude" = {
@@ -596,6 +597,16 @@ let
       "powermode.explosions.gifMode" = "restart";
       "powermode.explosions.maxExplosions" = 3;
       "powermode.explosions.size" = 10;
+      # https://code.visualstudio.com/docs/copilot/reference/copilot-settings
+      "chat.commandCenter.enabled" = false;
+      "github.copilot.enable" = {
+        "*" = false;
+        "comments" = false;
+        "markdown" = false;
+        "plaintext" = false;
+        "scminput" = false;
+      };
+      "github.copilot.nextEditSuggestions.enabled" = false;
     };
 
     claude-code = {

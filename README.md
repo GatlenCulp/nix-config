@@ -1,5 +1,7 @@
 # nix-darwin
 
+TODO: Try embedded languages with nvim otter.
+
 This will install nix-darwin if you don't already have it.
 
 ```bash
@@ -25,8 +27,6 @@ Partially stolen from Ryan Yin's nix-config
 ```bash
 nix store gc
 ```
-
-
 
 Age is sort-of a modern version of mixhttps://github.com/FiloSottile/age/discussions/432
 

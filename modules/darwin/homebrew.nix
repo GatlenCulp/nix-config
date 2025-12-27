@@ -1,86 +1,88 @@
 {
-  enable = true; # disable homebrew for fast deploy
+  homebrew = {
+    enable = true; # disable homebrew for fast deploy
 
-  onActivation = {
-    autoUpdate = true; # Fetch the newest stable branch of Homebrew's git repo
-    upgrade = true; # Upgrade outdated casks, formulae, and App Store apps
-    # 'zap': uninstalls all formulae(and related files) not listed in the generated Brewfile
-    cleanup = "zap";
-  };
+    onActivation = {
+      autoUpdate = true; # Fetch the newest stable branch of Homebrew's git repo
+      upgrade = true; # Upgrade outdated casks, formulae, and App Store apps
+      # 'zap': uninstalls all formulae(and related files) not listed in the generated Brewfile
+      cleanup = "zap";
+    };
 
-  taps = [
-    "charmbracelet/tap"
-    "mayowa-ojo/tap"
-    "noborus/tap"
-  ];
+    taps = [
+      "charmbracelet/tap"
+      "mayowa-ojo/tap"
+      "noborus/tap"
+    ];
 
-  brews = [
-    "clipboard"
-    "mayowa-ojo/tap/chmod-cli"
-    "flit" # possibly https://search.nixos.org/packages?channel=25.05&query=flit
-    "czg"
-    "ucspi-tcp"
-    "zrok"
-    "huggingface-cli"
-    "latexindent"
-  ];
+    brews = [
+      "clipboard"
+      "mayowa-ojo/tap/chmod-cli"
+      "flit" # possibly https://search.nixos.org/packages?channel=25.05&query=flit
+      "czg"
+      "ucspi-tcp"
+      "zrok"
+      "huggingface-cli"
+      "latexindent"
+    ];
 
-  casks = [
-    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Development ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    "netron" # On nixpkgs but not darwin
-    "postman"
+    casks = [
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Development ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      "netron" # On nixpkgs but not darwin
+      "postman"
 
-    # ━━━━━━━━━━━━━━━━━━━━━━━━ Communication ━━━━━━━━━━━━━━━━━━━━━━━━
-    "signal"
-    "whatsapp"
+      # ━━━━━━━━━━━━━━━━━━━━━━━━ Communication ━━━━━━━━━━━━━━━━━━━━━━━━
+      "signal"
+      "whatsapp"
 
-    # ━━━━━━━━━━━━━━━━━━━━━━━━ Media & Creative ━━━━━━━━━━━━━━━━━━━━━━━━
-    "adobe-creative-cloud"
-    "clipgrab"
-    "loom"
-    "obs"
-    "vlc"
+      # ━━━━━━━━━━━━━━━━━━━━━━━━ Media & Creative ━━━━━━━━━━━━━━━━━━━━━━━━
+      "adobe-creative-cloud"
+      "clipgrab"
+      "loom"
+      "obs"
+      "vlc"
 
-    # ━━━━━━━━━━━━━━━━━━━━━━━ Productivity & Utilities ━━━━━━━━━━━━━━━━━━━━━━━
-    "applite"
-    "flux-app"
-    "bartender"
-    "spotify" # For some reason, the nixpkgs version is breaking
+      # ━━━━━━━━━━━━━━━━━━━━━━━ Productivity & Utilities ━━━━━━━━━━━━━━━━━━━━━━━
+      "applite"
+      "flux-app"
+      "bartender"
+      "spotify" # For some reason, the nixpkgs version is breaking
 
-    # ━━━━━━━━━━━━━━━━━━━━━━━━ Office & Knowledge ━━━━━━━━━━━━━━━━━━━━━━━━
-    "dropbox"
-    "freedom"
-    "memory"
-    "microsoft-auto-update"
-    "microsoft-office"
-    "notion"
-    "notion-calendar"
-    "notion-mail"
-    "cleanshot"
-    "notunes"
+      # ━━━━━━━━━━━━━━━━━━━━━━━━ Office & Knowledge ━━━━━━━━━━━━━━━━━━━━━━━━
+      "dropbox"
+      "freedom"
+      "memory"
+      "microsoft-auto-update"
+      "microsoft-office"
+      "notion"
+      "notion-calendar"
+      "notion-mail"
+      "cleanshot"
+      "notunes"
 
-    # ━━━━━━━━━━━━━━━━━━━━━━━ Security & Terminals ━━━━━━━━━━━━━━━━━━━━━━━
-    "burp-suite"
-    "ghostty"
-    "protonvpn"
-    "qflipper"
+      # ━━━━━━━━━━━━━━━━━━━━━━━ Security & Terminals ━━━━━━━━━━━━━━━━━━━━━━━
+      "burp-suite"
+      "ghostty"
+      "protonvpn"
+      "qflipper"
 
-    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Gaming ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    "epic-games"
-    "gog-galaxy"
-    "minecraft"
-    "steam"
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Gaming ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      "epic-games"
+      "gog-galaxy"
+      "minecraft"
+      "steam"
 
-    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ AI ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    "claude"
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ AI ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      "claude"
 
-    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Fonts ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    "font-nova-round"
-  ];
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Fonts ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      "font-nova-round"
+    ];
 
-  masApps = {
-    "image2icon" = 992115977;
-    # Xcode = 497799835; # Note: Takes almost an hour to download, skip for fast install
-    # "1Password for Safari" = 1569813296;
+    masApps = {
+      "image2icon" = 992115977;
+      # Xcode = 497799835; # Note: Takes almost an hour to download, skip for fast install
+      # "1Password for Safari" = 1569813296;
+    };
   };
 }

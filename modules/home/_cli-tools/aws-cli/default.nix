@@ -1,3 +1,4 @@
+# TODO: Fix later. AWS doesn't really work :/
 # { config, lib, ... }:
 # let
 #   # Read secrets from sops runtime paths

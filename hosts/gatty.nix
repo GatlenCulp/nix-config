@@ -172,7 +172,6 @@ in
         # shell = pkgs.nushell;
       };
       modules.desktop.fonts.enable = true;
-      homebrew = import "${self}/modules/darwin/homebrew.nix";
       home-manager = {
         sharedModules = [
           nixvim.homeModules.nixvim

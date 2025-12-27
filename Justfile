@@ -150,6 +150,13 @@ override-pkgs hash:
 #   sudo python3 scripts/darwin_set_proxy.py
 #   sleep 1sec
 
+
+[macos]
+[group('desktop')]
+darwin-daemon:
+  sudo launchctl load /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+  sudo launchctl kickstart -k system/org.nixos.nix-daemon
+
 [macos]
 [group('desktop')]
 darwin-rollback:
