@@ -77,7 +77,7 @@
         };
       };
 
-       aliases = {
+      aliases = {
         # common aliases
         br = "branch";
         co = "checkout";
@@ -106,7 +106,7 @@
       };
     };
   };
-  
+
   # Git terminal UI (written in go).
   programs.lazygit.enable = true;
 

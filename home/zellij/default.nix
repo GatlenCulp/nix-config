@@ -9,7 +9,7 @@ in
   programs.nushell.shellAliases = shellAliases;
 
   programs.tmux.enable = false;
-  
+
   programs.zellij = {
     enable = true;
     # A bit annoying

@@ -1,5 +1,5 @@
 # Will fix later :()
-{pkgs, ...}:
+{ pkgs, ... }:
 {
   # programs.ghostty = {
   #   enable = true;

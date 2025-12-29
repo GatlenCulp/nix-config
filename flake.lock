@@ -203,17 +203,14 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1766981466,
-        "narHash": "sha256-yYa2xJ62NQ2Z/k9XULMCgJ0ChjRO2B2epVBmeqUe6w0=",
-        "owner": "GatlenCulp",
-        "repo": "nix-gat-vscode",
-        "rev": "1a27928277098b7e707e40e51c49e0280889a577",
-        "type": "github"
+        "lastModified": 1767028509,
+        "narHash": "sha256-f4hnR0oymOZdp6Ot8zd0M+2MAVTN5SsY2+DbReAe5PY=",
+        "path": "/Users/gat/personal/nix-gat-vscode",
+        "type": "path"
       },
       "original": {
-        "owner": "GatlenCulp",
-        "repo": "nix-gat-vscode",
-        "type": "github"
+        "path": "/Users/gat/personal/nix-gat-vscode",
+        "type": "path"
       }
     },
     "nix-homebrew": {

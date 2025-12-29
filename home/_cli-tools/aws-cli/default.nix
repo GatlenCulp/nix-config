@@ -34,7 +34,7 @@
 # In your home.nix or darwin flake
 {
   # Use activation script to render after secrets are available
-  home.activation.writeAwsCredentials = lib.hm.dag.entryAfter ["writeBoundary"] ''
+  home.activation.writeAwsCredentials = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     cat > $HOME/.aws/credentials << EOF
     [default]
     aws_access_key_id = $(cat $HOME/.config/sops-nix/secrets/aws/credentials/default/aws_access_key_id)

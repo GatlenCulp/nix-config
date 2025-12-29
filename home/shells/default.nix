@@ -10,7 +10,7 @@ let
     inherit pkgs secrets config;
   };
   sharedShellInit = sharedShellInitData.sharedShellInit;
-  zshConfig = import ./zsh.nix;
+  zshConfig = import ./zsh.nix { inherit config; };
   bashConfig = import ./bash.nix;
   fishConfig = import ./fish.nix;
   nushellConfig = import ./nushell.nix;

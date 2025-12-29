@@ -1,4 +1,8 @@
 {
+  # config,
+  ...
+}:
+{
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -21,5 +25,6 @@
       ssh.identities = [ "id_ed25519" ];
       editor.keymap = "vi"; # Enable vi mode through Prezto
     };
+    # dotDir = "${config.xdg.configHome}/zsh";
   };
 }

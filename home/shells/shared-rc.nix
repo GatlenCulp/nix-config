@@ -1,5 +1,6 @@
 { pkgs, config, ... }:
-with config.sops.secrets; {
+with config.sops.secrets;
+{
   sharedShellInit = {
     text = ''
       export EDITOR=vim

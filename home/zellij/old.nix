@@ -17,7 +17,7 @@ in
     enable = true;
     # Do I need to write package = pkgs.zellij?
   };
-  
+
   # programs.zellij = {
   #   enable = true;
   #   # A bit annoying

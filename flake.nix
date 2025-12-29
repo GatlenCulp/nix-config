@@ -42,8 +42,8 @@
     };
 
     nix-gat-vscode = {
-      url = "github:GatlenCulp/nix-gat-vscode";
-      # url = "path:/Users/gat/personal/nix-gat-vscode";
+      # url = "github:GatlenCulp/nix-gat-vscode";
+      url = "path:/Users/gat/personal/nix-gat-vscode";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
