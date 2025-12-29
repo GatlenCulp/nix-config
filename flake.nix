@@ -34,9 +34,16 @@
       url = "github:nix-community/nixvim";
       # Recommends not using following
     };
+
     nvix = {
       url = "github:GatlenCulp/nvix";
       # url = "path:/Users/gat/personal/nvix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
+    nix-gat-vscode = {
+      url = "github:GatlenCulp/nix-gat-vscode";
+      # url = "path:/Users/gat/personal/nix-gat-vscode";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
@@ -51,25 +58,29 @@
       self,
       nix-darwin,
       home-manager,
-      nix-vscode-extensions,
+      # nix-vscode-extensions,
       nur,
       nixvim,
       nvix,
       nix-homebrew,
       sops-nix,
+      nix-gat-vscode,
       ...
     }:
     let
       gatty-config = import ./hosts/gatty.nix {
+        # TODO: just pass inputs I guess
+        # inherit inputs;
         inherit self;
         inherit nix-darwin;
         inherit home-manager;
-        inherit nix-vscode-extensions;
+        # inherit nix-vscode-extensions;
         inherit nur;
         inherit nixvim;
         inherit nvix;
         inherit nix-homebrew;
         inherit sops-nix;
+        inherit nix-gat-vscode;
       };
     in
     {

@@ -1,19 +1,21 @@
 {
   self,
   home-manager,
-  nix-vscode-extensions,
+  # nix-vscode-extensions,
   nur,
   nixvim,
   nvix,
   nix-homebrew,
   sops-nix,
+  nix-gat-vscode,
   ...
-}:
+}@inputs:
 let
   secrets = import "/Users/gat/.config/nix-config/secrets/secrets.nix";
   homeManagerConfig = {
     imports = [
       sops-nix.homeManagerModules.sops
+      nix-gat-vscode.homeManagerModules.vscode
 
       "${self}/home/_accounts"
       "${self}/home/_cli-tools"
@@ -36,6 +38,7 @@ let
       "${self}/home/git"
       "${self}/home/ghostty"
       "${self}/home/helix"
+      "${self}/home/jankyborders"
       "${self}/home/jq"
       "${self}/home/less"
       "${self}/home/mise"
@@ -51,7 +54,7 @@ let
       "${self}/home/starship"
       "${self}/home/thunderbird"
       "${self}/home/topgrade"
-      "${self}/home/vscode"
+      # "${self}/home/vscode"
       "${self}/home/zed"
       "${self}/home/zellij"
 
@@ -63,7 +66,7 @@ let
       enableNixpkgsReleaseCheck = false;
       shellAliases = {
         config = "$EDITOR ~/.config/nix-config";
-        rebuild = "sudo darwin-rebuild switch --flake ~/.config/nix-config --show-trace --impure";
+        rebuild = "NIXPKGS_ALLOW_UNFREE=1 sudo darwin-rebuild switch --flake ~/.config/nix-config --show-trace --impure";
         upgrade = "topgrade";
         lsr = "eza -T --git-ignore";
       };
@@ -120,10 +123,14 @@ in
         }
       ];
       nixpkgs = {
-        config.allowUnfree = true; # Not working atm. Fix later.
+        config = {
+          allowUnfree = true;
+          allowUnfreePredicate = _: true;
+        };
         hostPlatform.system = "aarch64-darwin";
         overlays = [
-          nix-vscode-extensions.overlays.default
+          # nix-vscode-extensions.overlays.default
+          nix-gat-vscode.overlays.default
           nur.overlays.default
         ];
       };

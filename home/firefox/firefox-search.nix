@@ -5,7 +5,8 @@
       name = "Nix Packages";
       urls = [
         {
-          template = "https://search.nixos.org/packages";
+          template = "https://search.nixos.org";
+          # Oh you don't really need to write out the params in the url oops, only if in path.
           params = [
             {
               name = "type";
@@ -89,7 +90,6 @@
       urls = [ { template = "https://www.perplexity.ai/search?q={searchTerms}"; } ];
       definedAlias = [ "@p" ];
     };
-
 
     tldr = {
       name = "TLDR Pages";

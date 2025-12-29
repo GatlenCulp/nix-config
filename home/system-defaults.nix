@@ -1,4 +1,5 @@
 {
+  # NOTE: Just for darwin oops.
   system = {
     startup.chime = false;
 

@@ -208,7 +208,6 @@ let
       which
       procs # a moreden ps
 
-
     ];
 
     # Retired
@@ -217,6 +216,10 @@ let
     #   discord
     #   tldr # Testing out tealdeer
     # ];
+
+    darwin = [
+      duti
+    ];
 
     # Unsupported on darwin (future)
     # darwin-future = [
@@ -268,6 +271,7 @@ let
     typst
     web
     cli
+    darwin
   ];
 in
 {

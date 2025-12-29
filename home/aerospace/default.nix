@@ -2,8 +2,21 @@
   services.aerospace = {
     enable = true;
     settings = {
+
+      # Run Sketchybar together with AeroSpace
+      # sketchybar has a built-in detection of already running process,
+      # so it won't be run twice on AeroSpace restart
+      after-startup-command = [
+        "exec-and-forget sketchybar"
+        # "exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0" Might not need this at all
+      ];
+
+      # Notify Sketchybar about workspace change
+      exec-on-workspace-change = ["/bin/bash" "-c"
+          "sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
+      ];
       after-login-command = [ ];
-      after-startup-command = [ ];
+      # after-startup-command = [ ];
       enable-normalization-flatten-containers = true;
       enable-normalization-opposite-orientation-for-nested-containers = true;
       accordion-padding = 50;

@@ -40,14 +40,12 @@ Age is sort-of a modern version of mixhttps://github.com/FiloSottile/age/discuss
 - Fix thunderbird setup. Keeps asking for password on my accounts
 - use git-hooks to manage quality of this repo https://github.com/cachix/git-hooks.nix
 - Clone another one of those nixos configuration setups, in particular the NixOS VM on mac one.
-- TODO: Modularize as flake-parts, as modules, etc.
 - TODO: Also put this into some kind of better template
 - TODO: Make declarative dock https://github.com/dustinlyons/nixos-config/blob/8a14e1f0da074b3f9060e8c822164d922bfeec29/modules/darwin/home-manager.nix#L74
 - TODO: Understand https://github.com/cpick/nix-rosetta-builder
 - TODO: Find material icons nerd font for eza and such.
 - TODO: Eventually make pure (using references to my assets dir)
 - TODO: learn how to manage ssh keys in nix
-- TODO: Change to use SOPS-Nix. (or lpass)
 - Get sketchybar to work
 - TODO: Obisidan edits
 - TODO: For Claude Code: finish a better setup check more cc theme stuff. Also actually install this more globally.
@@ -62,8 +60,9 @@ Age is sort-of a modern version of mixhttps://github.com/FiloSottile/age/discuss
 - [nix] Have a defined Dracula theme. Set all colors for vscode from there
 - Disable almost all macos keybindings (in particular for screenshot tools and spotlight search) and remap them to things I used (raycast and rectangle/aerospace)
 - Firefox: make basic home screen (No Firefox Home Content)
-- Switch lpass to SOPS-nix
-- Disable all autofill for firefox
+- Firefox: Disable all autofill for firefox
+- [Privacy & Security] Give VSCode and Ghostty access to modify apps on my mac
+- [VSCode] Prevent the stupid settings update every single time.
 
 ## Claude-Code Specific TODOs
 

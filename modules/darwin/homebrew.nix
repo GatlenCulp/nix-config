@@ -41,6 +41,7 @@
       "loom"
       "obs"
       "vlc"
+      "cold-turkey-blocker"
 
       # ━━━━━━━━━━━━━━━━━━━━━━━ Productivity & Utilities ━━━━━━━━━━━━━━━━━━━━━━━
       "applite"

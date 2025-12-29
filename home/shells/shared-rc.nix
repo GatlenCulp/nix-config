@@ -35,6 +35,10 @@ with config.sops.secrets; {
       autoload -U bashcompinit && bashcompinit
       complete -C ${pkgs.awscli}/bin/aws_completer aws
 
+      ### Nix Darwin since it doesn't always start up
+      # sudo launchctl load /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+      # sudo launchctl kickstart -k system/org.nixos.nix-daemon
+
       ### FAST FETCH
       fastfetch
     '';
