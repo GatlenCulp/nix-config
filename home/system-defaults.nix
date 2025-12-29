@@ -49,13 +49,14 @@
 
       # CustomUserPreferences settings not supported by nix-darwin directly, may be others? https://github.com/yannbertrand/macos-defaults (ryan)
 
-      # Global UI/UX
+      # Global UI/UX (NS = NeXTSTEP)
       NSGlobalDomain = {
         AppleICUForce24HourTime = true;
         AppleInterfaceStyle = "Dark";
         ApplePressAndHoldEnabled = false;
         AppleShowAllExtensions = true;
         AppleShowAllFiles = true;
+        _HIHideMenuBar = true; # For Sketchybar
         "com.apple.keyboard.fnState" = false;
         # "com.apple.sound.beep.feedback" = 0; # disable beep sound when pressing volume up/down key
         # "com.apple.swipescrolldirection" = true; # enable natural scrolling(default to true)

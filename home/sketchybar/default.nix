@@ -4,8 +4,8 @@
 
 #   FONT_FACE="JetBrainsMono Nerd Font"
 
-#   # PLUGIN_DIR="$HOME/.config/sketchybar/plugins-laptop"
-#   # PLUGIN_SHARED_DIR="$HOME/.config/sketchybar/plugins"
+#  PLUGIN_DIR="$HOME/.config/sketchybar/plugins-laptop"
+#   PLUGIN_SHARED_DIR="$HOME/.config/sketchybar/plugins"
 
 #   SPOTIFY_EVENT="com.spotify.client.PlaybackStateChanged"
 
@@ -121,12 +121,12 @@
 #   #     update_freq=20 \
 #   #     script="$PLUGIN_DIR/battery.sh"
 
-#   # sketchybar --add item volume right \
-#   #     --set volume \
-#   #     icon.color=0xff8aadf4 \
-#   #     label.drawing=true \
-#   #     script="$PLUGIN_SHARED_DIR/volume.sh" \
-#   #     --subscribe volume volume_change
+# sketchybar --add item volume right \
+#     --set volume \
+#     icon.color=0xff8aadf4 \
+#     label.drawing=true \
+#     script="$PLUGIN_SHARED_DIR/volume.sh" \
+#     --subscribe volume volume_change
 
 #   # # osascript -e 'quit app "Rectangle"'
 #   # # open -a Rectangle
@@ -138,12 +138,30 @@
 # in
 {
   programs.sketchybar = {
-    enable = false;
-    config = ''
-      sketchybar --bar height=24
-      sketchybar --update
-      echo "sketchybar configuration loaded.."
-    '';
+    enable = true;
+    # config = ''
+    #   #!/usr/bin/env zsh
+
+    #   PLUGIN_DIR="$HOME/.config/sketchybar/plugins-laptop"
+    #   PLUGIN_SHARED_DIR="$HOME/.config/sketchybar/plugins"
+
+    #   sketchybar --bar height=24
+    #   sketchybar --update
+    #   echo "sketchybar configuration loaded.."
+
+    #   sketchybar --add item volume right \
+    #     --set volume \
+    #     icon.color=0xff8aadf4 \
+    #     label.drawing=true \
+    #     script="$PLUGIN_SHARED_DIR/volume.sh" \
+    #     --subscribe volume volume_change
+    # '';
     service.enable = true;
   };
+
+  home.file."./.config/sketchybar/" = {
+    source = ./config;
+    recursive = true;
+  };
+
 }
