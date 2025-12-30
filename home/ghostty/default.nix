@@ -29,4 +29,11 @@
   #     command = "${pkgs.bash}/bin/bash --login -c 'nu --login --interactive'";
   #   };
   # };
+  home.file."./.config/ghostty/config" = {
+    source = ./config;
+  };
+
+  home.file."./Library/Application Support/com.mitchellh.ghostty.config" = {
+    source = ./config;
+  };
 }

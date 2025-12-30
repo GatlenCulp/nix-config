@@ -15,16 +15,18 @@
       "noborus/tap"
     ];
 
-    brews = [
-      "clipboard"
-      "mayowa-ojo/tap/chmod-cli"
-      "flit" # possibly https://search.nixos.org/packages?channel=25.05&query=flit
-      "czg"
-      "ucspi-tcp"
-      "zrok"
-      "huggingface-cli"
-      "latexindent"
-    ];
+    brews =
+
+      [
+        "clipboard"
+        "mayowa-ojo/tap/chmod-cli"
+        "flit" # possibly https://search.nixos.org/packages?channel=25.05&query=flit
+        "czg"
+        "ucspi-tcp"
+        "zrok"
+        "huggingface-cli"
+        "latexindent"
+      ];
 
     casks = [
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Development ━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -34,25 +36,23 @@
       # ━━━━━━━━━━━━━━━━━━━━━━━━ Communication ━━━━━━━━━━━━━━━━━━━━━━━━
       "signal"
       "whatsapp"
-
       # ━━━━━━━━━━━━━━━━━━━━━━━━ Media & Creative ━━━━━━━━━━━━━━━━━━━━━━━━
       "adobe-creative-cloud"
       "clipgrab"
-      "loom"
+      # "loom" # I don't think I need anymore
       "obs"
       "vlc"
       "cold-turkey-blocker"
 
       # ━━━━━━━━━━━━━━━━━━━━━━━ Productivity & Utilities ━━━━━━━━━━━━━━━━━━━━━━━
-      "applite"
+      # "applite" # I don't need this anymore for homebrew
       "flux-app"
       "bartender"
       "spotify" # For some reason, the nixpkgs version is breaking
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━ Office & Knowledge ━━━━━━━━━━━━━━━━━━━━━━━━
-      "dropbox"
-      "freedom"
-      "memory"
+      # "freedom" # Cold turkey better
+      # "memory" # May return to
       "microsoft-auto-update"
       "microsoft-office"
       "notion"
@@ -62,10 +62,11 @@
       "notunes"
 
       # ━━━━━━━━━━━━━━━━━━━━━━━ Security & Terminals ━━━━━━━━━━━━━━━━━━━━━━━
-      "burp-suite"
+      # "burp-suite" # Don't need rn
       "ghostty"
       "protonvpn"
-      "qflipper"
+      # "qflipper" # Don't need rn
+      "malwarebytes"
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Gaming ━━━━━━━━━━━━━━━━━━━━━━━━━━━
       "epic-games"

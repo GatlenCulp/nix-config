@@ -24,14 +24,15 @@ let
     ];
 
     data-config = [
-      sqlite
-      sqlfluff
-      taplo
+      # sqlite # Don't need this second
+      sqlfluff # SQL linter?
+      duckdb # Type of database, similar to SQLite
+      taplo # TOML
       qsv # Working with CSV files (miller (multiple files), xan (more analysis), csvkit are alternatives)
     ];
 
     dev-utils = [
-      chezmoi
+      # chezmoi # Pure nix now
       graphviz
       rich-cli
     ];
@@ -39,7 +40,7 @@ let
     devops = [
       act
       devcontainer
-      docker
+      # docker # I think orbstack can replace this
       orbstack
       hadolint
       # terraform
@@ -54,9 +55,9 @@ let
 
     editors = [
       code-cursor
-      lunarvim
+      # lunarvim
       warp-terminal
-      windsurf
+      # windsurf
     ];
 
     file-ops = [
@@ -139,13 +140,12 @@ let
     ];
 
     productivity = [
-      # bartender # Only version 5
+      # bartender # Only version 5, use homebrew
       lastpass-cli
       raycast
       # spotify
       tailscale
       zotero
-      # desktoppr # Hopefully works
       # mailspring # eh, not a huge fan
     ];
 
@@ -154,7 +154,7 @@ let
       cruft
       # nbqa  # Temporarily disabled - has broken pre-commit-hooks dependency
       pyright
-      python3
+      python3 # TODO: Perhaps replace with uv
       # pylint
       # validate-pyproject
     ];
@@ -239,7 +239,6 @@ let
     # Not packaged (future)
     # not-packaged = [
     #   # Comet by Perplexity  # not in nixpkgs or brew
-    #   orbstack             # not packaged in nixpkgs
     # ];
   };
 
@@ -266,7 +265,7 @@ let
     python
     ruby
     rust
-    security
+    # security # Don't need rn
     shell
     typst
     web

@@ -15,14 +15,44 @@ let
   fishConfig = import ./fish.nix;
   nushellConfig = import ./nushell.nix;
 in
-lib.mkMerge [
+(lib.mkMerge [
   zshConfig
   bashConfig
   fishConfig
   nushellConfig
-  {
-    # home.shellAliases = {};
-    programs.zsh.initContent = sharedShellInit.text;
-    programs.bash.initExtra = sharedShellInit.text;
-  }
-]
+]) // {
+  home.sessionVariables = {
+    # Locale settings (must be set early)
+    LC_ALL = "en_US.UTF-8";
+    LANG = "en_US.UTF-8";
+
+    # General environment
+    EDITOR = "vim";
+    VISUAL = "code";
+    PAGER = "ov -F";
+    PSQL_PAGER = "ov -F -C -d | -H1 --column-rainbow --align";
+    MANPAGER = "ov --section-delimiter '^[^\s]' --section-header";
+    SOPS_AGE_KEY_FILE = "${config.xdg.configHome}/sops/age/keys-nix-sops.txt";
+
+    ### API KEYS FROM SOPS
+    # AI API KEYS
+    OPENAI_API_KEY = "$(cat ${config.sops.secrets.OPENAI_API_KEY.path})";
+    ANTHROPIC_API_KEY = "$(cat ${config.sops.secrets.ANTHROPIC_API_KEY.path})";
+    GEMINI_API_KEY = "$(cat ${config.sops.secrets.GEMINI_API_KEY.path})";
+
+    # OTHER API KEYS
+    UV_PUBLISH_TOKEN = "$(cat ${config.sops.secrets.UV_PUBLISH_TOKEN.path})";
+    HUGGING_FACE_HUB_TOKEN = "$(cat ${config.sops.secrets.HUGGING_FACE_HUB_TOKEN.path})";
+    # export GITHUB_TOKEN=""
+
+    ### AWS
+    # Managed by awscli module, only export profile override if needed
+    # export AWS_PROFILE=""
+
+    ### MIT
+    CSAIL_USERNAME = "$(cat ${config.sops.secrets.CSAIL_USERNAME.path})";
+
+    ### COOKIECUTTER
+    COOKIECUTTER_CONFIG = "${config.xdg.configHome}/nix-config/assets/gatlen-cookiecutter-config.yaml";
+  };
+}

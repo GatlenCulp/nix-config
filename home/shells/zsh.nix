@@ -26,6 +26,6 @@
       editor.keymap = "vi"; # Enable vi mode through Prezto
     };
     # dotDir = "${config.xdg.configHome}/zsh";
-    dotDir = "Users/gat/.config/zsh"; # TODO: Change to above later
+    dotDir = "/Users/gat/.config/zsh"; # TODO: Change to above later
   };
 }

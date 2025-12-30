@@ -74,7 +74,6 @@
         inherit self;
         inherit nix-darwin;
         inherit home-manager;
-        # inherit nix-vscode-extensions;
         inherit nur;
         inherit nixvim;
         inherit nvix;

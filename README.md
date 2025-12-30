@@ -2,6 +2,11 @@
 
 TODO: Try embedded languages with nvim otter.
 
+Duti
+
+duti -s com.adobe.Acrobat.Pro pdf all
+
+
 This will install nix-darwin if you don't already have it.
 
 ```bash

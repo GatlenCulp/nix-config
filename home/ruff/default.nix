@@ -3,6 +3,8 @@
   programs.ruff = {
     enable = true;
     settings = {
+      # TODO: Add disallowed imports for packages I recommended not using
+      
       # NOTE: In my opinion:
 
       # FORMATTING / FIXING

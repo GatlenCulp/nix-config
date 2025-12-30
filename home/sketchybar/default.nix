@@ -138,30 +138,20 @@
 # in
 {
   programs.sketchybar = {
-    enable = true;
-    # config = ''
-    #   #!/usr/bin/env zsh
-
-    #   PLUGIN_DIR="$HOME/.config/sketchybar/plugins-laptop"
-    #   PLUGIN_SHARED_DIR="$HOME/.config/sketchybar/plugins"
-
-    #   sketchybar --bar height=24
-    #   sketchybar --update
-    #   echo "sketchybar configuration loaded.."
-
-    #   sketchybar --add item volume right \
-    #     --set volume \
-    #     icon.color=0xff8aadf4 \
-    #     label.drawing=true \
-    #     script="$PLUGIN_SHARED_DIR/volume.sh" \
-    #     --subscribe volume volume_change
-    # '';
+    enable = false;
+    config = {
+      source = ./config;
+      recursive = true;
+    };
+    configType = "lua";
     service.enable = true;
   };
 
-  home.file."./.config/sketchybar/" = {
-    source = ./config;
-    recursive = true;
-  };
+  # home.file."./.config/sketchybar/" = {
+  #   source = ./config;
+  #   target = "./.config/sketchybar/";
+  #   recursive = true;
+  #   executable = true;
+  # };
 
 }

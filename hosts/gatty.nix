@@ -59,6 +59,8 @@ let
       "${self}/home/zellij"
 
       "${self}/home/applications.nix"
+      "${self}/home/aerospace"
+      "${self}/home/dropbox"
     ];
 
     home = {
@@ -104,7 +106,6 @@ in
       imports = [
         home-manager.darwinModules.home-manager
         nix-homebrew.darwinModules.nix-homebrew
-        "${self}/home/aerospace"
         {
           nix-homebrew = {
             enable = true;
