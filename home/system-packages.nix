@@ -26,9 +26,13 @@ let
     data-config = [
       # sqlite # Don't need this second
       sqlfluff # SQL linter?
-      duckdb # Type of database, similar to SQLite
+      # duckdb # Type of database, similar to SQLite
       taplo # TOML
       qsv # Working with CSV files (miller (multiple files), xan (more analysis), csvkit are alternatives)
+    ];
+
+    ai = [
+      # open-webuil
     ];
 
     dev-utils = [
@@ -210,13 +214,6 @@ let
 
     ];
 
-    # Retired
-    # retired = [
-    #   claude-code
-    #   discord
-    #   tldr # Testing out tealdeer
-    # ];
-
     darwin = [
       duti
     ];
@@ -224,7 +221,6 @@ let
     # Unsupported on darwin (future)
     # darwin-future = [
     #   clipgrab             # unsupported on darwin
-    #   ghostty              # broken on darwin
     #   minecraft            # broken on darwin
     #   netron               # unsupported on darwin
     #   notion               # unsupported on darwin
@@ -244,6 +240,7 @@ let
 
   # Default selection: include all profiles to preserve current behavior.
   selected = with profiles; [
+    ai
     browsers
     build-tools
     communication

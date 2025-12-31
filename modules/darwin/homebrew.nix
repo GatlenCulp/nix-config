@@ -32,6 +32,7 @@
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Development ━━━━━━━━━━━━━━━━━━━━━━━━━━━
       "netron" # On nixpkgs but not darwin
       "postman"
+      "anythingllm"
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━ Communication ━━━━━━━━━━━━━━━━━━━━━━━━
       "signal"

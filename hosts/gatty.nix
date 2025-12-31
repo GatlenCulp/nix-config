@@ -61,6 +61,7 @@ let
       "${self}/home/applications.nix"
       "${self}/home/aerospace"
       "${self}/home/dropbox"
+      "${self}/home/opencode"
     ];
 
     home = {
@@ -133,6 +134,7 @@ in
           # nix-vscode-extensions.overlays.default
           nix-gat-vscode.overlays.default
           nur.overlays.default
+          # (import "${self}/overlays/open-webui-fix.nix")
         ];
       };
       nix = {
