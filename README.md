@@ -2,12 +2,15 @@
 
 TODO: Try embedded languages with nvim otter.
 
-Duti
+To fix spotlight not getting nix apps or docks disappearing or privacy apps -- https://github.com/hraban/mac-app-util
+
+Duti -- can use raycast to find bundle ids
 
 duti -s com.adobe.Acrobat.Pro pdf all
 
-
 This will install nix-darwin if you don't already have it.
+
+TODO: want to write a blog post on nix and home-manager. Explaining things but also ranting/reviewing. This is nice: https://gvolpe.com/blog/home-manager-dotfiles-management/
 
 ```bash
 nix run nix-darwin -- switch --flake ~/.config/nix-darwin
@@ -157,3 +160,11 @@ https://github.com/basicmachines-co/basic-memory/blob/main/CLAUDE.md
 # nix-darwin: https://nix-darwin.github.io/nix-darwin/manual/index.html
 # home-manager: https://nix-community.github.io/home-manager/options.xhtml
 ```
+
+## Mutability
+
+Good notes on this, also describing issues: https://discourse.nixos.org/t/strategies-for-declarative-approaches-to-programs-with-mutable-configuration-files/66276
+
+- Simple patch: https://gist.github.com/piousdeer/b29c272eaeba398b864da6abf6cb5daa?permalink_comment_id=5027190
+
+- Include option also nice, but not always present.

@@ -26,7 +26,7 @@ let
     data-config = [
       # sqlite # Don't need this second
       sqlfluff # SQL linter?
-      # duckdb # Type of database, similar to SQLite
+      duckdb # Type of database, similar to SQLite
       taplo # TOML
       qsv # Working with CSV files (miller (multiple files), xan (more analysis), csvkit are alternatives)
     ];

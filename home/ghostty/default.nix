@@ -1,6 +1,18 @@
 # Will fix later :()
 { pkgs, ... }:
 {
+  home.file."./.config/ghostty/config" = {
+    source = ./config;
+  };
+
+  home.file."./.config/ghostty/startup.sh" = {
+    source = ./startup.sh;
+  };
+
+  #  Duplicate
+  home.file."./Library/Application Support/com.mitchellh.ghostty.config" = {
+    source = ./config;
+  };
   # programs.ghostty = {
   #   enable = true;
   #   package =
@@ -29,11 +41,4 @@
   #     command = "${pkgs.bash}/bin/bash --login -c 'nu --login --interactive'";
   #   };
   # };
-  home.file."./.config/ghostty/config" = {
-    source = ./config;
-  };
-
-  home.file."./Library/Application Support/com.mitchellh.ghostty.config" = {
-    source = ./config;
-  };
 }

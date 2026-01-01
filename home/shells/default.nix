@@ -1,3 +1,4 @@
+# nushell lacks native nix-darwin support for managing /etc/shells and environment setup, so direct chsh -s nu drops Nix vars and Home-Manager configs. The exec nu workaround in zsh (via initExtra) reliably propagates everything while keeping configs declarative.
 {
   pkgs,
   secrets,
@@ -13,46 +14,69 @@ let
   zshConfig = import ./zsh.nix { inherit config; };
   bashConfig = import ./bash.nix;
   fishConfig = import ./fish.nix;
-  nushellConfig = import ./nushell.nix;
+  nushellConfig = import ./nushell.nix { inherit lib pkgs; };
 in
-(lib.mkMerge [
+lib.mkMerge [
   zshConfig
   bashConfig
   fishConfig
   nushellConfig
-]) // {
-  home.sessionVariables = {
-    # Locale settings (must be set early)
-    LC_ALL = "en_US.UTF-8";
-    LANG = "en_US.UTF-8";
+  {
+    programs.zsh = {
+      # Not recommended to use nushell as a login shell https://wiki.nixos.org/wiki/Nushell
+      initContent = sharedShellInit.text + ''
+        # Only exec nu in interactive shells
+        if [[ -o interactive ]] && [[ "$TERM" != "dumb" ]]; then
+          exec nu
+        fi
+      '';
+    };
+    programs.bash = {
+      initExtra = sharedShellInit.text + ''
+        # Only exec nu in interactive shells
+        if [[ $- == *i* ]] && [ "$TERM" != "dumb" ]; then
+          exec nu
+        fi
+      '';
+    };
 
-    # General environment
-    EDITOR = "vim";
-    VISUAL = "code";
-    PAGER = "ov -F";
-    PSQL_PAGER = "ov -F -C -d | -H1 --column-rainbow --align";
-    MANPAGER = "ov --section-delimiter '^[^\s]' --section-header";
-    SOPS_AGE_KEY_FILE = "${config.xdg.configHome}/sops/age/keys-nix-sops.txt";
+    home.sessionVariables = {
+      # Locale settings (must be set early)
+      LC_ALL = "en_US.UTF-8";
+      LANG = "en_US.UTF-8";
 
-    ### API KEYS FROM SOPS
-    # AI API KEYS
-    OPENAI_API_KEY = "$(cat ${config.sops.secrets.OPENAI_API_KEY.path})";
-    ANTHROPIC_API_KEY = "$(cat ${config.sops.secrets.ANTHROPIC_API_KEY.path})";
-    GEMINI_API_KEY = "$(cat ${config.sops.secrets.GEMINI_API_KEY.path})";
+      # General environment
+      EDITOR = "vim";
+      VISUAL = "code";
+      PAGER = "ov -F";
+      PSQL_PAGER = "ov -F -C -d | -H1 --column-rainbow --align";
+      MANPAGER = "ov --section-delimiter '^[^\s]' --section-header";
+      SOPS_AGE_KEY_FILE = "${config.xdg.configHome}/sops/age/keys-nix-sops.txt";
 
-    # OTHER API KEYS
-    UV_PUBLISH_TOKEN = "$(cat ${config.sops.secrets.UV_PUBLISH_TOKEN.path})";
-    HUGGING_FACE_HUB_TOKEN = "$(cat ${config.sops.secrets.HUGGING_FACE_HUB_TOKEN.path})";
-    # export GITHUB_TOKEN=""
+      ### API KEYS FROM SOPS
+      # AI API KEYS
+      OPENAI_API_KEY = "$(cat ${config.sops.secrets.OPENAI_API_KEY.path})";
+      ANTHROPIC_API_KEY = "$(cat ${config.sops.secrets.ANTHROPIC_API_KEY.path})";
+      GEMINI_API_KEY = "$(cat ${config.sops.secrets.GEMINI_API_KEY.path})";
 
-    ### AWS
-    # Managed by awscli module, only export profile override if needed
-    # export AWS_PROFILE=""
+      # OTHER API KEYS
+      UV_PUBLISH_TOKEN = "$(cat ${config.sops.secrets.UV_PUBLISH_TOKEN.path})";
+      HUGGING_FACE_HUB_TOKEN = "$(cat ${config.sops.secrets.HUGGING_FACE_HUB_TOKEN.path})";
+      # export GITHUB_TOKEN=""
 
-    ### MIT
-    CSAIL_USERNAME = "$(cat ${config.sops.secrets.CSAIL_USERNAME.path})";
+      ### AWS
+      # Managed by awscli module, only export profile override if needed
+      # export AWS_PROFILE=""
 
-    ### COOKIECUTTER
-    COOKIECUTTER_CONFIG = "${config.xdg.configHome}/nix-config/assets/gatlen-cookiecutter-config.yaml";
-  };
-}
+      ### MIT
+      CSAIL_USERNAME = "$(cat ${config.sops.secrets.CSAIL_USERNAME.path})";
+
+      ### COOKIECUTTER
+      COOKIECUTTER_CONFIG = "${config.xdg.configHome}/nix-config/assets/gatlen-cookiecutter-config.yaml";
+
+      config = "$EDITOR ~/.config/nix-config";
+      rebuild = "NIXPKGS_ALLOW_UNFREE=1 sudo darwin-rebuild switch --flake ~/.config/nix-config --show-trace --impure";
+      lsr = "eza -T --git-ignore";
+    };
+  }
+]

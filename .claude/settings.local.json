@@ -9,7 +9,9 @@
       "Bash(cat:*)",
       "WebFetch(domain:discourse.nixos.org)",
       "Bash(nix eval:*)",
-      "Bash(nix-locate:*)"
+      "Bash(nix-locate:*)",
+      "Bash(zsh:*)",
+      "Bash(echo:*)"
     ],
     "deny": [],
     "ask": [

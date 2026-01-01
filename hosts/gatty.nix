@@ -14,9 +14,11 @@ let
   secrets = import "/Users/gat/.config/nix-config/secrets/secrets.nix";
   homeManagerConfig = {
     imports = [
+      ### FLAKE MODULES
       sops-nix.homeManagerModules.sops
       nix-gat-vscode.homeManagerModules.vscode
 
+      ### PROGRAM GROUPINGS
       "${self}/home/_accounts"
       "${self}/home/_cli-tools"
       "${self}/home/_cloud"
@@ -28,11 +30,14 @@ let
       "${self}/home/_sql"
       "${self}/home/_tex"
 
+      ### PROGRAMS
+      "${self}/home/aerospace"
       "${self}/home/atuin"
       "${self}/home/claude-code"
       "${self}/home/cold-turkey"
       "${self}/home/desktoppr"
       "${self}/home/discord"
+      "${self}/home/dropbox"
       "${self}/home/fastfetch"
       "${self}/home/firefox"
       "${self}/home/git"
@@ -45,6 +50,7 @@ let
       "${self}/home/mpv"
       "${self}/home/neovide"
       "${self}/home/obsidian"
+      "${self}/home/opencode"
       "${self}/home/rio"
       "${self}/home/ruff"
       "${self}/home/shells"
@@ -54,25 +60,16 @@ let
       "${self}/home/starship"
       "${self}/home/thunderbird"
       "${self}/home/topgrade"
-      # "${self}/home/vscode"
+      "${self}/home/vscode"
       "${self}/home/zed"
       "${self}/home/zellij"
 
-      "${self}/home/applications.nix"
-      "${self}/home/aerospace"
-      "${self}/home/dropbox"
-      "${self}/home/opencode"
+      # "${self}/home/mutability.nix" # Mutability Option Extension
     ];
 
     home = {
       stateVersion = "25.05";
       enableNixpkgsReleaseCheck = false;
-      shellAliases = {
-        config = "$EDITOR ~/.config/nix-config";
-        rebuild = "NIXPKGS_ALLOW_UNFREE=1 sudo darwin-rebuild switch --flake ~/.config/nix-config --show-trace --impure";
-        upgrade = "topgrade";
-        lsr = "eza -T --git-ignore";
-      };
     };
 
     xdg.enable = true;

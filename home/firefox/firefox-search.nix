@@ -113,3 +113,48 @@
     google.metaData.alias = "@g"; # builtin engines only support specifying one additional alias
   };
 }
+
+# Chrome search engine import format (name, shortcut, url):
+# Nix Packages
+# @np
+# https://search.nixos.org?type=packages&query=%s
+#
+# NixOS Wiki
+# @nw
+# https://wiki.nixos.org/w/index.php?search=%s
+#
+# Noogle
+# @noogle
+# https://noogle.dev/q?term=%s
+#
+# MyNixOS
+# @mynixos
+# https://mynixos.com/search?q=%s
+#
+# Nix Home Manager Option Search
+# @hm
+# https://home-manager-options.extranix.com/?query=%s&release=release-25.11
+#
+# YouTube
+# @yt
+# https://www.youtube.com/results?search_query=%s
+#
+# Nixvim Options Search
+# @nv
+# https://nix-community.github.io/nixvim/search/?query=%s
+#
+# Perplexity
+# @p
+# https://www.perplexity.ai/search?q=%s
+#
+# TLDR Pages
+# @tldr
+# https://tldr.inbrowser.app/pages/common/%s
+#
+# Google Maps
+# @maps
+# https://www.google.com/maps/search/?api=1&%s
+#
+# GitHub
+# @gh
+# https://github.com/search?type=repositories&q=%s
