@@ -8,7 +8,7 @@
 }:
 let
   sharedShellInitData = import ./shared-rc.nix {
-    inherit pkgs secrets config;
+    inherit pkgs config;
   };
   sharedShellInit = sharedShellInitData.sharedShellInit;
   zshConfig = import ./zsh.nix { inherit config; };
@@ -24,20 +24,25 @@ lib.mkMerge [
   {
     programs.zsh = {
       # Not recommended to use nushell as a login shell https://wiki.nixos.org/wiki/Nushell
-      initContent = sharedShellInit.text + ''
-        # Only exec nu in interactive shells
-        if [[ -o interactive ]] && [[ "$TERM" != "dumb" ]]; then
-          exec nu
-        fi
-      '';
+      # This extra bit is annoying, recommend setting an initialization command in vscode / ghostty / whatever other terminal instead to switch to nushell
+      initContent = sharedShellInit.text
+      # + ''
+      #   # Only exec nu in interactive shells
+      #   if [[ -o interactive ]] && [[ "$TERM" != "dumb" ]]; then
+      #     exec nu
+      #   fi
+      # ''
+      ;
     };
     programs.bash = {
-      initExtra = sharedShellInit.text + ''
-        # Only exec nu in interactive shells
-        if [[ $- == *i* ]] && [ "$TERM" != "dumb" ]; then
-          exec nu
-        fi
-      '';
+      initExtra = sharedShellInit.text
+      # + ''
+      #   # Only exec nu in interactive shells
+      #   if [[ $- == *i* ]] && [ "$TERM" != "dumb" ]; then
+      #     exec nu
+      #   fi
+      # ''
+      ;
     };
 
     home.sessionVariables = {
@@ -74,8 +79,8 @@ lib.mkMerge [
       ### COOKIECUTTER
       COOKIECUTTER_CONFIG = "${config.xdg.configHome}/nix-config/assets/gatlen-cookiecutter-config.yaml";
 
-      config = "$EDITOR ~/.config/nix-config";
-      rebuild = "NIXPKGS_ALLOW_UNFREE=1 sudo darwin-rebuild switch --flake ~/.config/nix-config --show-trace --impure";
+      edit_config = "$EDITOR ~/.config/nix-config";
+      rebuild = "NIXPKGS_ALLOW_UNFREE=1 sudo darwin-rebuild switch --flake .#gatty ~/.config/nix-config --show-trace --impure";
       lsr = "eza -T --git-ignore";
     };
   }

@@ -18,10 +18,10 @@
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    nur = {
-      url = "github:nix-community/NUR";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+    # nur = {
+    #   url = "github:nix-community/NUR";
+    #   inputs.nixpkgs.follows = "nixpkgs-unstable";
+    # };
     nix-rosetta-builder = {
       url = "github:cpick/nix-rosetta-builder";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -43,7 +43,7 @@
 
     nix-gat-vscode = {
       # url = "github:GatlenCulp/nix-gat-vscode";
-      url = "path:/Users/gat/personal/nix-gat-vscode";
+      url = "git+file:/Users/gat/personal/nix-gat-vscode";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
@@ -74,7 +74,7 @@
         inherit self;
         inherit nix-darwin;
         inherit home-manager;
-        inherit nur;
+        # inherit nur;
         inherit nixvim;
         inherit nvix;
         inherit nix-homebrew;

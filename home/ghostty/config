@@ -35,8 +35,6 @@ font-size = 12
 font-feature = true
 font-family = FiraCode Nerd Font
 
-working-directory = $HOME
-
 # WINDOW
 window-padding-x = 10
 window-padding-y = 10
@@ -44,4 +42,6 @@ window-width = 130
 window-height = 42
 keybind = shift+enter=text:\n
 
-command = "$XDG_CONFIG_HOME/ghostty/startup.sh"
+# MISC
+working-directory = $HOME
+command = "/Users/gat/.config/ghostty/startup.sh"

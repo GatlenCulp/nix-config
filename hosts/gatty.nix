@@ -2,7 +2,7 @@
   self,
   home-manager,
   # nix-vscode-extensions,
-  nur,
+  # nur,
   nixvim,
   nvix,
   nix-homebrew,
@@ -11,6 +11,32 @@
   ...
 }@inputs:
 let
+  nixvim-config = {
+    programs.nixvim = {
+      enable = true;
+      viAlias = true;
+      vimAlias = true;
+      imports = with nvix.nvixPlugins; [
+        ai
+        common
+        lang
+        lsp
+        lualine
+        snacks
+        autosession
+        blink-cmp
+        buffer
+        firenvim
+        git
+        noice
+        precognition
+        smear-cursor
+        tex
+        treesitter
+        ux
+      ];
+    };
+  };
   secrets = import "/Users/gat/.config/nix-config/secrets/secrets.nix";
   homeManagerConfig = {
     imports = [
@@ -39,7 +65,7 @@ let
       "${self}/home/discord"
       "${self}/home/dropbox"
       "${self}/home/fastfetch"
-      "${self}/home/firefox"
+      # "${self}/home/firefox" # re-enable nur packages, takes a while to build.
       "${self}/home/git"
       "${self}/home/ghostty"
       "${self}/home/helix"
@@ -64,6 +90,8 @@ let
       "${self}/home/zed"
       "${self}/home/zellij"
 
+      "${self}/secrets/sops.nix"
+
       # "${self}/home/mutability.nix" # Mutability Option Extension
     ];
 
@@ -73,28 +101,6 @@ let
     };
 
     xdg.enable = true;
-
-    sops = {
-      age.keyFile = "/Users/gat/.config/sops/age/keys-nix-sops.txt";
-      defaultSopsFile = ../secrets/secrets.yaml;
-      # config.sops.secrets.OPENAI_API_KEY.path points to a runtime-generated decrypted file. nix-darwin: Usually /run/secrets-for-users/<username>/OPENAI_API_KEY or similar
-      secrets = {
-        "OPENAI_API_KEY" = { };
-        "ANTHROPIC_API_KEY" = { };
-        "GEMINI_API_KEY" = { };
-        "UV_PUBLISH_TOKEN" = { };
-        "HUGGING_FACE_HUB_TOKEN" = { };
-        "GATLEN_PERSONAL_RUNPOD_API_KEY" = { };
-        "CSAIL_USERNAME" = { };
-
-        # AWS
-        "aws/credentials/default/aws_access_key_id" = { };
-        "aws/credentials/default/aws_secret_access_key" = { };
-        "aws/settings/default/region" = { };
-        # "AWS_PROFILE" = { };
-      };
-
-    };
   };
 in
 {
@@ -130,7 +136,7 @@ in
         overlays = [
           # nix-vscode-extensions.overlays.default
           nix-gat-vscode.overlays.default
-          nur.overlays.default
+          # nur.overlays.default
           # (import "${self}/overlays/open-webui-fix.nix")
         ];
       };
@@ -146,6 +152,8 @@ in
             "root"
             "gat"
           ];
+          # configureBuildUsers = false; # doesn't exist
+          # auto-optimize-store = true; # Doesn't exist oop
         };
       };
 
@@ -182,33 +190,8 @@ in
       modules.desktop.fonts.enable = true;
       home-manager = {
         sharedModules = [
-          nixvim.homeModules.nixvim
-          {
-            programs.nixvim = {
-              enable = true;
-              viAlias = true;
-              vimAlias = true;
-              imports = with nvix.nvixPlugins; [
-                ai
-                common
-                lang
-                lsp
-                lualine
-                snacks
-                autosession
-                blink-cmp
-                buffer
-                firenvim
-                git
-                noice
-                precognition
-                smear-cursor
-                tex
-                treesitter
-                ux
-              ];
-            };
-          }
+          # nixvim.homeModules.nixvim
+          # nixvim-config
         ];
         extraSpecialArgs = {
           inherit self;

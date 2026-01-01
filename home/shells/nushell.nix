@@ -19,6 +19,12 @@
     #   vim = "hx";
     #   nano = "hx";
     # };
+    # zsh -c "your zsh command here"
+    shellAliases = {
+      edit-config = "^($env.EDITOR) ~/.config/nix-config";
+      rebuild = "with-env {NIXPKGS_ALLOW_UNFREE: '1'} { ^sudo darwin-rebuild switch --flake ~/.config/nix-config --show-trace --impure }";
+      lsr = "^eza -T --git-ignore";
+    };
   };
 
   programs.carapace = {

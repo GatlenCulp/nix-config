@@ -13,19 +13,20 @@ This will install nix-darwin if you don't already have it.
 TODO: want to write a blog post on nix and home-manager. Explaining things but also ranting/reviewing. This is nice: https://gvolpe.com/blog/home-manager-dotfiles-management/
 
 ```bash
-nix run nix-darwin -- switch --flake ~/.config/nix-darwin
+sudo nix run nix-darwin -- switch --flake ~/.config/nix-config --impure -j0
 ```
 
 To do a faster install once set up
 
 ```bash
+# Equivalent to sudo darwin-rebuild switch --flake ~/.config/nix-config --impure
 rebuild
 ```
 
 To Upgrade
 
 ```bash
-upgrade
+topgrade
 ```
 
 Partially stolen from Ryan Yin's nix-config
@@ -168,3 +169,9 @@ Good notes on this, also describing issues: https://discourse.nixos.org/t/strate
 - Simple patch: https://gist.github.com/piousdeer/b29c272eaeba398b864da6abf6cb5daa?permalink_comment_id=5027190
 
 - Include option also nice, but not always present.
+
+## Build Stats
+
+`sudo darwin-rebuild switch --flake ~/.config/nix-config --impure`
+- Everything enabled: 1m14s (But goes up to like 2m4s)
+- Disable homebrew: 1m52s (cool did not help, went up to, reran and took, 1m 45s so not much better)

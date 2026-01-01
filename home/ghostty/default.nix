@@ -7,6 +7,7 @@
 
   home.file."./.config/ghostty/startup.sh" = {
     source = ./startup.sh;
+    executable = true;
   };
 
   #  Duplicate

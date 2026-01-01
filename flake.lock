@@ -203,14 +203,17 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1767218183,
-        "narHash": "sha256-/e6/roLoZHeP380MELwn8bpnBSwDMWKYDnqV4vAE0ho=",
-        "path": "/Users/gat/personal/nix-gat-vscode",
-        "type": "path"
+        "lastModified": 1767234668,
+        "narHash": "sha256-xSyyfxl1ru1MRd0WFI0S2q0kK9ufG3HpXqWnT9GhjPc=",
+        "ref": "refs/heads/main",
+        "rev": "b7d91b25f9f89c519ef6604940deff371a9f1e16",
+        "revCount": 8,
+        "type": "git",
+        "url": "file:/Users/gat/personal/nix-gat-vscode"
       },
       "original": {
-        "path": "/Users/gat/personal/nix-gat-vscode",
-        "type": "path"
+        "type": "git",
+        "url": "file:/Users/gat/personal/nix-gat-vscode"
       }
     },
     "nix-homebrew": {
@@ -442,6 +445,22 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1766902085,
+        "narHash": "sha256-coBu0ONtFzlwwVBzmjacUQwj3G+lybcZ1oeNSQkgC0M=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "c0b0e0fddf73fd517c3471e546c0df87a42d53f4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1766125104,
         "narHash": "sha256-l/YGrEpLromL4viUo5GmFH3K5M1j0Mb9O+LiaeCPWEM=",
         "owner": "NixOS",
@@ -479,7 +498,7 @@
     "nixvim_2": {
       "inputs": {
         "flake-parts": "flake-parts_5",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs_3",
         "systems": "systems_3"
       },
       "locked": {
@@ -499,22 +518,19 @@
     "nur": {
       "inputs": {
         "flake-parts": "flake-parts_3",
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ]
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1767215298,
-        "narHash": "sha256-LpL0YtQLCW4NFlNj1XbTa5XnhcJ5HIkH97nlAY2rYWQ=",
+        "lastModified": 1767240878,
+        "narHash": "sha256-sPAF1zX+uvxuljaxiIVUFwoCPN0t43mPdxzrqt4tyOw=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "d1027a0bb4585b13da6391b258271882613b94a6",
+        "rev": "e9c1dad2310ab3c6e5fbfbbdd571b4923b038b93",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
-        "repo": "NUR",
-        "type": "github"
+        "id": "nur",
+        "type": "indirect"
       }
     },
     "nvix": {
