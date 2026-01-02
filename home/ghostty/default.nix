@@ -1,4 +1,6 @@
-# Will fix later :()
+# Will fix later :(
+# Anti home-manager stuff and other ways of linking files: https://ayats.org/blog/no-home-manager
+#
 {
   pkgs,
   config,

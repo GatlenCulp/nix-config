@@ -93,6 +93,7 @@ let
       "${self}/secrets/sops.nix"
 
       "${self}/home/mutability.nix" # Mutability Option Extension
+      "${self}/home/vscode/vscode-mutability.nix" # Mutability Extension for VSCode
     ];
 
     home = {
