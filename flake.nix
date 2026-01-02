@@ -22,10 +22,10 @@
     #   url = "github:nix-community/NUR";
     #   inputs.nixpkgs.follows = "nixpkgs-unstable";
     # };
-    nix-rosetta-builder = {
-      url = "github:cpick/nix-rosetta-builder";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # nix-rosetta-builder = {
+    #   url = "github:cpick/nix-rosetta-builder";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     nix-homebrew = {
       url = "github:zhaofengli/nix-homebrew";
     };

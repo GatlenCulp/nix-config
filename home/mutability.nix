@@ -1,4 +1,7 @@
 # This module extends home.file, xdg.configFile and xdg.dataFile with the `mutable` option.
+# This will overwrite the file in its place but allows you to mess with the config.
+# xdg.configFile is just a shorthand for home.file with the XDG home prefix https://www.reddit.com/r/NixOS/comments/1gh6fh3/xdgconfigfile_vs_homefile_home_manager/
+# To symlink instead config.lib.file.mkOutOfStoreSymlink -- https://www.reddit.com/r/NixOS/comments/u09cz9/home_manager_create_my_own_symlinks_automatically/
 { config, lib, ... }:
 let
   fileOptionAttrPaths = [

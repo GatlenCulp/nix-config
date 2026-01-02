@@ -3,7 +3,7 @@
 
 # Use nushell for shell commands
 # To use this justfile, you need to enter a shell with just & nushell installed:
-# 
+#
 #   nix shell nixpkgs#just nixpkgs#nushell
 set shell := ["nu", "-c"]
 
@@ -157,6 +157,7 @@ darwin-daemon:
   sudo launchctl load /Library/LaunchDaemons/org.nixos.nix-daemon.plist
   sudo launchctl kickstart -k system/org.nixos.nix-daemon
 
+
 [macos]
 [group('desktop')]
 darwin-rollback:
@@ -167,7 +168,7 @@ darwin-rollback:
 # Deploy the darwinConfiguration by hostname match
 [macos]
 [group('desktop')]
-local mode="default": 
+local mode="default":
   #!/usr/bin/env nu
   use {{utils_nu}} *;
   darwin-build (hostname) {{mode}};
@@ -233,7 +234,7 @@ reset-launchpad:
 # [group('homelab')]
 # upload-idols mode="default":
 #   #!/usr/bin/env nu
-#   use {{utils_nu}} *; 
+#   use {{utils_nu}} *;
 #   upload-vm aquamarine {{mode}}
 #   upload-vm ruby {{mode}}
 #   upload-vm kana {{mode}}
@@ -264,21 +265,21 @@ reset-launchpad:
 # [group('homelab')]
 # upload-k3s-prod mode="default":
 #   #!/usr/bin/env nu
-#   use {{utils_nu}} *; 
-#   upload-vm k3s-prod-1-master-1 {{mode}}; 
-#   upload-vm k3s-prod-1-master-2 {{mode}}; 
-#   upload-vm k3s-prod-1-master-3 {{mode}}; 
-#   upload-vm k3s-prod-1-worker-1 {{mode}}; 
-#   upload-vm k3s-prod-1-worker-2 {{mode}}; 
+#   use {{utils_nu}} *;
+#   upload-vm k3s-prod-1-master-1 {{mode}};
+#   upload-vm k3s-prod-1-master-2 {{mode}};
+#   upload-vm k3s-prod-1-master-3 {{mode}};
+#   upload-vm k3s-prod-1-worker-1 {{mode}};
+#   upload-vm k3s-prod-1-worker-2 {{mode}};
 #   upload-vm k3s-prod-1-worker-3 {{mode}};
 
 # [linux]
 # [group('homelab')]
 # upload-k3s-test mode="default":
 #   #!/usr/bin/env nu
-#   use {{utils_nu}} *; 
-#   upload-vm k3s-test-1-master-1 {{mode}}; 
-#   upload-vm k3s-test-1-master-2 {{mode}}; 
+#   use {{utils_nu}} *;
+#   upload-vm k3s-test-1-master-1 {{mode}};
+#   upload-vm k3s-test-1-master-2 {{mode}};
 #   upload-vm k3s-test-1-master-3 {{mode}};
 
 # [linux]

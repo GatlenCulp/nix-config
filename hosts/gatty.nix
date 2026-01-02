@@ -92,7 +92,7 @@ let
 
       "${self}/secrets/sops.nix"
 
-      # "${self}/home/mutability.nix" # Mutability Option Extension
+      "${self}/home/mutability.nix" # Mutability Option Extension
     ];
 
     home = {
@@ -156,6 +156,7 @@ in
           # auto-optimize-store = true; # Doesn't exist oop
         };
       };
+      services.nix-daemon.enableSocketListener = true;
 
       environment = {
         pathsToLink = [
@@ -190,8 +191,8 @@ in
       modules.desktop.fonts.enable = true;
       home-manager = {
         sharedModules = [
-          # nixvim.homeModules.nixvim
-          # nixvim-config
+          nixvim.homeModules.nixvim
+          nixvim-config
         ];
         extraSpecialArgs = {
           inherit self;

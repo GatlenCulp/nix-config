@@ -159,20 +159,40 @@
         ];
       };
 
-      # Doesn't work :/
       on-window-detected = [
+        # Doesn't work :/
         {
           "if" = {
             app-id = "pl.maketheweb.cleanshotx";
           };
           run = [ "layout floating" ];
         }
+        # Doesn't work :/
         {
           "if" = {
             # app-name-regex-su = "Firefox";
             window-title-regex-substring = "Picture-in-Picture";
           };
           "run" = [ "layout floating" ];
+        }
+        {
+          "if" = {
+            # app-name-regex-su = "Firefox";
+            app-id = "com.mitchellh.ghostty";
+          };
+          "run" = [ "move-node-to-workspace t" ]; # terminal workspace
+        }
+        {
+          "if" = {
+            app-id = "com.mitchellh.ghostty";
+          };
+          "run" = [ "move-node-to-workspace t" ]; # terminal workspace
+        }
+        {
+          "if" = {
+            app-id = "com.spotify.client";
+          };
+          "run" = [ "move-node-to-workspace q" ]; # home workspace
         }
       ];
     };

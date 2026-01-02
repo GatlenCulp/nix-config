@@ -11,7 +11,8 @@
       "Bash(nix eval:*)",
       "Bash(nix-locate:*)",
       "Bash(zsh:*)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Bash(readlink:*)"
     ],
     "deny": [],
     "ask": [

@@ -1,13 +1,29 @@
 # Will fix later :()
-{ pkgs, ... }:
+{
+  pkgs,
+  config,
+  self,
+  ...
+}:
+let
+  # kinda ugly, maybe fix later
+  flakeDir = "${config.home.homeDirectory}/.config/nix-config";
+in
 {
   home.file."./.config/ghostty/config" = {
     source = ./config;
+    mutable = true;
+    force = true;
   };
 
   home.file."./.config/ghostty/startup.sh" = {
     source = ./startup.sh;
     executable = true;
+  };
+
+  home.file."./.config/ghostty/test-file.txt" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${flakeDir}/home/ghostty/test-file.txt";
+
   };
 
   #  Duplicate

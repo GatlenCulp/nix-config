@@ -1,5 +1,6 @@
 # nix-darwin
 
+TODO: Assign macos terminal to use fira code nerd font
 TODO: Try embedded languages with nvim otter.
 
 To fix spotlight not getting nix apps or docks disappearing or privacy apps -- https://github.com/hraban/mac-app-util
@@ -72,6 +73,7 @@ Age is sort-of a modern version of mixhttps://github.com/FiloSottile/age/discuss
 - Firefox: Disable all autofill for firefox
 - [Privacy & Security] Give VSCode and Ghostty access to modify apps on my mac
 - [VSCode] Prevent the stupid settings update every single time.
+- Make a [claude.md](http://claude.md) and claude settings for projects
 
 ## Claude-Code Specific TODOs
 
