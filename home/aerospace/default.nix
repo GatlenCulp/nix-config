@@ -198,7 +198,8 @@
     };
   };
 
-  home.file.".config/aerospace/pip-move.sh" = {
+  # home.file.".config/aerospace/pip-move.sh" = {
+  xdg.configFile."aerospace/pip-move.sh" = {
     source = ./pip-move.sh;
     executable = true;
   };

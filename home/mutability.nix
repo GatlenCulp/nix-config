@@ -23,7 +23,8 @@ in
   options =
     let
 
-      mergeAttrsList = builtins.foldl' (lib.mergeAttrs) { };
+      # mergeAttrsList = builtins.foldl' (lib.mergeAttrs) { };
+      mergeAttrsList = builtins.foldl' (lib.recursiveUpdate) { };
 
       fileAttrsType = lib.types.attrsOf (
         lib.types.submodule (

@@ -61,6 +61,7 @@
       "notion-mail"
       "cleanshot"
       "notunes"
+      "transmission" # Torrent
 
       # ━━━━━━━━━━━━━━━━━━━━━━━ Security & Terminals ━━━━━━━━━━━━━━━━━━━━━━━
       # "burp-suite" # Don't need rn

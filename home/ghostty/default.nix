@@ -12,18 +12,21 @@ let
   flakeDir = "${config.home.homeDirectory}/.config/nix-config";
 in
 {
-  home.file."./.config/ghostty/config" = {
+  # home.file."./.config/ghostty/config" = {
+  xdg.configFile."ghostty/config" = {
     source = ./config;
     mutable = true;
     force = true;
   };
 
-  home.file."./.config/ghostty/startup.sh" = {
+  # home.file."./.config/ghostty/startup.sh" = {
+  xdg.configFile."ghostty/startup.sh" = {
     source = ./startup.sh;
     executable = true;
   };
 
-  home.file."./.config/ghostty/test-file.txt" = {
+  # home.file."./.config/ghostty/test-file.txt" = {
+  xdg.configFile."ghostty/test-file.txt" = {
     source = config.lib.file.mkOutOfStoreSymlink "${flakeDir}/home/ghostty/test-file.txt";
 
   };

@@ -2,7 +2,10 @@
 
 {
   # Copy wallpaper to home directory first
-  home.file.".config/wallpapers/cyberpunk.jpg".source = ./wallpaper-cyberpunk.jpg;
+  # home.file.".config/wallpapers/cyberpunk.jpg".
+  xdg.configFile."wallpapers/cyberpunk.jpg" = {
+    source = ./wallpaper-cyberpunk.jpg;
+  };
 
   programs.desktoppr = {
     enable = true;

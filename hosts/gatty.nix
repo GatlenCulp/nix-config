@@ -40,6 +40,9 @@ let
   secrets = import "/Users/gat/.config/nix-config/secrets/secrets.nix";
   homeManagerConfig = {
     imports = [
+      "${self}/home/mutability.nix" # Mutability Option Extension
+      "${self}/home/vscode/vscode-mutability.nix" # Mutability Extension for VSCode
+
       ### FLAKE MODULES
       sops-nix.homeManagerModules.sops
       nix-gat-vscode.homeManagerModules.vscode
@@ -64,6 +67,7 @@ let
       "${self}/home/desktoppr"
       "${self}/home/discord"
       "${self}/home/dropbox"
+      "${self}/home/duti"
       "${self}/home/fastfetch"
       # "${self}/home/firefox" # re-enable nur packages, takes a while to build.
       "${self}/home/git"
@@ -91,9 +95,6 @@ let
       "${self}/home/zellij"
 
       "${self}/secrets/sops.nix"
-
-      "${self}/home/mutability.nix" # Mutability Option Extension
-      "${self}/home/vscode/vscode-mutability.nix" # Mutability Extension for VSCode
     ];
 
     home = {
@@ -157,6 +158,8 @@ in
           # auto-optimize-store = true; # Doesn't exist oop
         };
       };
+
+      # services.nix-daemon.enable = true;
       services.nix-daemon.enableSocketListener = true;
 
       environment = {
@@ -178,6 +181,18 @@ in
       #       KeepAlive = false;
       #       RunAtLoad = true;
       #     };
+      #   };
+      # };
+
+      # Not working. Freezes rebuild... or maybe not?? :/
+      # launchd.daemons.nix-daemon = {
+      #   serviceConfig = {
+      #     Label = "org.nixos.nix-daemon";
+      #     ProgramArguments = [
+      #       "/nix/var/nix/profiles/default/bin/nix-daemon"
+      #     ];
+      #     RunAtLoad = true;
+      #     KeepAlive = true;
       #   };
       # };
 

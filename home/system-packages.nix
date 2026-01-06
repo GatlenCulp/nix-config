@@ -122,6 +122,7 @@ let
       curlie # curl with httpie
       httpie
       wget
+      transmission_4 # Only the CLI
     ];
 
     nix = [
@@ -215,7 +216,7 @@ let
     ];
 
     darwin = [
-      duti
+      # duti
     ];
 
     # Unsupported on darwin (future)

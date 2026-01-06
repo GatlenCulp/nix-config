@@ -5,14 +5,20 @@
 # Unlike using the `mutable` home.file option, this approach doesn't conflict
 # with the VS Code module's file definitions since we just run an activation
 # script after linkGeneration.
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   cfg = config.programs.vscode.profiles.default;
   configDir = "Code";
-  userDir = if pkgs.stdenv.hostPlatform.isDarwin then
-    "Library/Application Support/${configDir}/User"
-  else
-    "${config.xdg.configHome}/${configDir}/User";
+  userDir =
+    if pkgs.stdenv.hostPlatform.isDarwin then
+      "Library/Application Support/${configDir}/User"
+    else
+      "${config.xdg.configHome}/${configDir}/User";
 
   # List of files to make mutable
   filesToMakeMutable = lib.flatten [
@@ -36,6 +42,22 @@ let
   '';
 in
 {
+  # May need clean up script to remove backup file or enable
+  # home.activation.vscodeFileMutability = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+  #   echo "Making VS Code config files mutable..."
+  #   ${lib.concatMapStrings makeFileMutable filesToMakeMutable}
+  # '';
+
+  # Remove old VSCode config before checkLinkTargets runs
+  home.activation."clearVSCodeConfig" = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
+    echo "=== RUNNING clearVSCodeConfig ==="
+    rm -f "/Users/gat/Library/Application Support/Code/User/keybindings.json"
+    rm -f "/Users/gat/Library/Application Support/Code/User/keybindings.json.backup"
+    rm -f "/Users/gat/Library/Application Support/Code/User/settings.json"
+    rm -f "/Users/gat/Library/Application Support/Code/User/settings.json.backup"
+    echo "=== DONE clearVSCodeConfig ==="
+  '';
+
   home.activation.vscodeFileMutability = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
     echo "Making VS Code config files mutable..."
     ${lib.concatMapStrings makeFileMutable filesToMakeMutable}
