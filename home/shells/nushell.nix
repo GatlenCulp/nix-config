@@ -1,6 +1,9 @@
 # In part from https://wiki.nixos.org/wiki/Nushell
 { lib, pkgs, ... }:
 {
+  home.packages = [
+    pkgs.nufmt
+  ];
   programs.nushell = {
     enable = true;
     configFile.source = ./config.nu;
@@ -25,6 +28,9 @@
       rebuild = "with-env {NIXPKGS_ALLOW_UNFREE: '1'} { ^sudo darwin-rebuild switch --flake ~/.config/nix-config --show-trace --impure }";
       lsr = "^eza -T --git-ignore";
     };
+    plugins = [
+      pkgs.nushellPlugins.polars
+    ];
   };
 
   programs.carapace = {

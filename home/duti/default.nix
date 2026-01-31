@@ -3,9 +3,10 @@ let
   # Declarative file association mappings: bundleId -> [extensions]
   associations = {
     "com.adobe.Acrobat.Pro" = [ "pdf" ];
+    "io.mpv" = [ "mp4" "mkv" ];
     "com.microsoft.VSCode" = [
       "json"
-      "html"
+      # "html"
       "css"
       "py"
       "nix"

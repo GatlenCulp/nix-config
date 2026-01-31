@@ -58,7 +58,7 @@ in
     echo "=== DONE clearVSCodeConfig ==="
   '';
 
-  home.activation.vscodeFileMutability = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+  home.activation.vscodeFileMutability = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     echo "Making VS Code config files mutable..."
     ${lib.concatMapStrings makeFileMutable filesToMakeMutable}
   '';

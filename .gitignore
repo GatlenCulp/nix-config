@@ -5,6 +5,8 @@ secrets/secrets.nix
 devenv.local.nix
 devenv.local.yaml
 
+ignore/
+
 # direnv
 .direnv
 

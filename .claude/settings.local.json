@@ -12,7 +12,13 @@
       "Bash(nix-locate:*)",
       "Bash(zsh:*)",
       "Bash(echo:*)",
-      "Bash(readlink:*)"
+      "Bash(readlink:*)",
+      "Bash(sudo darwin-rebuild:*)",
+      "Bash(chmod:*)",
+      "Bash(darwin-rebuild build:*)",
+      "Bash(nix-store -q:*)",
+      "Bash(nix profile list:*)",
+      "Bash(nix-env -qa:*)"
     ],
     "deny": [],
     "ask": [

@@ -16,7 +16,6 @@
     ];
 
     brews =
-
       [
         "clipboard"
         "mayowa-ojo/tap/chmod-cli"
@@ -37,13 +36,15 @@
       # ━━━━━━━━━━━━━━━━━━━━━━━━ Communication ━━━━━━━━━━━━━━━━━━━━━━━━
       "signal"
       "whatsapp"
+      "discord" # Screenshare only works via brew.
       # ━━━━━━━━━━━━━━━━━━━━━━━━ Media & Creative ━━━━━━━━━━━━━━━━━━━━━━━━
       "adobe-creative-cloud"
       "clipgrab"
-      # "loom" # I don't think I need anymore
+      "loom" # For contracting
       "obs"
       "vlc"
       "cold-turkey-blocker"
+      "jellyfin-media-player"
 
       # ━━━━━━━━━━━━━━━━━━━━━━━ Productivity & Utilities ━━━━━━━━━━━━━━━━━━━━━━━
       # "applite" # I don't need this anymore for homebrew
@@ -62,6 +63,8 @@
       "cleanshot"
       "notunes"
       "transmission" # Torrent
+      "nordvpn"
+      "tailscale-app"
 
       # ━━━━━━━━━━━━━━━━━━━━━━━ Security & Terminals ━━━━━━━━━━━━━━━━━━━━━━━
       # "burp-suite" # Don't need rn

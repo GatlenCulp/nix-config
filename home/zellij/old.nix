@@ -9,7 +9,7 @@ in
   home.shellAliases = shellAliases;
   programs.nushell.shellAliases = shellAliases;
 
-  programs.tmux.enable = false;
+  # programs.tmux.enable = true;
 
   xdg.configFile."zellij/config.kdl".source = ./config.kdl;
 

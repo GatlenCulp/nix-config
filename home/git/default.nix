@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ pkgs, config, lib, ... }:
 {
 
   # `programs.git` will generate the config file: ~/.config/git/config
@@ -8,6 +8,19 @@
   home.activation.removeExistingGitconfig = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
     rm -f ${config.home.homeDirectory}/.gitconfig
   '';
+
+  home.packages = with pkgs; [
+      bfg-repo-cleaner
+      check-jsonschema
+      commitizen
+      # cz-cli
+      dvc-with-remotes
+      git-credential-manager
+      git-filter-repo
+      git-lfs
+      gitkraken
+      gitleaks
+  ];
 
   # Development Tools
   programs.git = {

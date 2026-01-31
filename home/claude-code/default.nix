@@ -23,6 +23,7 @@ let
         "ghcr.io/github/github-mcp-server"
       ];
       env = {
+        # TODO
         "GITHUB_PERSONAL_ACCESS_TOKEN" = "<YOUR_TOKEN>";
       };
     };

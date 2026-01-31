@@ -15,12 +15,14 @@ let
   bashConfig = import ./bash.nix;
   fishConfig = import ./fish.nix;
   nushellConfig = import ./nushell.nix { inherit lib pkgs; };
+  xonshConfig = import ./xonsh.nix { inherit pkgs; };
 in
 lib.mkMerge [
   zshConfig
   bashConfig
   fishConfig
   nushellConfig
+  xonshConfig
   {
     programs.zsh = {
       # Not recommended to use nushell as a login shell https://wiki.nixos.org/wiki/Nushell
@@ -44,6 +46,13 @@ lib.mkMerge [
       # ''
       ;
     };
+
+    home.packages = with pkgs; [
+      bashate
+      powershell
+      shellcheck
+      shfmt
+    ];
 
     home.sessionVariables = {
       # Locale settings (must be set early)

@@ -8,7 +8,7 @@ in
   home.shellAliases = shellAliases;
   programs.nushell.shellAliases = shellAliases;
 
-  programs.tmux.enable = false;
+  programs.tmux.enable = true; # Some scripts use tmux since more popular.
 
   programs.zellij = {
     enable = true;

@@ -19,9 +19,10 @@
         # "-c"
         # "sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
 
-        "/bin/bash"
-        "-c"
-        "~/.config/aerospace/pip-move.sh"
+        # Does not work :/
+        # "/bin/bash"
+        # "-c"
+        # "~/.config/aerospace/pip-move.sh"
       ];
       after-login-command = [ ];
       # after-startup-command = [ ];
@@ -95,13 +96,18 @@
         alt-shift-4 = "move-node-to-workspace 4";
         alt-shift-r = "move-node-to-workspace r";
         alt-5 = "workspace 5";
-        alt-t = "workspace t";
         alt-shift-5 = "move-node-to-workspace 5";
-        alt-shift-t = "move-node-to-workspace t";
         alt-6 = "workspace 6";
         alt-y = "workspace y";
         alt-shift-6 = "move-node-to-workspace 6";
         alt-shift-y = "move-node-to-workspace y";
+        # Persistent Terminal Workspace
+        alt-t = "workspace t";
+        alt-shift-t = "move-node-to-workspace t";
+        # Floating workspace
+        alt-f = "worksapce f";
+        alt-shift-f = "move-node-to-workspace f";
+
         # alt-7 = "workspace 7";
         # alt-u = "workspace u";
         # alt-shift-7 = "move-node-to-workspace 7";
@@ -159,6 +165,7 @@
         ];
       };
 
+      # `aerospace list-apps`
       on-window-detected = [
         # Doesn't work :/
         {
@@ -177,10 +184,9 @@
         }
         {
           "if" = {
-            # app-name-regex-su = "Firefox";
-            app-id = "com.mitchellh.ghostty";
+            app-id = "com.apple.finder";
           };
-          "run" = [ "move-node-to-workspace t" ]; # terminal workspace
+          "run" = [ "layout floating" ];
         }
         {
           "if" = {
@@ -194,6 +200,24 @@
           };
           "run" = [ "move-node-to-workspace q" ]; # home workspace
         }
+        {
+          "if" = {
+            app-id = "com.cron.electron";
+          };
+          "run" = [ "move-node-to-workspace q" ]; # home workspace
+        }
+        {
+          "if" = {
+            workspace = "q";
+          };
+          "run" = [ "layout accordion" ]; # home workspace in accordion style
+        }
+        # {
+        #   "if" = {
+        #     workspace = "f";
+        #   };
+        #   "run" = [ "layout floating" ]; # floating workspace as neeeded
+        # }
       ];
     };
   };

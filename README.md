@@ -24,12 +24,6 @@ To do a faster install once set up
 rebuild
 ```
 
-To Upgrade
-
-```bash
-topgrade
-```
-
 Partially stolen from Ryan Yin's nix-config
 
 ## Collect Garbage
@@ -177,3 +171,14 @@ Good notes on this, also describing issues: https://discourse.nixos.org/t/strate
 `sudo darwin-rebuild switch --flake ~/.config/nix-config --impure`
 - Everything enabled: 1m14s (But goes up to like 2m4s)
 - Disable homebrew: 1m52s (cool did not help, went up to, reran and took, 1m 45s so not much better)
+
+
+```bash
+uv tool install --python 3.13 "hawk[cli,inspect] @ git+https://github.com/METR/inspect-action"
+```
+
+
+### Docs to Index in Cursor
+- https://inspect.aisi.org.uk/
+uv python install 3.12 --default
+'https://apps.apple.com/us/app/xcode/id497799835?mt=12' -- xcode

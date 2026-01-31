@@ -28,7 +28,6 @@ in
   # home.file."./.config/ghostty/test-file.txt" = {
   xdg.configFile."ghostty/test-file.txt" = {
     source = config.lib.file.mkOutOfStoreSymlink "${flakeDir}/home/ghostty/test-file.txt";
-
   };
 
   #  Duplicate

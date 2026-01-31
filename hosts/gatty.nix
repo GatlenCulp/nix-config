@@ -53,6 +53,7 @@ let
       "${self}/home/_cloud"
       "${self}/home/_encryption"
       "${self}/home/_go"
+      "${self}/home/_java"
       "${self}/home/_js"
       "${self}/home/_nix"
       "${self}/home/_python"
@@ -74,6 +75,7 @@ let
       "${self}/home/ghostty"
       "${self}/home/helix"
       "${self}/home/jankyborders"
+      "${self}/home/jellyfin"
       "${self}/home/jq"
       "${self}/home/less"
       "${self}/home/mise"
@@ -158,8 +160,6 @@ in
           # auto-optimize-store = true; # Doesn't exist oop
         };
       };
-
-      # services.nix-daemon.enable = true;
       services.nix-daemon.enableSocketListener = true;
 
       environment = {

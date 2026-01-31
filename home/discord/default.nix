@@ -1,5 +1,5 @@
 {
   programs.discord = {
-    enable = true;
+    enable = false; # Works better when brew installed
   };
 }

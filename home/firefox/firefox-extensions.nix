@@ -33,6 +33,13 @@
       "ublock-unbreak"
       "ublock-quick-fixes"
     ];
+    # May enable far more in the future. EasyList, EasyPrivacy, etc.
+    # - Apparently Dan Pollock's host file is pretty nuclear.
+    # - Steven Black's is apparently pretty good.
+    # - Malware domain list -- https://github.com/romainmarcoux/malicious-domains
+    # - Spam404 and more.
+
+    # Pie is good for YouTube but not much else.
   };
 
 }

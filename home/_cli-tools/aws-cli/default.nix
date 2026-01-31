@@ -1,52 +1,49 @@
-# TODO: Fix later. AWS doesn't really work :/
-# { config, lib, ... }:
-# let
-#   # Read secrets from sops runtime paths
-#   readSecret = secretName: lib.removeSuffix "\n" (builtins.readFile config.sops.secrets.${secretName}.path);
-# in
-# {
-#   home.file.".test-output".source = ''
-#     AWS Credentials:
-
-#     ${config.sops.secrets."aws/credentials/default/aws_access_key_id".path}
-
-#     ${readSecret "aws/credentials/default/aws_access_key_id"}
-#   '';
-#   programs.awscli = {
-#     enable = true;
-
-#     # settings = {
-#     #   default = {
-#     #     region = readSecret "aws/settings/default/region";
-#     #     output = "json";
-#     #   };
-#     # };
-
-#     # credentials = {
-#     #   default = {
-#     #     aws_access_key_id = readSecret "aws/credentials/default/aws_access_key_id";
-#     #     aws_secret_access_key = readSecret "aws/credentials/default/aws_secret_access_key";
-#     #   };
-#     # };
-#   };
-# }
-{ config, lib, ... }:
-# In your home.nix or darwin flake
 {
-  # Use activation script to render after secrets are available
-  home.activation.writeAwsCredentials = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    cat > $HOME/.aws/credentials << EOF
-    [default]
-    aws_access_key_id = $(cat $HOME/.config/sops-nix/secrets/aws/credentials/default/aws_access_key_id)
-    aws_secret_access_key = $(cat $HOME/.config/sops-nix/secrets/aws/credentials/default/aws_secret_access_key)
-    EOF
-  '';
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+{
+  # # Configure sops to decrypt AWS files (INI format with inline encryption)
+  # # Extract the individual secrets from the INI files
+  # sops.secrets."aws-credentials/default/aws_access_key_id" = {
+  #   sopsFile = ../../../secrets/aws-credentials.ini;
+  #   format = "ini";
+  # };
 
-  home.file.".aws/config".text = ''
-    [default]
-    region = $(cat $HOME/.config/sops-nix/secrets/aws/settings/default/region)
-    output = json
-  '';
+  # sops.secrets."aws-credentials/default/aws_secret_access_key" = {
+  #   sopsFile = ../../../secrets/aws-credentials.ini;
+  #   format = "ini";
+  # };
 
+  # sops.secrets."aws-config/default/region" = {
+  #   sopsFile = ../../../secrets/aws-config.ini;
+  #   format = "ini";
+  # };
+
+  # # Use templates to reconstruct the INI files from individual secrets
+  # sops.templates."aws-credentials" = {
+  #   content = ''
+  #     [default]
+  #     aws_access_key_id = ${config.sops.placeholder."aws-credentials/default/aws_access_key_id"}
+  #     aws_secret_access_key = ${config.sops.placeholder."aws-credentials/default/aws_secret_access_key"}
+  #   '';
+  #   path = "${config.home.homeDirectory}/.aws/credentials";
+  #   mode = "0600";
+  # };
+
+  # sops.templates."aws-config" = {
+  #   content = ''
+  #     [default]
+  #     region = ${config.sops.placeholder."aws-config/default/region"}
+  #     output = json
+  #   '';
+  #   path = "${config.home.homeDirectory}/.aws/config";
+  #   mode = "0600";
+  # };
+
+  # Enable AWS CLI
   programs.awscli.enable = true;
+  # I'll just manually do the config for now.
 }
