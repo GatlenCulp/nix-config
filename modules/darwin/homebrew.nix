@@ -33,6 +33,9 @@
       "postman"
       "anythingllm"
 
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━ Browsers ━━━━━━━━━━━━━━━━━━━━━━━━━━
+      "google-chrome"
+
       # ━━━━━━━━━━━━━━━━━━━━━━━━ Communication ━━━━━━━━━━━━━━━━━━━━━━━━
       "signal"
       "whatsapp"
@@ -45,11 +48,13 @@
       "vlc"
       "cold-turkey-blocker"
       "jellyfin-media-player"
+      "canva"
 
       # ━━━━━━━━━━━━━━━━━━━━━━━ Productivity & Utilities ━━━━━━━━━━━━━━━━━━━━━━━
       # "applite" # I don't need this anymore for homebrew
       "flux-app"
       "bartender"
+      "betterdisplay"
       "spotify" # For some reason, the nixpkgs version is breaking
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━ Office & Knowledge ━━━━━━━━━━━━━━━━━━━━━━━━
@@ -81,9 +86,15 @@
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ AI ━━━━━━━━━━━━━━━━━━━━━━━━━━━
       "claude"
+      "codex"
+      "chatgpt"
+      "openclaw"
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Fonts ━━━━━━━━━━━━━━━━━━━━━━━━━━━
       "font-nova-round"
+
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ TeX ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      "mactex"
     ];
 
     masApps = {

@@ -3,4 +3,5 @@
 # When I startup Ghostty, I typically want a specific configuration.
 
 # Use nushell
-zsh -l -c nu
+# zsh -l -c 'nu'
+zsh -l -c 'zellij'

@@ -13,7 +13,8 @@
       nix-output-monitor
 
       # Formatting
-      nixfmt-rfc-style # Alejandra is an alternative, but this is fine tbh https://github.com/kamadorueda/alejandra
+      nixfmt
+      # nixfmt-rfc-style # Alejandra is an alternative, but this is fine tbh https://github.com/kamadorueda/alejandra
       cabal-install # haskell but needed for nixfmt sometimes
       nixfmt-tree # only for nix formatting recursively
       # treefmt # all-in-one formatter using a nix setup

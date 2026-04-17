@@ -11,6 +11,7 @@ let
       "py"
       "nix"
       "csv"
+      "md"
     ];
     "pl.maketheweb.cleanshotx" = [
       "jpg"

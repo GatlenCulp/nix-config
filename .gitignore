@@ -1,5 +1,7 @@
-secrets.nix
-secrets/secrets.nix
+# Secrets
+secrets/*
+!secrets/sops.nix
+
 # Devenv
 .devenv*
 devenv.local.nix

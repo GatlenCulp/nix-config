@@ -1,6 +1,8 @@
 # https://wiki.nixos.org/wiki/Jellyfin
+# Nix version of Jellyfin -- https://kiriwalawren.github.io/nixflix/
 { pkgs, ... }:
 {
+  
   home.packages = [
     # Client
     # pkgs.jellyfin-media-player # Not available on my system
@@ -8,6 +10,7 @@
     pkgs.jellyfin
     pkgs.jellyfin-web
     pkgs.jellyfin-ffmpeg
+    pkgs.caddy
   ];
 
   # Server

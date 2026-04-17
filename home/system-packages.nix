@@ -6,7 +6,7 @@ let
   profiles = {
     browsers = [
       brave
-      google-chrome
+      # google-chrome — marked insecure in nixpkgs (updater broken), installed via homebrew cask instead
       tor
     ];
 
@@ -58,7 +58,7 @@ let
     ];
 
     editors = [
-      code-cursor
+      # code-cursor
       # lunarvim
       warp-terminal
       # windsurf

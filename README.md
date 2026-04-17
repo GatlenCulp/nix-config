@@ -3,15 +3,11 @@
 TODO: Assign macos terminal to use fira code nerd font
 TODO: Try embedded languages with nvim otter.
 
-To fix spotlight not getting nix apps or docks disappearing or privacy apps -- https://github.com/hraban/mac-app-util
-
-Duti -- can use raycast to find bundle ids
-
-duti -s com.adobe.Acrobat.Pro pdf all
+To fix spotlight not getting nix apps or docks disappearing or privacy apps -- <https://github.com/hraban/mac-app-util>
 
 This will install nix-darwin if you don't already have it.
 
-TODO: want to write a blog post on nix and home-manager. Explaining things but also ranting/reviewing. This is nice: https://gvolpe.com/blog/home-manager-dotfiles-management/
+TODO: want to write a blog post on nix and home-manager. Explaining things but also ranting/reviewing. This is nice: <https://gvolpe.com/blog/home-manager-dotfiles-management/>
 
 ```bash
 sudo nix run nix-darwin -- switch --flake ~/.config/nix-config --impure -j0
@@ -40,13 +36,13 @@ Age is sort-of a modern version of mixhttps://github.com/FiloSottile/age/discuss
 - Set macos theme, currently just set dark and orange manually
 - Install Rosetta
 - Bartender settings or smthn (not possible, instead use sketchy bar but that's currently not working)
-- Look into https://github.com/nix-community/nix-init#configuration
+- Look into <https://github.com/nix-community/nix-init#configuration>
 - Fix thunderbird setup. Keeps asking for password on my accounts
-- use git-hooks to manage quality of this repo https://github.com/cachix/git-hooks.nix
+- use git-hooks to manage quality of this repo <https://github.com/cachix/git-hooks.nix>
 - Clone another one of those nixos configuration setups, in particular the NixOS VM on mac one.
 - TODO: Also put this into some kind of better template
-- TODO: Make declarative dock https://github.com/dustinlyons/nixos-config/blob/8a14e1f0da074b3f9060e8c822164d922bfeec29/modules/darwin/home-manager.nix#L74
-- TODO: Understand https://github.com/cpick/nix-rosetta-builder
+- TODO: Make declarative dock <https://github.com/dustinlyons/nixos-config/blob/8a14e1f0da074b3f9060e8c822164d922bfeec29/modules/darwin/home-manager.nix#L74>
+- TODO: Understand <https://github.com/cpick/nix-rosetta-builder>
 - TODO: Find material icons nerd font for eza and such.
 - TODO: Eventually make pure (using references to my assets dir)
 - TODO: learn how to manage ssh keys in nix
@@ -68,10 +64,11 @@ Age is sort-of a modern version of mixhttps://github.com/FiloSottile/age/discuss
 - [Privacy & Security] Give VSCode and Ghostty access to modify apps on my mac
 - [VSCode] Prevent the stupid settings update every single time.
 - Make a [claude.md](http://claude.md) and claude settings for projects
+- Add color highlight for vscode(?)
 
 ## Claude-Code Specific TODOs
 
-check out https://claudelog.com/configuration/
+check out <https://claudelog.com/configuration/>
 
 Add claude code to vscode extensions
 
@@ -83,54 +80,54 @@ TODO: claude code plugins?
 
 TODO: Configure an askpass??
 
-https://github.com/hesreallyhim/awesome-claude-code
+<https://github.com/hesreallyhim/awesome-claude-code>
 
-TODO: look into https://github.com/dyoshikawa/rulesync
+TODO: look into <https://github.com/dyoshikawa/rulesync>
 
-https://github.com/NeoLabHQ/context-engineering-kit
+<https://github.com/NeoLabHQ/context-engineering-kit>
 
-https://github.com/Haleclipse/CCometixLine
+<https://github.com/Haleclipse/CCometixLine>
 
-https://github.com/diet103/claude-code-infrastructure-showcase/tree/main
+<https://github.com/diet103/claude-code-infrastructure-showcase/tree/main>
 
-https://github.com/disler/just-prompt/tree/main/.claude/commands
+<https://github.com/disler/just-prompt/tree/main/.claude/commands>
 
-https://github.com/GWUDCAP/cc-sessions
+<https://github.com/GWUDCAP/cc-sessions>
 
-https://github.com/davila7/claude-code-templates
+<https://github.com/davila7/claude-code-templates>
 
 SUPER COOL:
-https://github.com/SuperClaude-Org/SuperClaude_Framework
+<https://github.com/SuperClaude-Org/SuperClaude_Framework>
 
-https://github.com/Maciek-roboblog/Claude-Code-Usage-Monitor
+<https://github.com/Maciek-roboblog/Claude-Code-Usage-Monitor>
 
-https://github.com/ruvnet/claude-code-flow
+<https://github.com/ruvnet/claude-code-flow>
 
 (so many more orchestrators)
 
-https://github.com/sirmalloc/ccstatusline
+<https://github.com/sirmalloc/ccstatusline>
 
-https://github.com/nizos/tdd-guard
+<https://github.com/nizos/tdd-guard>
 
-https://github.com/evmts/tevm-monorepo/blob/main/.claude/commands/commit.md
+<https://github.com/evmts/tevm-monorepo/blob/main/.claude/commands/commit.md>
 
-https://github.com/liam-hq/liam/blob/main/.claude/commands/create-pull-request.md
+<https://github.com/liam-hq/liam/blob/main/.claude/commands/create-pull-request.md>
 
-https://github.com/metabase/metabase/blob/master/.claude/commands/fix-issue.md
+<https://github.com/metabase/metabase/blob/master/.claude/commands/fix-issue.md>
 
-https://github.com/metabase/metabase/blob/master/.claude/commands/fix-pr.md
+<https://github.com/metabase/metabase/blob/master/.claude/commands/fix-pr.md>
 
-https://github.com/scopecraft/command/blob/main/.claude/commands/create-command.md
+<https://github.com/scopecraft/command/blob/main/.claude/commands/create-command.md>
 
-https://github.com/spylang/spy/blob/main/CLAUDE.md
+<https://github.com/spylang/spy/blob/main/CLAUDE.md>
 
-https://github.com/badass-courses/course-builder/blob/main/CLAUDE.md
+<https://github.com/badass-courses/course-builder/blob/main/CLAUDE.md>
 
-https://github.com/eastlondoner/cursor-tools/blob/main/CLAUDE.md
+<https://github.com/eastlondoner/cursor-tools/blob/main/CLAUDE.md>
 
-https://github.com/soramimi/Guitar/blob/master/CLAUDE.md
+<https://github.com/soramimi/Guitar/blob/master/CLAUDE.md>
 
-https://github.com/basicmachines-co/basic-memory/blob/main/CLAUDE.md
+<https://github.com/basicmachines-co/basic-memory/blob/main/CLAUDE.md>
 
 ```
 
@@ -160,25 +157,38 @@ https://github.com/basicmachines-co/basic-memory/blob/main/CLAUDE.md
 
 ## Mutability
 
-Good notes on this, also describing issues: https://discourse.nixos.org/t/strategies-for-declarative-approaches-to-programs-with-mutable-configuration-files/66276
+Good notes on this, also describing issues: <https://discourse.nixos.org/t/strategies-for-declarative-approaches-to-programs-with-mutable-configuration-files/66276>
 
-- Simple patch: https://gist.github.com/piousdeer/b29c272eaeba398b864da6abf6cb5daa?permalink_comment_id=5027190
+- Simple patch: <https://gist.github.com/piousdeer/b29c272eaeba398b864da6abf6cb5daa?permalink_comment_id=5027190>
 
 - Include option also nice, but not always present.
 
 ## Build Stats
 
 `sudo darwin-rebuild switch --flake ~/.config/nix-config --impure`
+
 - Everything enabled: 1m14s (But goes up to like 2m4s)
 - Disable homebrew: 1m52s (cool did not help, went up to, reran and took, 1m 45s so not much better)
-
 
 ```bash
 uv tool install --python 3.13 "hawk[cli,inspect] @ git+https://github.com/METR/inspect-action"
 ```
 
-
 ### Docs to Index in Cursor
-- https://inspect.aisi.org.uk/
+
+- <https://inspect.aisi.org.uk/>
 uv python install 3.12 --default
-'https://apps.apple.com/us/app/xcode/id497799835?mt=12' -- xcode
+'<https://apps.apple.com/us/app/xcode/id497799835?mt=12>' -- xcode
+
+## Fixing Errors
+
+```bash
+# First, ensure any existing service is unloaded
+sudo launchctl bootout system/org.nixos.nix-daemon 2>/dev/null || true
+
+# Then bootstrap (load) the daemon
+sudo launchctl bootstrap system /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+
+# Start/restart the daemon
+sudo launchctl kickstart -k system/org.nixos.nix-daemon
+```

@@ -48,29 +48,29 @@ let
       nix-gat-vscode.homeManagerModules.vscode
 
       ### PROGRAM GROUPINGS
-      "${self}/home/_accounts"
+      # "${self}/home/_accounts"
       "${self}/home/_cli-tools"
-      "${self}/home/_cloud"
-      "${self}/home/_encryption"
-      "${self}/home/_go"
-      "${self}/home/_java"
-      "${self}/home/_js"
+      # "${self}/home/_cloud"
+      # "${self}/home/_encryption"
+      # "${self}/home/_go"
+      # "${self}/home/_java"
+      # "${self}/home/_js"
       "${self}/home/_nix"
       "${self}/home/_python"
-      "${self}/home/_ruby"
-      "${self}/home/_rust"
-      "${self}/home/_sql"
-      "${self}/home/_tex"
-      "${self}/home/_typst"
+      # "${self}/home/_ruby"
+      # "${self}/home/_rust"
+      # "${self}/home/_sql"
+      # "${self}/home/_tex"
+      # "${self}/home/_typst"
 
       ### PROGRAMS
       "${self}/home/aerospace"
       "${self}/home/atuin"
       "${self}/home/claude-code"
-      "${self}/home/cold-turkey"
+      # "${self}/home/cold-turkey"
       "${self}/home/desktoppr"
       "${self}/home/discord"
-      "${self}/home/dropbox"
+      # "${self}/home/dropbox"
       "${self}/home/duti"
       "${self}/home/fastfetch"
       # "${self}/home/firefox" # re-enable nur packages, takes a while to build.
@@ -83,21 +83,21 @@ let
       "${self}/home/less"
       "${self}/home/mise"
       "${self}/home/mpv"
-      "${self}/home/neovide"
-      "${self}/home/obsidian"
-      "${self}/home/opencode"
+      # "${self}/home/neovide"
+      # "${self}/home/obsidian"
+      # "${self}/home/opencode"
       # "${self}/home/rectangle"
-      "${self}/home/rio"
-      "${self}/home/ruff"
+      # "${self}/home/rio"
+      # "${self}/home/ruff"
       "${self}/home/shells"
-      "${self}/home/sketchybar"
-      "${self}/home/spotify"
+      # "${self}/home/sketchybar"
+      # "${self}/home/spotify"
       "${self}/home/ssh"
       "${self}/home/starship"
-      "${self}/home/thunderbird"
+      # "${self}/home/thunderbird"
       "${self}/home/topgrade"
       "${self}/home/vscode"
-      "${self}/home/zed"
+      # "${self}/home/zed"
       "${self}/home/zellij"
 
       "${self}/secrets/sops.nix"
@@ -199,6 +199,21 @@ in
       #     KeepAlive = true;
       #   };
       # };
+
+      homebrew = {
+        enable = false; # disable homebrew for fast deploy
+
+        onActivation = {
+          autoUpdate = false; # Fetch the newest stable branch of Homebrew's git repo
+          upgrade = false; # Upgrade outdated casks, formulae, and App Store apps
+          # 'zap': uninstalls all formulae(and related files) not listed in the generated Brewfile
+          cleanup = "zap";
+        };
+
+        casks = [
+          "tailscale-app"
+        ];
+      };
 
       users.users.gat = {
         home = "/Users/gat";
