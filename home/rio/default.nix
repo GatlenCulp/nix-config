@@ -2,7 +2,7 @@
 {
   # Development Tools
   programs.rio = {
-    enable = true;
+    enable = false; # not needed rn
     settings = {
       theme = "dracula";
       cursor.blinking = true;
@@ -11,7 +11,6 @@
         size = 11;
         family = "FiraCode Nerd Font";
       };
-      # Doesn't work, supposed to be funky
       renderer.filters = [ "NewPixieCrt" ];
       platform.macos = {
         # Not sure if chosen automatically

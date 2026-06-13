@@ -39,30 +39,23 @@ in
           {
             hooks = [
               {
-                command = "file=$(jq -r '.tool_input.file_path' <<<
-  '$CLAUDE_TOOL_INPUT'); [[ \"$file\" == *.nix ]] && nix fmt \"$file\" || true";
+                command = "file=$(jq -r '.tool_input.file_path'); [[ \"$file\" == *.nix ]] && nix fmt \"$file\" || true";
                 type = "command";
               }
               {
-                command = "file=$(jq -r '.tool_input.file_path' <<<
-  '$CLAUDE_TOOL_INPUT'); [[ \"$file\" == *.py ]] && ruff format \"$file\" && ruff check --fix || true";
+                command = "file=$(jq -r '.tool_input.file_path'); [[ \"$file\" == *.py ]] && ruff format \"$file\" && ruff check --fix \"$file\" || true";
                 type = "command";
               }
             ];
             matcher = "Edit|MultiEdit|Write";
           }
         ];
-        PreToolUse = [
-          {
-            hooks = [
-              {
-                command = "echo 'Running command: $CLAUDE_TOOL_INPUT'";
-                type = "command";
-              }
-            ];
-            matcher = "Bash";
-          }
-        ];
+        # NOTE: Do NOT add a PreToolUse hook that writes plain text to stdout
+        # (e.g. `jq -r '"Running command: " + .tool_input.command'`). Cursor
+        # shares this settings.json and parses hook stdout as JSON, so any
+        # non-JSON output blocks every agent shell command. If you need such a
+        # hook, emit valid JSON or redirect output to stderr (`... >&2`).
+        PreToolUse = [ ];
       };
       includeCoAuthoredBy = false;
       permissions = {

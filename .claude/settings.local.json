@@ -18,7 +18,8 @@
       "Bash(darwin-rebuild build:*)",
       "Bash(nix-store -q:*)",
       "Bash(nix profile list:*)",
-      "Bash(nix-env -qa:*)"
+      "Bash(nix-env -qa:*)",
+      "Bash(nix log:*)"
     ],
     "deny": [],
     "ask": [

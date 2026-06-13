@@ -3,7 +3,7 @@
     enable = true;
     launchd.enable = true;
 
-    settings = {
+    userSettings = {
 
       # Run Sketchybar together with AeroSpace
       # sketchybar has a built-in detection of already running process,

@@ -31,7 +31,7 @@
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Development ━━━━━━━━━━━━━━━━━━━━━━━━━━━
       "netron" # On nixpkgs but not darwin
       "postman"
-      "anythingllm"
+      # "anythingllm" # Broken for some reason
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━ Browsers ━━━━━━━━━━━━━━━━━━━━━━━━━━
       "google-chrome"
@@ -45,10 +45,10 @@
       "clipgrab"
       "loom" # For contracting
       "obs"
-      "vlc"
+      # "vlc" # use MPV
       "cold-turkey-blocker"
-      "jellyfin-media-player"
-      "canva"
+      # "jellyfin-media-player" # 
+      # "canva" # I don't use much anymore
 
       # ━━━━━━━━━━━━━━━━━━━━━━━ Productivity & Utilities ━━━━━━━━━━━━━━━━━━━━━━━
       # "applite" # I don't need this anymore for homebrew
@@ -74,7 +74,7 @@
       # ━━━━━━━━━━━━━━━━━━━━━━━ Security & Terminals ━━━━━━━━━━━━━━━━━━━━━━━
       # "burp-suite" # Don't need rn
       "ghostty"
-      "protonvpn"
+      # "protonvpn" # I use NordVPN now
       # "qflipper" # Don't need rn
       "malwarebytes"
 
@@ -86,8 +86,8 @@
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ AI ━━━━━━━━━━━━━━━━━━━━━━━━━━━
       "claude"
-      "codex"
-      "chatgpt"
+      # "codex" DOn't really use
+      # "chatgpt" Don't really use
       "openclaw"
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Fonts ━━━━━━━━━━━━━━━━━━━━━━━━━━━

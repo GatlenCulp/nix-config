@@ -21,13 +21,22 @@ let
     "org.m0k.transmission" = [ "torrent" ];
   };
 
-  # Generate duti commands from associations
+  # Generate duti commands from associations.
+  # Each mapping is wrapped so a single failure (e.g. an extension whose UTI
+  # isn't registered with LaunchServices because no installed app declares
+  # support for it) does not abort the activation script and emits a readable
+  # warning instead of the cryptic `error -50` / `error -10822` from duti.
   mkDutiCommands =
     associations:
     lib.concatStringsSep "\n" (
       lib.flatten (
         lib.mapAttrsToList (
-          bundleId: exts: map (ext: "${pkgs.duti}/bin/duti -s ${bundleId} ${ext} all") exts
+          bundleId: exts:
+          map (ext: ''
+            if ! ${pkgs.duti}/bin/duti -s ${bundleId} ${ext} all >/dev/null 2>&1; then
+              echo "warning: duti could not associate .${ext} with ${bundleId} (no LaunchServices UTI registered for this extension; skipping)"
+            fi
+          '') exts
         ) associations
       )
     );

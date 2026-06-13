@@ -4,6 +4,6 @@
 # TODO: For the sake of accidents, stop swipe actions `defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool TRUE`
 {
   programs.chromium = {
-    enable = true;
+    enable = false; # Use chrome
   };
 }

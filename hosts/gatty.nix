@@ -14,6 +14,11 @@ let
   nixvim-config = {
     programs.nixvim = {
       enable = true;
+      # nixvim pins its own (unstable) nixpkgs, which recently marked some vim
+      # plugins (e.g. git-conflict.nvim) as unfree. Allow unfree for nixvim's
+      # nixpkgs instance so those plugins still evaluate. (We can't use the
+      # system pkgs here because nixvim's lib is newer than the 25.11 channel.)
+      nixpkgs.config.allowUnfree = true;
       viAlias = true;
       vimAlias = true;
       imports = with nvix.nvixPlugins; [
@@ -139,6 +144,9 @@ in
         config = {
           allowUnfree = true;
           allowUnfreePredicate = _: true;
+          # docker is pulled in transitively (devops tooling) and nixpkgs 25.11
+          # flags docker-28.5.2 as insecure. Permit it explicitly so eval succeeds.
+          permittedInsecurePackages = [ "docker-28.5.2" ];
         };
         hostPlatform.system = "aarch64-darwin";
         overlays = [
@@ -146,6 +154,15 @@ in
           nix-gat-vscode.overlays.default
           # nur.overlays.default
           # (import "${self}/overlays/open-webui-fix.nix")
+          # Fix direnv 2.37.1 test failures and mpv version check
+          (final: prev: {
+            direnv = prev.direnv.overrideAttrs (oldAttrs: {
+              doCheck = false;
+            });
+            mpv-unwrapped = prev.mpv-unwrapped.overrideAttrs (oldAttrs: {
+              doInstallCheck = false;
+            });
+          })
         ];
       };
       nix = {

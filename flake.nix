@@ -11,8 +11,12 @@
       inputs.nixpkgs.follows = "nixpkgs-stable-darwin";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/master";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      # Must match the nixpkgs release used for the system (25.11) because
+      # useGlobalPkgs = true makes HM evaluate against nix-darwin's pkgs.
+      # master/unstable HM imports lib/services/lib.nix which only exists in
+      # nixpkgs-unstable, breaking eval against the 25.11 stable pkgs.
+      url = "github:nix-community/home-manager/release-25.11";
+      inputs.nixpkgs.follows = "nixpkgs-stable-darwin";
     };
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
