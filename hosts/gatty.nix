@@ -1,57 +1,57 @@
-{
+# hosts/gatty.nix
+#
+# Personal laptop ("gatty"). This is the machine Gatlen does personal work on:
+# the full app/tooling set, personal git identity, personal secrets, and the
+# personal Homebrew casks. Everything shared with other machines lives in
+# hosts/base.nix -- this file only declares the personal-specific bits.
+inputs@{
   self,
   home-manager,
-  # nix-vscode-extensions,
-  # nur,
   nixvim,
   nvix,
   nix-homebrew,
   sops-nix,
   nix-gat-vscode,
   ...
-}@inputs:
+}:
 let
-  nixvim-config = {
-    programs.nixvim = {
-      enable = true;
-      # nixvim pins its own (unstable) nixpkgs, which recently marked some vim
-      # plugins (e.g. git-conflict.nvim) as unfree. Allow unfree for nixvim's
-      # nixpkgs instance so those plugins still evaluate. (We can't use the
-      # system pkgs here because nixvim's lib is newer than the 25.11 channel.)
-      nixpkgs.config.allowUnfree = true;
-      viAlias = true;
-      vimAlias = true;
-      imports = with nvix.nvixPlugins; [
-        ai
-        common
-        lang
-        lsp
-        lualine
-        snacks
-        autosession
-        blink-cmp
-        buffer
-        firenvim
-        git
-        noice
-        precognition
-        smear-cursor
-        tex
-        treesitter
-        ux
-      ];
+  host = {
+    username = "gat";
+    homeDir = "/Users/gat";
+    hostName = "gatty";
+    flakeName = "gatty"; # darwinConfigurations.<name>; used by the `rebuild` alias
+    profile = "personal";
+
+    git = {
+      name = "GatlenCulp";
+      email = "GatlenCulp@gmail.com";
     };
-  };
-  secrets = import "/Users/gat/.config/nix-config/secrets/secrets.nix";
-  homeManagerConfig = {
-    imports = [
-      "${self}/home/mutability.nix" # Mutability Option Extension
-      "${self}/home/vscode/vscode-mutability.nix" # Mutability Extension for VSCode
 
-      ### FLAKE MODULES
-      sops-nix.homeManagerModules.sops
-      nix-gat-vscode.homeManagerModules.vscode
+    # Personal machine's own plaintext secrets (gitignored, exists locally).
+    secretsPath = "/Users/gat/.config/nix-config/secrets/secrets.nix";
 
+    # Personal sops-nix identity: personal age key decrypts secrets.yaml.
+    sops = {
+      sopsFile = self + "/secrets/secrets.yaml";
+      ageKeyFile = "/Users/gat/.config/sops/age/keys-nix-sops.txt";
+      symlinkPath = "/Users/gat/.config/sops-nix/secrets";
+      mountPoint = "/Users/gat/.config/sops-nix/secrets.d";
+    };
+
+    # docker is pulled in transitively (devops tooling) and nixpkgs 25.11 flags
+    # docker-28.5.2 as insecure. Permit it explicitly so eval succeeds.
+    permittedInsecurePackages = [ "docker-28.5.2" ];
+
+    extraOverlays = [ ];
+
+    # System-level (darwin) modules unique to this host.
+    darwinModules = [
+      "${self}/modules/darwin/fonts.nix"
+      "${self}/modules/darwin/homebrew.nix"
+    ];
+
+    # User-level (home-manager) modules. Personal = the full set.
+    homeModules = [
       ### PROGRAM GROUPINGS
       "${self}/home/_accounts"
       "${self}/home/_cli-tools"
@@ -104,142 +104,7 @@ let
       "${self}/home/vscode"
       "${self}/home/zed"
       "${self}/home/zellij"
-
-      "${self}/secrets/sops.nix"
     ];
-
-    home = {
-      stateVersion = "25.05";
-      enableNixpkgsReleaseCheck = false;
-    };
-
-    xdg.enable = true;
   };
 in
-{
-  gatty-config =
-    { pkgs, config, ... }:
-    {
-      imports = [
-        home-manager.darwinModules.home-manager
-        nix-homebrew.darwinModules.nix-homebrew
-        {
-          nix-homebrew = {
-            enable = true;
-            enableRosetta = true;
-            user = "gat";
-          };
-        }
-        "${self}/home/system-defaults.nix"
-        "${self}/home/system-packages.nix"
-        {
-          system = {
-            configurationRevision = self.rev or self.dirtyRev or null;
-            primaryUser = "gat";
-            stateVersion = 5; # Now at version 6
-          };
-        }
-      ];
-      nixpkgs = {
-        config = {
-          allowUnfree = true;
-          allowUnfreePredicate = _: true;
-          # docker is pulled in transitively (devops tooling) and nixpkgs 25.11
-          # flags docker-28.5.2 as insecure. Permit it explicitly so eval succeeds.
-          permittedInsecurePackages = [ "docker-28.5.2" ];
-        };
-        hostPlatform.system = "aarch64-darwin";
-        overlays = [
-          # nix-vscode-extensions.overlays.default
-          nix-gat-vscode.overlays.default
-          # nur.overlays.default
-          # (import "${self}/overlays/open-webui-fix.nix")
-          # Fix direnv 2.37.1 test failures and mpv version check
-          (final: prev: {
-            direnv = prev.direnv.overrideAttrs (oldAttrs: {
-              doCheck = false;
-            });
-            mpv-unwrapped = prev.mpv-unwrapped.overrideAttrs (oldAttrs: {
-              doInstallCheck = false;
-            });
-          })
-        ];
-      };
-      nix = {
-        enable = true;
-        package = pkgs.lixPackageSets.stable.lix;
-        settings = {
-          "extra-experimental-features" = [
-            "nix-command"
-            "flakes"
-          ];
-          trusted-users = [
-            "root"
-            "gat"
-          ];
-          # configureBuildUsers = false; # doesn't exist
-          # auto-optimize-store = true; # Doesn't exist oop
-        };
-      };
-      services.nix-daemon.enableSocketListener = true;
-
-      environment = {
-        pathsToLink = [
-          "/share/zsh"
-          "/share/bash-completion"
-        ];
-        systemPath = [
-          "${config.users.users.gat.home}/.cargo/bin"
-          "${config.users.users.gat.home}/.local/bin"
-        ];
-      };
-
-      # launchd
-      # launchd.user.agents = {
-      #   zed-test = {
-      #     command = "${pkgs.zed}/bin/zed";
-      #     serviceConfig = {
-      #       KeepAlive = false;
-      #       RunAtLoad = true;
-      #     };
-      #   };
-      # };
-
-      # Not working. Freezes rebuild... or maybe not?? :/
-      # launchd.daemons.nix-daemon = {
-      #   serviceConfig = {
-      #     Label = "org.nixos.nix-daemon";
-      #     ProgramArguments = [
-      #       "/nix/var/nix/profiles/default/bin/nix-daemon"
-      #     ];
-      #     RunAtLoad = true;
-      #     KeepAlive = true;
-      #   };
-      # };
-
-      users.users.gat = {
-        home = "/Users/gat";
-        name = "gat";
-        description = "Gatlen Culp";
-        # Doesn't work?
-        # shell = home-manager.pkgs.nushell;
-        # shell = pkgs.nushell;
-      };
-      modules.desktop.fonts.enable = true;
-      home-manager = {
-        sharedModules = [
-          nixvim.homeModules.nixvim
-          nixvim-config
-        ];
-        extraSpecialArgs = {
-          inherit self;
-          inherit secrets;
-          inherit inputs;
-        };
-        backupFileExtension = "backup";
-        useGlobalPkgs = true;
-        useUserPackages = true;
-        users.gat = homeManagerConfig;
-      };
-    };
-}
+import ./base.nix (inputs // { inherit host; })

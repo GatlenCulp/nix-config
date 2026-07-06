@@ -71,7 +71,7 @@
       nix-darwin,
       home-manager,
       # nix-vscode-extensions,
-      nur,
+      # nur,
       nixvim,
       nvix,
       nix-homebrew,
@@ -82,61 +82,31 @@
       ...
     }:
     let
-      # gatty-config = import ./hosts/gatty.nix {
-      #   # TODO: just pass inputs I guess
-      #   # inherit inputs;
-      #   inherit self;
-      #   inherit nix-darwin;
-      #   inherit home-manager;
-      #   # inherit nur;
-      #   inherit nixvim;
-      #   inherit nvix;
-      #   inherit nix-homebrew;
-      #   inherit sops-nix;
-      #   inherit nix-gat-vscode;
-      # };
+      # Inputs every host module needs. Each host file (hosts/*.nix) builds its
+      # own `host` spec and imports hosts/base.nix with these.
+      hostInputs = {
+        inherit self nix-darwin home-manager nixvim nvix nix-homebrew sops-nix nix-gat-vscode;
+      };
+
+      # A host file now returns a darwin module directly (via hosts/base.nix),
+      # so a machine is a one-liner: mkHost ./hosts/<name>.nix
+      mkHost = hostFile: nix-darwin.lib.darwinSystem {
+        modules = [ (import hostFile hostInputs) ];
+      };
     in
     {
       darwinConfigurations = {
-        "gatty" = nix-darwin.lib.darwinSystem {
-          modules = [
-            (
-              import ./hosts/gatty.nix {
-              # TODO: just pass inputs I guess
-              # inherit inputs;
-              inherit self;
-              inherit nix-darwin;
-              inherit home-manager;
-              # inherit nur;
-              inherit nixvim;
-              inherit nvix;
-              inherit nix-homebrew;
-              inherit sops-nix;
-              inherit nix-gat-vscode;
-            }
-            ).gatty-config
-            sops-nix.darwinModules.sops
-            "${self}/modules/darwin/fonts.nix"
-            "${self}/modules/darwin/homebrew.nix"
-          ];
-        };
+        # Personal laptop — full app/tooling set, personal identity + secrets.
+        "gatty" = mkHost ./hosts/gatty.nix;
+
+        # Work laptop — curated tooling, work identity, work-only secrets,
+        # MDM-safe Homebrew. See hosts/work.nix for the provisioning TODOs.
+        "work" = mkHost ./hosts/work.nix;
+
+        # server still uses the older host shape; left untouched for now.
         "server" = nix-darwin.lib.darwinSystem {
           modules = [
-            (
-              import ./hosts/server.nix {
-              # TODO: just pass inputs I guess
-              # inherit inputs;
-              inherit self;
-              inherit nix-darwin;
-              inherit home-manager;
-              # inherit nur;
-              inherit nixvim;
-              inherit nvix;
-              inherit nix-homebrew;
-              inherit sops-nix;
-              inherit nix-gat-vscode;
-            }
-            ).gatty-config
+            (import ./hosts/server.nix hostInputs).gatty-config
             sops-nix.darwinModules.sops
             # "${self}/modules/darwin/fonts.nix"
             # "${self}/modules/darwin/homebrew.nix"

@@ -1,9 +1,16 @@
+# secrets/sops.nix
+#
+# sops-nix wiring, parameterized per machine via the `host.sops` spec (see
+# hosts/base.nix). This keeps the decryption identity and encrypted-file path
+# machine-specific so a work laptop can be pointed at a work-only secrets file
+# with its own age key, without touching this module.
+{ host, ... }:
 {
   sops = {
-    age.keyFile = "/Users/gat/.config/sops/age/keys-nix-sops.txt";
-    defaultSopsFile = ../secrets/secrets.yaml;
-    defaultSymlinkPath = "/Users/gat/.config/sops-nix/secrets";
-    defaultSecretsMountPoint = "/Users/gat/.config/sops-nix/secrets.d";
+    age.keyFile = host.sops.ageKeyFile;
+    defaultSopsFile = host.sops.sopsFile;
+    defaultSymlinkPath = host.sops.symlinkPath;
+    defaultSecretsMountPoint = host.sops.mountPoint;
     # config.sops.secrets.OPENAI_API_KEY.path points to a runtime-generated decrypted file. nix-darwin: Usually /run/secrets-for-users/<username>/OPENAI_API_KEY or similar
     secrets = {
       "OPENAI_API_KEY" = { };

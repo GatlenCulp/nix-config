@@ -38,6 +38,26 @@ let
     };
   };
   secrets = import "/Users/gat/.config/nix-config/secrets/secrets.nix";
+  # Minimal host spec so the shared modules (git, shells, sops) that now read
+  # `host` still evaluate here. server was intentionally NOT refactored onto
+  # hosts/base.nix yet; this is just the compatibility shim.
+  host = {
+    username = "gat";
+    homeDir = "/Users/gat";
+    hostName = "server";
+    flakeName = "server";
+    profile = "server";
+    git = {
+      name = "GatlenCulp";
+      email = "GatlenCulp@gmail.com";
+    };
+    sops = {
+      sopsFile = self + "/secrets/secrets.yaml";
+      ageKeyFile = "/Users/gat/.config/sops/age/keys-nix-sops.txt";
+      symlinkPath = "/Users/gat/.config/sops-nix/secrets";
+      mountPoint = "/Users/gat/.config/sops-nix/secrets.d";
+    };
+  };
   homeManagerConfig = {
     imports = [
       "${self}/home/mutability.nix" # Mutability Option Extension
@@ -233,6 +253,7 @@ in
           inherit self;
           inherit secrets;
           inherit inputs;
+          inherit host;
         };
         backupFileExtension = "backup";
         useGlobalPkgs = true;

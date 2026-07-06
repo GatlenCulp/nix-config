@@ -4,6 +4,7 @@
   secrets,
   lib,
   config,
+  host,
   ...
 }:
 let
@@ -89,7 +90,9 @@ lib.mkMerge [
       COOKIECUTTER_CONFIG = "${config.xdg.configHome}/nix-config/assets/gatlen-cookiecutter-config.yaml";
 
       edit_config = "$EDITOR ~/.config/nix-config";
-      rebuild = "NIXPKGS_ALLOW_UNFREE=1 sudo darwin-rebuild switch --flake .#gatty ~/.config/nix-config --show-trace --impure";
+      # Targets THIS machine's darwinConfigurations attr (see host.flakeName),
+      # so the same alias rebuilds the right profile on personal vs work.
+      rebuild = "NIXPKGS_ALLOW_UNFREE=1 sudo darwin-rebuild switch --flake ~/.config/nix-config#${host.flakeName} --show-trace --impure";
       lsr = "eza -T --git-ignore";
     };
   }
