@@ -1,0 +1,78 @@
+line-length = 99
+unsafe-fixes = true
+
+[format]
+indent-style = "space"
+quote-style = "double"
+
+[lint]
+fixable = ["ALL"]
+ignore = [
+  "B018",
+  "COM812",
+  "D100",
+  "D103",
+  "D105",
+  "D107",
+  "D205",
+  "D415",
+  "E731",
+  "EM101",
+  "ERA001",
+  "FBT001",
+  "FBT002",
+  "INP001",
+  "ISC001",
+  "RET504",
+  "S101",
+  "T201",
+  "TD002",
+  "TD003",
+  "TRY003",
+  "UP007",
+  "UP035",
+  "W293",
+]
+logger-objects = ["loguru.logger", "src.config.logger"]
+select = ["ALL"]
+unfixable = []
+
+[lint.isort]
+force-sort-within-sections = true
+
+[lint.mccabe]
+max-complexity = 10
+
+[lint.per-file-ignores]
+"**/*.ipynb" = [
+  "D103",
+  "D105",
+  "D107",
+  "D205",
+  "D415",
+  "E731",
+  "EM101",
+  "S101",
+  "T201",
+  "TD002",
+  "TD003",
+  "UP007",
+  "UP035",
+]
+"**/__init__.py" = ["F401"]
+"tests/**/*.py" = [
+  "ANN001",
+  "ANN201",
+  "ARG001",
+  "FBT001",
+  "PLR2004",
+  "RET503",
+  "S101",
+  "S311",
+]
+
+[lint.pycodestyle]
+max-doc-length = 99
+
+[lint.pydocstyle]
+convention = "google"
