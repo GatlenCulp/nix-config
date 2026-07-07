@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 let
   flakeDir = "${config.home.homeDirectory}/.config/nix-config";
   # Shared MCP server configurations
