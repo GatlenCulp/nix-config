@@ -13,10 +13,12 @@ let
 in
 {
   # home.file."./.config/ghostty/config" = {
+  # Live-editable: symlink straight to the repo file (mkOutOfStoreSymlink) so
+  # tweaks apply instantly with no rebuild and flow back to git. Replaces the
+  # previous `mutable = true` copy, which was overwritten from the store on
+  # every activation.
   xdg.configFile."ghostty/config" = {
-    source = ./config;
-    mutable = true;
-    force = true;
+    source = config.lib.file.mkOutOfStoreSymlink "${flakeDir}/home/ghostty/config";
   };
 
   # home.file."./.config/ghostty/startup.sh" = {
@@ -30,9 +32,10 @@ in
     source = config.lib.file.mkOutOfStoreSymlink "${flakeDir}/home/ghostty/test-file.txt";
   };
 
-  #  Duplicate
+  #  Duplicate (macOS Application Support path) — symlink it too so both
+  #  locations stay live-editable and in sync with the repo.
   home.file."./Library/Application Support/com.mitchellh.ghostty.config" = {
-    source = ./config;
+    source = config.lib.file.mkOutOfStoreSymlink "${flakeDir}/home/ghostty/config";
   };
   # programs.ghostty = {
   #   enable = true;
