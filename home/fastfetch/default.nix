@@ -1,120 +1,23 @@
+{
+  config,
+  lib,
+  ...
+}:
 let
-  settings = {
-    "$schema" = "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json";
-    logo = {
-      source = ./goose.txt;
-      type = "file";
-      height = 20;
-      padding = {
-        top = 1;
-      };
-    };
-    # display = { separator = " ➜  "; };
-    display = {
-      separator = " ";
-    };
-    modules = [
-      "break"
-      "break"
-      "break"
-      {
-        type = "os";
-        key = "OS   ";
-        keyColor = "31";
-      }
-      {
-        type = "kernel";
-        key = " ├  ";
-        keyColor = "31";
-      }
-      # {
-      #   type = "packages";
-      #   format = "{} (pacman)";
-      #   key = " ├ 󰏖 ";
-      #   keyColor = "31";
-      # }
-      {
-        type = "shell";
-        key = " └  ";
-        keyColor = "31";
-      }
-      "break"
-      {
-        type = "wm";
-        key = "WM   ";
-        keyColor = "32";
-      }
-      # {
-      #   type = "wmtheme";
-      #   key = " ├ 󰉼 ";
-      #   keyColor = "32";
-      # }
-      # {
-      #   type = "icons";
-      #   key = " ├ 󰀻 ";
-      #   keyColor = "32";
-      # }
-      # {
-      #   type = "cursor";
-      #   key = " ├  ";
-      #   keyColor = "32";
-      # }
-      {
-        type = "terminal";
-        key = " ├  ";
-        keyColor = "32";
-      }
-      {
-        type = "terminalfont";
-        key = " └  ";
-        keyColor = "32";
-      }
-      "break"
-      {
-        type = "host";
-        format = "{5} {1} Type {2}";
-        key = "PC   ";
-        keyColor = "33";
-      }
-      {
-        type = "cpu";
-        format = "{1} ({3}) @ {7} GHz";
-        key = " ├  ";
-        keyColor = "33";
-      }
-      {
-        type = "gpu";
-        format = "{1} {2} @ {12} GHz";
-        key = " ├ 󰢮 ";
-        keyColor = "33";
-      }
-      {
-        type = "memory";
-        key = " ├  ";
-        keyColor = "33";
-      }
-      {
-        type = "swap";
-        key = " ├ 󰓡 ";
-        keyColor = "33";
-      }
-      {
-        type = "disk";
-        key = " ├ 󰋊 ";
-        keyColor = "33";
-      }
-      {
-        type = "monitor";
-        key = " └  ";
-        keyColor = "33";
-      }
-      "break"
-    ];
-  };
+  # kinda ugly, maybe fix later
+  flakeDir = "${config.home.homeDirectory}/.config/nix-config";
 in
 {
   programs.fastfetch = {
     enable = true;
-    settings = settings;
+  };
+
+  # Live-editable: symlink straight to the repo file (mkOutOfStoreSymlink) so
+  # tweaks apply instantly with no rebuild and flow back to git. The Nix source
+  # is preserved (unimported) in ./settings.legacy.nix and rendered once into
+  # ./config.jsonc. `lib.mkForce` overrides the copy the programs.fastfetch
+  # module would otherwise write from the store on every activation.
+  xdg.configFile."fastfetch/config.jsonc" = lib.mkForce {
+    source = config.lib.file.mkOutOfStoreSymlink "${flakeDir}/home/fastfetch/config.jsonc";
   };
 }
