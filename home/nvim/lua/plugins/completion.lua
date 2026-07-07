@@ -22,7 +22,7 @@ return {
         ["<C-u>"] = { "scroll_documentation_up", "fallback" },
         ["<C-d>"] = { "scroll_documentation_down", "fallback" },
         ["<C-space>"] = {
-          -- verbatim from nvix: accept copilot suggestion if visible, else accept
+          -- accept copilot suggestion if visible, else accept completion.
           function(cmp)
             local ok, _ = pcall(require, "copilot")
             if ok then
@@ -33,6 +33,7 @@ return {
               local suggestion = require("copilot.suggestion")
               if suggestion.is_visible() then
                 suggestion.accept()
+                return true
               else
                 if cmp.snippet_active() then
                   return cmp.select_and_accept()
@@ -41,7 +42,9 @@ return {
                 end
               end
             end
+            -- copilot unavailable: return nil so the "fallback" entry runs.
           end,
+          "fallback",
         },
       },
     },

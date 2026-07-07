@@ -4,6 +4,11 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    -- Pin to the frozen `master` branch: the new default `main` branch is an
+    -- incompatible rewrite that removes `nvim-treesitter.configs`,
+    -- `ensure_installed`, `highlight`, and `indent` (used below). Staying on
+    -- master keeps this config working on Neovim 0.11.
+    branch = "master",
     lazy = false, -- nixvim loaded treesitter eagerly
     build = ":TSUpdate",
     main = "nvim-treesitter.configs",

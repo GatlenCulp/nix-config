@@ -111,7 +111,10 @@ return {
                   end
                 end
 
-                local formatters = require("conform").list_formatters()
+                -- Guard conform like the noice component: a missing/failed
+                -- load must not throw inside a statusline redraw.
+                local conform_ok, conform = pcall(require, "conform")
+                local formatters = conform_ok and conform.list_formatters() or {}
                 local con_names = {}
 
                 for _, formatter in ipairs(formatters) do
@@ -126,6 +129,9 @@ return {
                 local names = {}
                 vim.list_extend(names, lsp_names)
                 vim.list_extend(names, con_names)
+                -- vim.fn.uniq() only drops ADJACENT duplicates, so sort first
+                -- to collapse the same tool appearing in both lists.
+                table.sort(names)
                 return "[" .. table.concat(vim.fn.uniq(names), ", ") .. "]"
               end,
             },

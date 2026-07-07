@@ -95,14 +95,15 @@ return {
 
       map("n", "<leader>lq", "<CMD>LspStop<Enter>", "Stop LSP")
       map("n", "<leader>li", "<cmd>LspInfo<cr>", "LSP Info")
-      -- nvix mapped <leader>ls to LspStart, then re-mapped it to the symbol
-      -- picker below; the picker wins (last write), so LspStart is shadowed.
-      map("n", "<leader>ls", "<CMD>LspStart<Enter>", "Start LSP")
+      -- nvix mapped <leader>ls to both LspStart and the symbol picker; the
+      -- picker won (last write), leaving LspStart unreachable. Give LspStart
+      -- its own key (<leader>lS) so both work.
+      map("n", "<leader>lS", "<CMD>LspStart<Enter>", "Start LSP")
       map("n", "<leader>lR", "<CMD>LspRestart<Enter>", "Restart LSP")
 
       map("n", "<C-s-k>", "<cmd>:lua vim.lsp.buf.signature_help()<cr>", "Signature Help")
       map("n", "<leader>lD", "<cmd>:lua Snacks.picker.lsp_definitions()<cr>", "Definitions list")
-      map("n", "<leader>ls", "<cmd>:lua Snacks.picker.lsp_symbols()<cr>", "Definitions list")
+      map("n", "<leader>ls", "<cmd>:lua Snacks.picker.lsp_symbols()<cr>", "Symbols list")
 
       map("n", "[d", function()
         vim.diagnostic.jump({ count = -1 })

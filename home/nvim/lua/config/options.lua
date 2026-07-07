@@ -69,9 +69,11 @@ vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", { undercurl = true })
 
 -- SSH/OSC52 clipboard (verbatim from nvix)
 local function my_paste(reg)
-  return function(lines)
+  return function()
     local content = vim.fn.getreg('"')
-    return vim.split(content, "\n")
+    -- g:clipboard.paste must return { lines, regtype }; returning only the
+    -- lines loses the register type (linewise/blockwise pastes break).
+    return { vim.split(content, "\n"), vim.fn.getregtype('"') }
   end
 end
 if os.getenv("SSH_TTY") ~= nil then

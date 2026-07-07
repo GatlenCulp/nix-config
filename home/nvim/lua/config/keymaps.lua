@@ -39,7 +39,7 @@ map("i", "<a-k>", "<esc>:m .-2<cr>==gi", "Move Line Up")
 map("n", "<leader>dd", function()
   local any_diff = false
   for _, w in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-    if vim.api.nvim_win_get_option(w, "diff") then
+    if vim.api.nvim_get_option_value("diff", { win = w }) then
       any_diff = true
       break
     end
@@ -63,7 +63,9 @@ map("n", "<leader>qw", function()
   if #wins > 1 then
     local ok, err = pcall(vim.cmd, "close")
     if not ok then
-      vim.notify("Cannot close the last window!", vim.log.levels.WARN)
+      -- This branch has >1 window, so the failure is not "last window"
+      -- (e.g. an unsaved-changes error) — report the actual error.
+      vim.notify(err or "Cannot close window!", vim.log.levels.WARN)
     end
   else
     vim.notify("Cannot close the last window!", vim.log.levels.WARN)

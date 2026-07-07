@@ -141,6 +141,15 @@ let
   gattyNoNvix =
     !(builtins.any (hasIn "[n]vixPlugins|inputs[.][n]vix|[n]ixvim[.]homeModules") activeLines);
 
+  ## (d') same wiring assertions for hosts/server.nix
+  serverText = builtins.readFile ../hosts/server.nix;
+  serverLines = builtins.filter builtins.isString (builtins.split "\n" serverText);
+  serverActive = builtins.filter (l: !isComment l) serverLines;
+  serverHasNvim = builtins.any (hasIn "home/nvim") serverActive;
+  serverNoNixvim = !(builtins.any (hasIn "home/nixvim") serverActive);
+  serverNoNvix =
+    !(builtins.any (hasIn "[n]vixPlugins|inputs[.][n]vix|[n]ixvim[.]homeModules") serverActive);
+
   checks = [
     {
       name = "home/nvim/default.nix imports as a plain module (mock eval)";
@@ -185,6 +194,21 @@ let
     {
       name = "hosts/gatty.nix: no active nixvim/nvix module wiring remains";
       ok = gattyNoNvix;
+      detail = "";
+    }
+    {
+      name = "hosts/server.nix: imports home/nvim";
+      ok = serverHasNvim;
+      detail = "";
+    }
+    {
+      name = "hosts/server.nix: no active line references home/nixvim";
+      ok = serverNoNixvim;
+      detail = "";
+    }
+    {
+      name = "hosts/server.nix: no active nixvim/nvix module wiring remains";
+      ok = serverNoNvix;
       detail = "";
     }
   ];

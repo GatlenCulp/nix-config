@@ -5,20 +5,12 @@ return {
     "Mofiqul/dracula.nvim",
     lazy = false,
     priority = 1000,
-    -- Settings ported verbatim from the nixvim module (nvix.transparent = true).
-    -- NOTE: `style`/`transparent`/`styles` are tokyonight-style keys that
-    -- dracula.nvim ignores; kept verbatim for fidelity (see README.md).
+    -- The nixvim module used tokyonight-style keys (style/transparent/styles)
+    -- that dracula.nvim ignores. Mapped to dracula.nvim's real options here so
+    -- the ported `nvix.transparent = true` intent actually takes effect.
     opts = {
-      style = "night",
-      transparent = true,
-      styles = {
-        floats = "transparent",
-        sidebars = "transparent",
-        comments = { italic = true },
-        functions = { italic = true },
-        variables = { italic = true },
-        keywords = { italic = true, bold = true },
-      },
+      transparent_bg = true,
+      italic_comment = true,
     },
     config = function(_, opts)
       require("dracula").setup(opts)
