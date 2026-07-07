@@ -19,12 +19,19 @@
       "Bash(nix-store -q:*)",
       "Bash(nix profile list:*)",
       "Bash(nix-env -qa:*)",
-      "Bash(nix log:*)"
+      "Bash(nix log:*)",
+      "Edit",
+      "Write",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git checkout:*)",
+      "Bash(git log:*)",
+      "Bash(nix build:*)"
     ],
     "deny": [],
-    "ask": [
-      "Edit",
-      "Write"
-    ]
+    "ask": []
   }
 }
