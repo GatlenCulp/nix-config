@@ -93,8 +93,20 @@
       mkHost = hostFile: nix-darwin.lib.darwinSystem {
         modules = [ (import hostFile hostInputs) ];
       };
+
+      lib = inputs.nixpkgs.lib;
     in
     {
+      # Evaluation tests for the machine-profile split. Run on the Mac with
+      # `nix flake check` (the configs are aarch64-darwin + local git+file: inputs).
+      checks.aarch64-darwin.machine-profiles = import ./tests/machine-profiles.nix {
+        inherit self lib;
+        pkgs = import inputs.nixpkgs {
+          system = "aarch64-darwin";
+          config.allowUnfree = true;
+        };
+      };
+
       darwinConfigurations = {
         # Personal laptop — full app/tooling set, personal identity + secrets.
         "gatty" = mkHost ./hosts/gatty.nix;
