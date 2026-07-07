@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 # Terminal Multiplexers & Session Management
 let
+  # kinda ugly, maybe fix later
+  flakeDir = "${config.home.homeDirectory}/.config/nix-config";
   shellAliases = {
     "zj" = "zellij";
   };
@@ -21,15 +23,12 @@ in
   programs.nushell.shellAliases = shellAliases;
   programs.tmux.enable = true; # Some scripts use tmux since more popular.
 
-
   xdg.configFile."zellij/config.kdl" = {
     source = config.lib.file.mkOutOfStoreSymlink ./config.kdl;
   };
 
-  # xdg.configFile."zellij/layouts" = {
-  #   source = ./layouts;
-  #   recursive = true;
-  # };
+  xdg.configFile."zellij/layouts".source =
+    config.lib.file.mkOutOfStoreSymlink "${flakeDir}/home/zellij/layouts";
 
   programs.zellij = {
     enable = true;
