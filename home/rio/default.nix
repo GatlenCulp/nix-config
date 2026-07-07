@@ -1,57 +1,24 @@
-{ pkgs, self, ... }:
+{
+  pkgs,
+  config,
+  self,
+  ...
+}:
+let
+  # kinda ugly, maybe fix later
+  flakeDir = "${config.home.homeDirectory}/.config/nix-config";
+in
 {
   # Development Tools
-  programs.rio = {
-    enable = false; # not needed rn
-    settings = {
-      theme = "dracula";
-      cursor.blinking = true;
-      window.opacity = 0.8;
-      fonts = {
-        size = 11;
-        family = "FiraCode Nerd Font";
-      };
-      renderer.filters = [ "NewPixieCrt" ];
-      platform.macos = {
-        # Not sure if chosen automatically
-        renderer.backend = "Metal";
-      };
-    };
+  # rio stays disabled (parity with the prior config). Because the HM module
+  # writes nothing while disabled, the symlink below needs no lib.mkForce.
+  programs.rio.enable = false; # not needed rn
 
-    themes = {
-      "dracula".colors = {
-        background = "#282a36";
-        black = "#44475a";
-        blue = "#bd93f9";
-        cursor = "#f8f8f2";
-        cyan = "#8be9fd";
-        foreground = "#f8f8f2";
-        green = "#50fa7b";
-        magenta = "#ff79c6";
-        red = "#ff5555";
-        tabs = "#494c62";
-        tabs-active = "#6a6e8e";
-        white = "#f8f8f2";
-        yellow = "#f1fa8c";
-        dim-black = "#393c4b";
-        dim-blue = "#ae7bf8";
-        dim-cyan = "#69c3de";
-        dim-foreground = "#dfdfd9";
-        dim-green = "#06572f";
-        dim-magenta = "#ff60bb";
-        dim-red = "#ff3c3c";
-        dim-white = "#efefe1";
-        dim-yellow = "#e6a003";
-        light-black = "#6272a4";
-        light-blue = "#d6acff";
-        light-cyan = "#a4ffff";
-        light-foreground = "#f8f8f1";
-        light-green = "#69ff94";
-        light-magenta = "#ff92df";
-        light-red = "#ff6e6e";
-        light-white = "#ffffff";
-        light-yellow = "#ffffa5";
-      };
-    };
+  # Live-editable: symlink straight to the repo file (mkOutOfStoreSymlink) so
+  # tweaks apply instantly with no rebuild and flow back to git. The original
+  # Nix source is preserved (unimported) in ./settings.legacy.nix; it is
+  # rendered to ./config.toml, which this symlink targets.
+  xdg.configFile."rio/config.toml" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${flakeDir}/home/rio/config.toml";
   };
 }

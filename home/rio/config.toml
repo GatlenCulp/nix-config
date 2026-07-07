@@ -1,0 +1,17 @@
+theme = "dracula"
+
+[cursor]
+blinking = true
+
+[fonts]
+family = "FiraCode Nerd Font"
+size = 11
+
+[platform.macos.renderer]
+backend = "Metal"
+
+[renderer]
+filters = ["NewPixieCrt"]
+
+[window]
+opacity = 0.8
