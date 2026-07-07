@@ -3,90 +3,90 @@ format = "[╭](fg:current_line)$os$directory$git_branch$git_status$fill$nodejs$
 palette = "dracula"
 
 [aws]
-format = "[─](fg:current_line)[](fg:purple)[$symbol](fg:primary bg:purple)[](fg:purple bg:box)[ $profile](fg:foreground bg:box)[](fg:box)"
+format = "[─](fg:current_line)[](fg:purple)[$symbol](fg:primary bg:purple)[](fg:purple bg:box)[ $profile](fg:foreground bg:box)[](fg:box)"
 symbol = "☁️"
 
 [bun]
-format = "[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $version](fg:foreground bg:box)[](fg:box)"
+format = "[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $version](fg:foreground bg:box)[](fg:box)"
 symbol = "🥟"
 
 [character]
-error_symbol = "[](fg:bold red)"
+error_symbol = "[](fg:bold red)"
 format = "[│](fg:current_line)\n[╰─$symbol](fg:current_line) "
-success_symbol = "[](fg:bold green)"
-vimcmd_replace_one_symbol = "[](fg:bold purple)"
-vimcmd_replace_symbol = "[](fg:bold purple)"
-vimcmd_symbol = "[](fg:bold green)"
-vimcmd_visual_symbol = "[](fg:bold yellow)"
+success_symbol = "[](fg:bold green)"
+vimcmd_replace_one_symbol = "[](fg:bold purple)"
+vimcmd_replace_symbol = "[](fg:bold purple)"
+vimcmd_symbol = "[](fg:bold green)"
+vimcmd_visual_symbol = "[](fg:bold yellow)"
 
 [cmd_duration]
-format = "[─](fg:current_line)[](fg:orange)[ ](fg:primary bg:orange)[](fg:orange bg:box)[ $duration ](fg:foreground bg:box)[](fg:box)"
+format = "[─](fg:current_line)[](fg:orange)[ ](fg:primary bg:orange)[](fg:orange bg:box)[ $duration ](fg:foreground bg:box)[](fg:box)"
 min_time = 500
 
 [deno]
-format = "[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $version](fg:foreground bg:box)[](fg:box)"
+format = "[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $version](fg:foreground bg:box)[](fg:box)"
 symbol = "🦕"
 
 [directory]
-format = "[─](fg:current_line)[](fg:pink)[󰷏 ](fg:primary bg:pink)[](fg:pink bg:box)[ $read_only$truncation_symbol$path](fg:foreground bg:box)[](fg:box)"
-home_symbol = " ~/"
+format = "[─](fg:current_line)[](fg:pink)[󰷏 ](fg:primary bg:pink)[](fg:pink bg:box)[ $read_only$truncation_symbol$path](fg:foreground bg:box)[](fg:box)"
+home_symbol = " ~/"
 read_only = "󱧵 "
 read_only_style = ""
 truncation_length = 2
-truncation_symbol = " "
+truncation_symbol = " "
 
 [fill]
 style = "fg:current_line"
 symbol = "─"
 
 [git_branch]
-format = "[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $branch](fg:foreground bg:box)"
-symbol = " "
+format = "[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $branch](fg:foreground bg:box)"
+symbol = " "
 
 [git_status]
-format = "[( $all_status)](fg:foreground bg:box)[](fg:box)"
+format = "[( $all_status)](fg:foreground bg:box)[](fg:box)"
 
 [nodejs]
 detect_files = ["package.json", ".node-version", "!bunfig.toml", "!bun.lockb"]
-format = "[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $version](fg:foreground bg:box)[](fg:box)"
+format = "[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $version](fg:foreground bg:box)[](fg:box)"
 
 [os]
 disabled = false
-format = "(fg:current_line)[](fg:red)[$symbol ](fg:primary bg:red)[](fg:red)"
+format = "(fg:current_line)[](fg:red)[$symbol ](fg:primary bg:red)[](fg:red)"
 
 [os.symbols]
-Alpine = ""
-Amazon = ""
-Android = ""
-Arch = ""
-CentOS = ""
-Debian = ""
-EndeavourOS = ""
-Fedora = ""
-FreeBSD = ""
-Garuda = ""
-Gentoo = ""
-Linux = ""
-Macos = ""
-Manjaro = ""
-Mariner = ""
-Mint = ""
-NetBSD = ""
-NixOS = ""
-OpenBSD = ""
-OpenCloudOS = ""
+Alpine = ""
+Amazon = ""
+Android = ""
+Arch = ""
+CentOS = ""
+Debian = ""
+EndeavourOS = ""
+Fedora = ""
+FreeBSD = ""
+Garuda = ""
+Gentoo = ""
+Linux = ""
+Macos = ""
+Manjaro = ""
+Mariner = ""
+Mint = ""
+NetBSD = ""
+NixOS = ""
+OpenBSD = ""
+OpenCloudOS = ""
 OracleLinux = "⊂⊃"
-Pop = ""
-Raspbian = ""
-RedHatEnterprise = ""
-Redhat = ""
-SUSE = ""
-Solus = ""
-Ubuntu = ""
-Unknown = ""
-Windows = ""
-openEuler = ""
-openSUSE = ""
+Pop = ""
+Raspbian = ""
+RedHatEnterprise = ""
+Redhat = ""
+SUSE = ""
+Solus = ""
+Ubuntu = ""
+Unknown = ""
+Windows = ""
+openEuler = ""
+openSUSE = ""
 
 [palettes.dracula]
 background = "#282A36"
@@ -105,13 +105,13 @@ yellow = "#F1FA8C"
 
 [shell]
 disabled = false
-format = "[─](fg:current_line)[](fg:blue)[ ](fg:primary bg:blue)[](fg:blue bg:box)[ $indicator](fg:foreground bg:box)[](fg:box)"
+format = "[─](fg:current_line)[](fg:blue)[ ](fg:primary bg:blue)[](fg:blue bg:box)[ $indicator](fg:foreground bg:box)[](fg:box)"
 
 [time]
 disabled = false
-format = "[─](fg:current_line)[](fg:purple)[󰦖 ](fg:primary bg:purple)[](fg:purple bg:box)[ $time](fg:foreground bg:box)[](fg:box)"
+format = "[─](fg:current_line)[](fg:purple)[󰦖 ](fg:primary bg:purple)[](fg:purple bg:box)[ $time](fg:foreground bg:box)[](fg:box)"
 time_format = "%H:%M"
 
 [username]
-format = "[─](fg:current_line)[](fg:yellow)[ ](fg:primary bg:yellow)[](fg:yellow bg:box)[ $user](fg:foreground bg:box)[](fg:box) "
+format = "[─](fg:current_line)[](fg:yellow)[ ](fg:primary bg:yellow)[](fg:yellow bg:box)[ $user](fg:foreground bg:box)[](fg:box) "
 show_always = true
