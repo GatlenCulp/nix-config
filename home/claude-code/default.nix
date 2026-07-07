@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 let
   # Shared MCP server configurations
   mcpServers = {
@@ -28,11 +28,34 @@ let
       };
     };
   };
+
+  # The upstream home-manager `programs.claude-code` module wraps the binary with
+  # `--mcp-config <path>` (space-separated). Claude's `--mcp-config` is variadic,
+  # so it greedily eats the next positional arg. That makes `claude .` read `.`
+  # (the cwd, a directory) as a second MCP config file and crash with
+  # `EISDIR: illegal operation on a directory`. We instead wrap the package
+  # ourselves using the `--mcp-config=<path>` (equals) form, which binds exactly
+  # one value, and disable the module's auto-wrapper by leaving `mcpServers = {}`.
+  mcpConfig = (pkgs.formats.json { }).generate "claude-code-mcp-config.json" {
+    inherit mcpServers;
+  };
+  wrappedClaudeCode = pkgs.symlinkJoin {
+    name = "claude-code";
+    paths = [ pkgs.claude-code ];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/claude --add-flags "--mcp-config=${mcpConfig}"
+    '';
+    inherit (pkgs.claude-code) meta;
+  };
 in
 {
   programs.claude-code = {
     enable = true;
-    mcpServers = mcpServers;
+    package = wrappedClaudeCode;
+    # Disable the module's built-in `--mcp-config` wrapper (see note above); the
+    # MCP servers are injected by `wrappedClaudeCode` with the `=` form instead.
+    mcpServers = { };
     settings = {
       hooks = {
         PostToolUse = [
@@ -93,7 +116,7 @@ in
   };
 
   programs.mcp = {
-    enable = true;
+    enable = false;
     servers = mcpServers;
   };
 }

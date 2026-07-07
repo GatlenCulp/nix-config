@@ -150,7 +150,7 @@ let
       ncdu # analyzer your disk usage Interactively, via TUI(replacement of `du`)
       which
       procs # a moreden ps
-
+      # google-cloud-sdk
     ];
 
     vms = [
