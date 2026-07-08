@@ -56,7 +56,10 @@ in
       mermaid-cli
 
       ### AI
-      claude-code # greggh/claude-code.nvim drives the `claude` CLI
+      # claude-code is intentionally NOT listed here: home/claude-code already
+      # installs a wrapped claude-code (symlinkJoin with MCP config), and adding
+      # the plain pkgs.claude-code too makes buildEnv fail with a bin/claude
+      # path conflict. greggh/claude-code.nvim uses the wrapped `claude` CLI.
 
       ### LSP servers
       typos-lsp
