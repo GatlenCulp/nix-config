@@ -13,19 +13,20 @@
       "charmbracelet/tap"
       "mayowa-ojo/tap"
       "noborus/tap"
+      "manaflow-ai/cmux" # cmux terminal
+      "stablyai/orca" # orca agent IDE
     ];
 
-    brews =
-      [
-        "clipboard"
-        "mayowa-ojo/tap/chmod-cli"
-        "flit" # possibly https://search.nixos.org/packages?channel=25.05&query=flit
-        "czg"
-        "ucspi-tcp"
-        "zrok"
-        "huggingface-cli"
-        "latexindent"
-      ];
+    brews = [
+      "clipboard"
+      "mayowa-ojo/tap/chmod-cli"
+      "flit" # possibly https://search.nixos.org/packages?channel=25.05&query=flit
+      "czg"
+      "ucspi-tcp"
+      "zrok"
+      "huggingface-cli"
+      "latexindent"
+    ];
 
     casks = [
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Development ━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -47,7 +48,7 @@
       "obs"
       # "vlc" # use MPV
       "cold-turkey-blocker"
-      # "jellyfin-media-player" # 
+      # "jellyfin-media-player" #
       # "canva" # I don't use much anymore
 
       # ━━━━━━━━━━━━━━━━━━━━━━━ Productivity & Utilities ━━━━━━━━━━━━━━━━━━━━━━━
@@ -89,6 +90,8 @@
       # "codex" DOn't really use
       # "chatgpt" Don't really use
       "openclaw"
+      "manaflow-ai/cmux/cmux" # Ghostty-based terminal for parallel AI agents (config from home/ghostty)
+      "stablyai/orca/orca" # Agent Development Environment (parallel agents across worktrees)
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Fonts ━━━━━━━━━━━━━━━━━━━━━━━━━━━
       "font-nova-round"

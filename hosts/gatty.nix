@@ -72,6 +72,7 @@ let
       "${self}/home/aerospace"
       "${self}/home/atuin"
       "${self}/home/claude-code"
+      "${self}/home/cmux"
       "${self}/home/cold-turkey"
       "${self}/home/desktoppr"
       "${self}/home/discord"
