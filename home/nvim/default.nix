@@ -96,7 +96,8 @@ in
       rust-analyzer # rustaceanvim; cargo/rustc come from home/_rust
       websocat # typst-preview + kulala websockets
       glow # glow.nvim markdown TUI preview
-      pandoc # md-pdf.nvim
+      # pandoc for md-pdf.nvim comes from programs.pandoc.enable
+      # (home/_cli-tools/pandoc); adding it here too collides in buildEnv.
       python3Packages.pylatexenc # tex.nix extraPackages (manifest said python313Packages; unpinned here)
 
       # fixjson: conform json formatter. TODO(verify attr): top-level `fixjson`

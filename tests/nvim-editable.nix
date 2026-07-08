@@ -57,7 +57,6 @@ let
     "rust-analyzer"
     "websocat"
     "glow"
-    "pandoc"
     "pngpaste"
   ];
   mkMock = name: {
