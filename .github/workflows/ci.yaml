@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# Cancel superseded runs on the same ref.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: parse + hermetic tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            access-tokens = github.com=${{ github.token }}
+
+      # The TOML render-match checks in tests/run-*.sh need python's tomli_w.
+      # jq is preinstalled on ubuntu runners; formatters are fetched via nix run.
+      - name: Install python tomli-w
+        run: python3 -m pip install --break-system-packages tomli-w || python3 -m pip install --user tomli-w
+
+      # NOTE: this deliberately does NOT run `nix flake check` / `darwin-rebuild`.
+      # flake.nix targets aarch64-darwin, needs the impure secrets file, and
+      # pulls local-path inputs (git+file:/Users/gat/...), none of which exist on
+      # a Linux runner. The hermetic tests validate the config's editable-symlink
+      # wiring and rendered native configs without any of that.
+      - name: Run parse + hermetic test suite
+        run: bash tests/ci.sh

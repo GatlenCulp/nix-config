@@ -2,7 +2,6 @@
 # tests/run-zellij.sh — verify the zellij layouts dir is a live-editable out-of-store symlink.
 set -euo pipefail
 
-export NIX_SSL_CERT_FILE="${NIX_SSL_CERT_FILE:-/root/.ccr/ca-bundle.crt}"
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
