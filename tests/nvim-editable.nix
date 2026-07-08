@@ -118,9 +118,14 @@ let
   packages = if moduleOk then (nvimModule.home.packages or [ ]) else [ ];
   hasNeovim = builtins.any (p: (p.__nvim or false) == true) packages;
 
-  ## (b') vi/vim aliases point at nvim
+  ## (b') vi/vim aliases point at nvim (posix shells AND nushell)
   aliases = if moduleOk then (nvimModule.home.shellAliases or { }) else { };
-  aliasesOk = (aliases.vi or null) == "nvim" && (aliases.vim or null) == "nvim";
+  nuAliases = if moduleOk then ((nvimModule.programs.nushell or { }).shellAliases or { }) else { };
+  aliasesOk =
+    (aliases.vi or null) == "nvim"
+    && (aliases.vim or null) == "nvim"
+    && (nuAliases.vi or null) == "nvim"
+    && (nuAliases.vim or null) == "nvim";
 
   ## (c) legacy module tucked away
   legacyExists = builtins.pathExists ../home/_legacy/nvim-nixvim/default.nix;

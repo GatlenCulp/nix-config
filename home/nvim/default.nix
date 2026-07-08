@@ -25,7 +25,13 @@ in
 
   # programs.neovim is intentionally NOT used: the plain package avoids
   # home-manager's wrapper/init.lua generation fighting the symlinked config.
+  # home.shellAliases covers bash/zsh/fish; nushell needs its own copy
+  # (same workaround as home/zellij).
   home.shellAliases = {
+    vi = "nvim";
+    vim = "nvim";
+  };
+  programs.nushell.shellAliases = {
     vi = "nvim";
     vim = "nvim";
   };
