@@ -132,6 +132,9 @@ in
         config = {
           allowUnfree = true;
           allowUnfreePredicate = _: true;
+          # docker is pulled in transitively (devops tooling) and nixpkgs 25.11
+          # flags docker-28.5.2 as insecure. Permit it explicitly so eval succeeds.
+          permittedInsecurePackages = [ "docker-28.5.2" ];
         };
         hostPlatform.system = "aarch64-darwin";
         overlays = [
@@ -216,7 +219,9 @@ in
         # shell = home-manager.pkgs.nushell;
         # shell = pkgs.nushell;
       };
-      modules.desktop.fonts.enable = true;
+      # NOTE: server intentionally omits modules/darwin/fonts.nix (commented out
+      # in flake.nix for a fast, minimal deploy), so the `modules.desktop.fonts`
+      # option is not declared here — do not enable it on this host.
       home-manager = {
         sharedModules = [ ];
         extraSpecialArgs = {
