@@ -7,7 +7,6 @@
 # 3. validates the committed native file parses as TOML
 set -euo pipefail
 
-export NIX_SSL_CERT_FILE="${NIX_SSL_CERT_FILE:-/root/.ccr/ca-bundle.crt}"
 
 # repo root = parent of this script's dir
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

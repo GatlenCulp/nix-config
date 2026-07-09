@@ -7,7 +7,6 @@ set -uo pipefail
 here="$(cd "$(dirname "$0")" && pwd)"
 repo="$(cd "$here/.." && pwd)"
 
-: "${NIX_SSL_CERT_FILE:=/root/.ccr/ca-bundle.crt}"
 export NIX_SSL_CERT_FILE
 
 fail=0
