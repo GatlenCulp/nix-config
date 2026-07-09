@@ -44,4 +44,17 @@ jq . home/fastfetch/config.jsonc > /dev/null
 echo "OK: config.jsonc is valid JSON"
 
 echo
+
+echo "== 4. Nerd Font glyphs survived (regression guard) =="
+GLYPHS=$(python3 - <<'EOF'
+s = open("home/fastfetch/config.jsonc", encoding="utf-8").read()
+print(sum(1 for c in s if 0xE000 <= ord(c) <= 0xF8FF or 0xF0000 <= ord(c) <= 0xFFFFD))
+EOF
+)
+if [ "$GLYPHS" -lt 5 ]; then
+  echo "FAIL: only $GLYPHS Nerd Font (PUA) glyphs in config.jsonc — icons were stripped" >&2
+  exit 1
+fi
+echo "OK: $GLYPHS Nerd Font glyphs present"
+
 echo "ALL GREEN"
