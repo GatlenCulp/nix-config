@@ -36,7 +36,12 @@ let
 
   # Evaluate `e`, returning its value on success or `null` if it throws
   # (e.g. selecting `.target` on a plain path in the pre-migration state).
-  try = e: let r = builtins.tryEval e; in if r.success then r.value else null;
+  try =
+    e:
+    let
+      r = builtins.tryEval e;
+    in
+    if r.success then r.value else null;
 
   ## ---------------- ghostty ----------------
   gEntry = ghostty.xdg.configFile."ghostty/config";
@@ -53,7 +58,9 @@ let
   cForce = if cHas then try (cEntry.force or false) else false;
   ccode = claude.programs.claude-code or { };
   settingsRemoved = !(ccode ? settings);
-  mcpKept = ccode ? mcpServers;
+  # MCP servers moved to the live-editable mcp.json (see home/claude-code);
+  # the store-baked mcpServers option must now stay UNSET.
+  mcpUnset = !(ccode ? mcpServers);
 
   ## ---------------- settings.json content ----------------
   settingsPath = ../home/claude-code/settings.json;
@@ -71,7 +78,10 @@ let
   modeOk = sjsonOk && (try (sjson.permissions.defaultMode == "acceptEdits") == true);
   hooksOk =
     sjsonOk
-    && (try (builtins.isList sjson.hooks.PostToolUse && builtins.length sjson.hooks.PostToolUse >= 1) == true);
+    && (
+      try (builtins.isList sjson.hooks.PostToolUse && builtins.length sjson.hooks.PostToolUse >= 1)
+      == true
+    );
   allowOk = sjsonOk && (try (builtins.elem "Edit" sjson.permissions.allow) == true);
   denyOk = sjsonOk && (try (builtins.elem "Read(./secrets/**)" sjson.permissions.deny) == true);
   statusOk = sjsonOk && (try (sjson.statusLine.command == "bunx ccstatusline@latest") == true);
@@ -111,9 +121,9 @@ let
       detail = "removed=${toString settingsRemoved}";
     }
     {
-      name = "claude: MCP servers still managed by Nix (behaviour unchanged)";
-      ok = mcpKept;
-      detail = "mcpServers=${toString mcpKept}";
+      name = "claude: mcpServers option unset (servers live in editable mcp.json)";
+      ok = mcpUnset;
+      detail = "mcpServers=${toString mcpUnset}";
     }
     {
       name = "settings.json: parses as valid JSON";

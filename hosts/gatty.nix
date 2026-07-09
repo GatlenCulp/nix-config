@@ -102,6 +102,7 @@ let
       "${self}/home/thunderbird"
       "${self}/home/topgrade"
       "${self}/home/vscode"
+      "${self}/home/whatsapp-mcp"
       "${self}/home/zed"
       "${self}/home/zellij"
     ];
