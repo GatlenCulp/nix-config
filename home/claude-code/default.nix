@@ -1,5 +1,6 @@
-{ ... }:
+{ config, pkgs, ... }:
 let
+  flakeDir = "${config.home.homeDirectory}/.config/nix-config";
   # Shared MCP server configurations
   mcpServers = {
     notionApi = {
@@ -28,72 +29,51 @@ let
       };
     };
   };
+
+  # The upstream home-manager `programs.claude-code` module wraps the binary with
+  # `--mcp-config <path>` (space-separated). Claude's `--mcp-config` is variadic,
+  # so it greedily eats the next positional arg. That makes `claude .` read `.`
+  # (the cwd, a directory) as a second MCP config file and crash with
+  # `EISDIR: illegal operation on a directory`. We instead wrap the package
+  # ourselves using the `--mcp-config=<path>` (equals) form, which binds exactly
+  # one value, and disable the module's auto-wrapper by leaving `mcpServers = {}`.
+  mcpConfig = (pkgs.formats.json { }).generate "claude-code-mcp-config.json" {
+    inherit mcpServers;
+  };
+  wrappedClaudeCode = pkgs.symlinkJoin {
+    name = "claude-code";
+    paths = [ pkgs.claude-code ];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/claude --add-flags "--mcp-config=${mcpConfig}"
+    '';
+    inherit (pkgs.claude-code) meta;
+  };
 in
 {
   programs.claude-code = {
     enable = true;
     mcpServers = mcpServers;
-    settings = {
-      hooks = {
-        PostToolUse = [
-          {
-            hooks = [
-              {
-                command = "file=$(jq -r '.tool_input.file_path'); [[ \"$file\" == *.nix ]] && nix fmt \"$file\" || true";
-                type = "command";
-              }
-              {
-                command = "file=$(jq -r '.tool_input.file_path'); [[ \"$file\" == *.py ]] && ruff format \"$file\" && ruff check --fix \"$file\" || true";
-                type = "command";
-              }
-            ];
-            matcher = "Edit|MultiEdit|Write";
-          }
-        ];
-        # NOTE: Do NOT add a PreToolUse hook that writes plain text to stdout
-        # (e.g. `jq -r '"Running command: " + .tool_input.command'`). Cursor
-        # shares this settings.json and parses hook stdout as JSON, so any
-        # non-JSON output blocks every agent shell command. If you need such a
-        # hook, emit valid JSON or redirect output to stderr (`... >&2`).
-        PreToolUse = [ ];
-      };
-      includeCoAuthoredBy = false;
-      permissions = {
-        # additionalDirectories = [ "../docs/" ]; Add personal files?
-        allow = [
-          "Edit"
-          "Bash(cursor:*)"
-          "Bash(find:*)"
-          "Bash(git diff:*)"
-          "Bash(git mv:*)"
-          "Bash(ls:*)"
-          "Bash(grep:*)"
-          "Bash(md5:*)"
-          "Bash(mkdir:*)"
-        ];
-        ask = [
-          "Bash(git push:*)"
-          "Bash(uv run python:*)"
-          "Bash(python3:*)"
-        ];
-        defaultMode = "acceptEdits";
-        deny = [
-          "Read(./.env)"
-          "Read(./secrets/**)"
-        ];
-        disableBypassPermissionsMode = "disable";
-      };
-      statusLine = {
-        command = "bunx ccstatusline@latest";
-        padding = 0;
-        type = "command";
-      };
-      theme = "dark";
-    };
+    # `settings` is intentionally NOT set here. Claude Code (and Cursor, which
+    # shares the file) rewrites ~/.claude/settings.json at runtime — permission
+    # prompts, /config changes, theme — so a read-only Nix store symlink breaks
+    # both tools. The settings now live in a checked-in, hand-editable JSON file
+    # symlinked into place below (see home.file.".claude/settings.json").
+  };
+
+  # Editable settings: symlink straight to the repo file so edits by you OR by
+  # Claude/Cursor apply instantly, need no rebuild, and are tracked in git.
+  # `force` replaces any settings.json the tools already wrote at that path.
+  #
+  # SECURITY: only non-secret config belongs in settings.json. MCP servers hold
+  # token placeholders/secrets and stay in `programs.mcp` — never symlinked here.
+  home.file.".claude/settings.json" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${flakeDir}/home/claude-code/settings.json";
+    force = true;
   };
 
   programs.mcp = {
-    enable = true;
+    enable = false;
     servers = mcpServers;
   };
 }

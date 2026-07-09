@@ -3,40 +3,12 @@
   home-manager,
   # nix-vscode-extensions,
   # nur,
-  nixvim,
-  nvix,
   nix-homebrew,
   sops-nix,
   nix-gat-vscode,
   ...
 }@inputs:
 let
-  nixvim-config = {
-    programs.nixvim = {
-      enable = true;
-      viAlias = true;
-      vimAlias = true;
-      imports = with nvix.nvixPlugins; [
-        ai
-        common
-        lang
-        lsp
-        lualine
-        snacks
-        autosession
-        blink-cmp
-        buffer
-        firenvim
-        git
-        noice
-        precognition
-        smear-cursor
-        tex
-        treesitter
-        ux
-      ];
-    };
-  };
   secrets = import "/Users/gat/.config/nix-config/secrets/secrets.nix";
   # Minimal host spec so the shared modules (git, shells, sops) that now read
   # `host` still evaluate here. server was intentionally NOT refactored onto
@@ -104,6 +76,7 @@ let
       "${self}/home/mise"
       "${self}/home/mpv"
       # "${self}/home/neovide"
+      "${self}/home/nvim"
       # "${self}/home/obsidian"
       # "${self}/home/opencode"
       # "${self}/home/rectangle"
@@ -245,10 +218,7 @@ in
       };
       modules.desktop.fonts.enable = true;
       home-manager = {
-        sharedModules = [
-          nixvim.homeModules.nixvim
-          nixvim-config
-        ];
+        sharedModules = [ ];
         extraSpecialArgs = {
           inherit self;
           inherit secrets;

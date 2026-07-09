@@ -54,7 +54,8 @@ let
     docs = [
       markdownlint-cli
       mdformat
-      pandoc
+      # pandoc provided by programs.pandoc.enable (home/_cli-tools/pandoc);
+      # listing it here too collides in buildEnv (pandoc-with-defaults vs pandoc-cli).
     ];
 
     editors = [
@@ -150,7 +151,7 @@ let
       ncdu # analyzer your disk usage Interactively, via TUI(replacement of `du`)
       which
       procs # a moreden ps
-
+      # google-cloud-sdk
     ];
 
     vms = [

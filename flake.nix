@@ -34,16 +34,18 @@
       url = "github:zhaofengli/nix-homebrew";
     };
 
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      # Recommends not using following
-    };
+    # nixvim/nvix retired: neovim is now a plain lazy.nvim config in
+    # home/nvim (old module preserved in home/_legacy/nvim-nixvim).
+    # nixvim = {
+    #   url = "github:nix-community/nixvim";
+    #   # Recommends not using following
+    # };
 
-    nvix = {
-      # url = "github:GatlenCulp/nvix";
-      url = "git+file:/Users/gat/nix/nvix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+    # nvix = {
+    #   # url = "github:GatlenCulp/nvix";
+    #   url = "git+file:/Users/gat/nix/nvix";
+    #   inputs.nixpkgs.follows = "nixpkgs-unstable";
+    # };
 
     nix-gat-vscode = {
       # url = "github:GatlenCulp/nix-gat-vscode";
@@ -71,9 +73,8 @@
       nix-darwin,
       home-manager,
       # nix-vscode-extensions,
-      # nur,
-      nixvim,
-      nvix,
+      # nur, # input is commented out above; destructuring it would break eval
+      # nixvim/nvix retired (see inputs above); neovim lives in home/nvim now.
       nix-homebrew,
       sops-nix,
       nix-gat-vscode,
@@ -85,7 +86,7 @@
       # Inputs every host module needs. Each host file (hosts/*.nix) builds its
       # own `host` spec and imports hosts/base.nix with these.
       hostInputs = {
-        inherit self nix-darwin home-manager nixvim nvix nix-homebrew sops-nix nix-gat-vscode;
+        inherit self nix-darwin home-manager nix-homebrew sops-nix nix-gat-vscode;
       };
 
       # A host file now returns a darwin module directly (via hosts/base.nix),

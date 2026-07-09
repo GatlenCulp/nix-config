@@ -1,0 +1,51 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "file=$(jq -r '.tool_input.file_path'); [[ \"$file\" == *.nix ]] && nix fmt \"$file\" || true"
+          },
+          {
+            "type": "command",
+            "command": "file=$(jq -r '.tool_input.file_path'); [[ \"$file\" == *.py ]] && ruff format \"$file\" && ruff check --fix \"$file\" || true"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": []
+  },
+  "includeCoAuthoredBy": false,
+  "permissions": {
+    "allow": [
+      "Edit",
+      "Bash(cursor:*)",
+      "Bash(find:*)",
+      "Bash(git diff:*)",
+      "Bash(git mv:*)",
+      "Bash(ls:*)",
+      "Bash(grep:*)",
+      "Bash(md5:*)",
+      "Bash(mkdir:*)"
+    ],
+    "ask": [
+      "Bash(git push:*)",
+      "Bash(uv run python:*)",
+      "Bash(python3:*)"
+    ],
+    "defaultMode": "acceptEdits",
+    "deny": [
+      "Read(./.env)",
+      "Read(./secrets/**)"
+    ],
+    "disableBypassPermissionsMode": "disable"
+  },
+  "statusLine": {
+    "command": "bunx ccstatusline@latest",
+    "padding": 0,
+    "type": "command"
+  },
+  "theme": "dark"
+}

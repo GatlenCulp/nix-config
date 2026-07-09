@@ -20,8 +20,6 @@
       "Bash(nix profile list:*)",
       "Bash(nix-env -qa:*)",
       "Bash(nix log:*)",
-      "Edit",
-      "Write",
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
@@ -29,9 +27,21 @@
       "Bash(git diff:*)",
       "Bash(git checkout:*)",
       "Bash(git log:*)",
-      "Bash(nix build:*)"
+      "Bash(nix build:*)",
+      "Bash(mount)",
+      "Bash(diskutil info *)",
+      "Bash(echo \"=== darwin-store plist ===\"; cat /Library/LaunchDaemons/org.nixos.darwin-store.plist)",
+      "Read(//private/etc/synthetic.conf)",
+      "Read(//private/etc/fstab)",
+      "Read(//Library/LaunchDaemons/org.nixos.darwin-store.plist)",
+      "Bash(shellcheck /Users/gat/.config/nix-config/fix-nix-mount.sh)"
     ],
     "deny": [],
-    "ask": []
+    "ask": [
+      "Edit",
+      "Write",
+      "Bash(/usr/bin/security find-generic-password *)",
+      "Bash(sudo /usr/sbin/diskutil apfs unlockVolume \"Nix Store\" -mountpoint \"/nix\" -stdinpassphrase)"
+    ]
   }
 }

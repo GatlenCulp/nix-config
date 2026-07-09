@@ -21,8 +21,6 @@
 inputs@{
   self,
   home-manager,
-  nixvim,
-  nvix,
   nix-homebrew,
   sops-nix,
   nix-gat-vscode,
@@ -93,6 +91,7 @@ let
       "${self}/home/aerospace"
       "${self}/home/atuin"
       "${self}/home/claude-code"
+      "${self}/home/cmux"
       # "${self}/home/cold-turkey" # personal distraction blocker
       "${self}/home/desktoppr"
       # "${self}/home/discord"     # social — off on work
@@ -109,6 +108,7 @@ let
       "${self}/home/mise"
       # "${self}/home/mpv"         # media player — off on work
       "${self}/home/neovide"
+      "${self}/home/nvim"
       # "${self}/home/obsidian"    # personal notes — off on work
       "${self}/home/opencode"
       "${self}/home/rio"

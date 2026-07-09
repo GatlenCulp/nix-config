@@ -182,6 +182,19 @@ uv python install 3.12 --default
 
 ## Fixing Errors
 
+### nix-daemon: `Connection refused`
+
+If a rebuild fails with `cannot connect to socket at
+'/nix/var/nix/daemon-socket/socket': Connection refused`, the nix-daemon isn't
+running. Just run:
+
+```bash
+sudo ./fix-nix-daemon.sh
+```
+
+It bootstraps and restarts the daemon (and tells you to run `./fix-nix-mount.sh`
+first if the `/nix` store volume is unmounted). Equivalent manual steps:
+
 ```bash
 # First, ensure any existing service is unloaded
 sudo launchctl bootout system/org.nixos.nix-daemon 2>/dev/null || true

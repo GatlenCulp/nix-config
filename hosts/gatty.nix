@@ -7,8 +7,6 @@
 inputs@{
   self,
   home-manager,
-  nixvim,
-  nvix,
   nix-homebrew,
   sops-nix,
   nix-gat-vscode,
@@ -72,6 +70,7 @@ let
       "${self}/home/aerospace"
       "${self}/home/atuin"
       "${self}/home/claude-code"
+      "${self}/home/cmux"
       "${self}/home/cold-turkey"
       "${self}/home/desktoppr"
       "${self}/home/discord"
@@ -89,6 +88,7 @@ let
       "${self}/home/mise"
       "${self}/home/mpv"
       "${self}/home/neovide"
+      "${self}/home/nvim"
       "${self}/home/obsidian"
       "${self}/home/opencode"
       # "${self}/home/rectangle"
