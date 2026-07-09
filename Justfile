@@ -19,10 +19,10 @@ utils_nu := absolute_path("utils.nu")
 default:
     @just --list
 
-# Run eval tests
-# [group('nix')]
-# test:
-#   nix eval .#evalTests --show-trace --print-build-logs --verbose
+# Run the machine-profile evaluation tests (personal/work/server split)
+[group('nix')]
+test:
+  nix build .#checks.aarch64-darwin.machine-profiles --show-trace --print-build-logs
 
 # Update all the flake inputs
 [group('nix')]

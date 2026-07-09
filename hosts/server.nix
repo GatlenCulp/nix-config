@@ -3,41 +3,33 @@
   home-manager,
   # nix-vscode-extensions,
   # nur,
-  nixvim,
-  nvix,
   nix-homebrew,
   sops-nix,
   nix-gat-vscode,
   ...
 }@inputs:
 let
-  nixvim-config = {
-    programs.nixvim = {
-      enable = true;
-      viAlias = true;
-      vimAlias = true;
-      imports = with nvix.nvixPlugins; [
-        ai
-        common
-        lang
-        lsp
-        lualine
-        snacks
-        autosession
-        blink-cmp
-        buffer
-        firenvim
-        git
-        noice
-        precognition
-        smear-cursor
-        tex
-        treesitter
-        ux
-      ];
+  secrets = import "/Users/gat/.config/nix-config/secrets/secrets.nix";
+  # Minimal host spec so the shared modules (git, shells, sops) that now read
+  # `host` still evaluate here. server was intentionally NOT refactored onto
+  # hosts/base.nix yet; this is just the compatibility shim.
+  host = {
+    username = "gat";
+    homeDir = "/Users/gat";
+    hostName = "server";
+    flakeName = "server";
+    profile = "server";
+    git = {
+      name = "GatlenCulp";
+      email = "GatlenCulp@gmail.com";
+    };
+    sops = {
+      sopsFile = self + "/secrets/secrets.yaml";
+      ageKeyFile = "/Users/gat/.config/sops/age/keys-nix-sops.txt";
+      symlinkPath = "/Users/gat/.config/sops-nix/secrets";
+      mountPoint = "/Users/gat/.config/sops-nix/secrets.d";
     };
   };
-  secrets = import "/Users/gat/.config/nix-config/secrets/secrets.nix";
   homeManagerConfig = {
     imports = [
       "${self}/home/mutability.nix" # Mutability Option Extension
@@ -84,6 +76,7 @@ let
       "${self}/home/mise"
       "${self}/home/mpv"
       # "${self}/home/neovide"
+      "${self}/home/nvim"
       # "${self}/home/obsidian"
       # "${self}/home/opencode"
       # "${self}/home/rectangle"
@@ -139,6 +132,9 @@ in
         config = {
           allowUnfree = true;
           allowUnfreePredicate = _: true;
+          # docker is pulled in transitively (devops tooling) and nixpkgs 25.11
+          # flags docker-28.5.2 as insecure. Permit it explicitly so eval succeeds.
+          permittedInsecurePackages = [ "docker-28.5.2" ];
         };
         hostPlatform.system = "aarch64-darwin";
         overlays = [
@@ -223,16 +219,16 @@ in
         # shell = home-manager.pkgs.nushell;
         # shell = pkgs.nushell;
       };
-      modules.desktop.fonts.enable = true;
+      # NOTE: server intentionally omits modules/darwin/fonts.nix (commented out
+      # in flake.nix for a fast, minimal deploy), so the `modules.desktop.fonts`
+      # option is not declared here — do not enable it on this host.
       home-manager = {
-        sharedModules = [
-          nixvim.homeModules.nixvim
-          nixvim-config
-        ];
+        sharedModules = [ ];
         extraSpecialArgs = {
           inherit self;
           inherit secrets;
           inherit inputs;
+          inherit host;
         };
         backupFileExtension = "backup";
         useGlobalPkgs = true;

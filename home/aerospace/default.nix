@@ -19,9 +19,12 @@ in
   };
 
   # Home-manager's programs.aerospace force-writes ~/.config/aerospace/aerospace.toml
-  # from the store when enable = true. Override it with an out-of-store symlink
-  # to the committed repo file so the config stays live-editable.
-  xdg.configFile."aerospace/aerospace.toml" = lib.mkForce {
+  # from the store when enable = true (via home.file). Override that same entry
+  # with an out-of-store symlink to the committed repo file so the config stays
+  # live-editable. Note: it must be home.file (not xdg.configFile) to actually
+  # override the module's definition, otherwise both target the same path and
+  # home-manager errors with "Conflicting managed target files".
+  home.file.".config/aerospace/aerospace.toml" = lib.mkForce {
     source = config.lib.file.mkOutOfStoreSymlink "${flakeDir}/home/aerospace/aerospace.toml";
   };
 
