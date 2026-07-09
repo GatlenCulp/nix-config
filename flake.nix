@@ -74,6 +74,7 @@
       home-manager,
       # nix-vscode-extensions,
       # nur, # input is commented out above; destructuring it would break eval
+      # nixvim/nvix retired (see inputs above); neovim lives in home/nvim now.
       nix-homebrew,
       sops-nix,
       nix-gat-vscode,
@@ -82,53 +83,43 @@
       ...
     }:
     let
-      # gatty-config = import ./hosts/gatty.nix {
-      #   # TODO: just pass inputs I guess
-      #   # inherit inputs;
-      #   inherit self;
-      #   inherit nix-darwin;
-      #   inherit home-manager;
-      #   # inherit nur;
-      #   inherit nixvim;
-      #   inherit nvix;
-      #   inherit nix-homebrew;
-      #   inherit sops-nix;
-      #   inherit nix-gat-vscode;
-      # };
+      # Inputs every host module needs. Each host file (hosts/*.nix) builds its
+      # own `host` spec and imports hosts/base.nix with these.
+      hostInputs = {
+        inherit self nix-darwin home-manager nix-homebrew sops-nix nix-gat-vscode;
+      };
+
+      # A host file now returns a darwin module directly (via hosts/base.nix),
+      # so a machine is a one-liner: mkHost ./hosts/<name>.nix
+      mkHost = hostFile: nix-darwin.lib.darwinSystem {
+        modules = [ (import hostFile hostInputs) ];
+      };
+
+      lib = inputs.nixpkgs.lib;
     in
     {
-      darwinConfigurations = {
-        "gatty" = nix-darwin.lib.darwinSystem {
-          modules = [
-            (import ./hosts/gatty.nix {
-              # TODO: just pass inputs I guess
-              # inherit inputs;
-              inherit self;
-              inherit nix-darwin;
-              inherit home-manager;
-              # inherit nur;
-              inherit nix-homebrew;
-              inherit sops-nix;
-              inherit nix-gat-vscode;
-            }).gatty-config
-            sops-nix.darwinModules.sops
-            "${self}/modules/darwin/fonts.nix"
-            "${self}/modules/darwin/homebrew.nix"
-          ];
+      # Evaluation tests for the machine-profile split. Run on the Mac with
+      # `nix flake check` (the configs are aarch64-darwin + local git+file: inputs).
+      checks.aarch64-darwin.machine-profiles = import ./tests/machine-profiles.nix {
+        inherit self lib;
+        pkgs = import inputs.nixpkgs {
+          system = "aarch64-darwin";
+          config.allowUnfree = true;
         };
+      };
+
+      darwinConfigurations = {
+        # Personal laptop — full app/tooling set, personal identity + secrets.
+        "gatty" = mkHost ./hosts/gatty.nix;
+
+        # Work laptop — curated tooling, work identity, work-only secrets,
+        # MDM-safe Homebrew. See hosts/work.nix for the provisioning TODOs.
+        "work" = mkHost ./hosts/work.nix;
+
+        # server still uses the older host shape; left untouched for now.
         "server" = nix-darwin.lib.darwinSystem {
           modules = [
-            (import ./hosts/server.nix {
-              # TODO: just pass inputs I guess
-              # inherit inputs;
-              inherit self;
-              inherit nix-darwin;
-              inherit home-manager;
-              # inherit nur;
-              inherit nix-homebrew;
-              inherit sops-nix;
-              inherit nix-gat-vscode;
-            }).gatty-config
+            (import ./hosts/server.nix hostInputs).gatty-config
             sops-nix.darwinModules.sops
             # "${self}/modules/darwin/fonts.nix"
             # "${self}/modules/darwin/homebrew.nix"

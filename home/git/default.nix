@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }:
+{ pkgs, config, lib, host, ... }:
 {
 
   # `programs.git` will generate the config file: ~/.config/git/config
@@ -74,9 +74,10 @@
       #   log = "delta --features ov-log";
       #   show = "delta --pager='ov -F --header 3'";
       # };
+      # Per-host commit identity (see the `host.git` spec in hosts/*.nix).
       user = {
-        email = "GatlenCulp@gmail.com";
-        name = "GatlenCulp";
+        email = host.git.email;
+        name = host.git.name;
       };
 
       push.autoSetupRemote = "true";

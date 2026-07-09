@@ -10,6 +10,26 @@
 }@inputs:
 let
   secrets = import "/Users/gat/.config/nix-config/secrets/secrets.nix";
+  # Minimal host spec so the shared modules (git, shells, sops) that now read
+  # `host` still evaluate here. server was intentionally NOT refactored onto
+  # hosts/base.nix yet; this is just the compatibility shim.
+  host = {
+    username = "gat";
+    homeDir = "/Users/gat";
+    hostName = "server";
+    flakeName = "server";
+    profile = "server";
+    git = {
+      name = "GatlenCulp";
+      email = "GatlenCulp@gmail.com";
+    };
+    sops = {
+      sopsFile = self + "/secrets/secrets.yaml";
+      ageKeyFile = "/Users/gat/.config/sops/age/keys-nix-sops.txt";
+      symlinkPath = "/Users/gat/.config/sops-nix/secrets";
+      mountPoint = "/Users/gat/.config/sops-nix/secrets.d";
+    };
+  };
   homeManagerConfig = {
     imports = [
       "${self}/home/mutability.nix" # Mutability Option Extension
@@ -112,6 +132,9 @@ in
         config = {
           allowUnfree = true;
           allowUnfreePredicate = _: true;
+          # docker is pulled in transitively (devops tooling) and nixpkgs 25.11
+          # flags docker-28.5.2 as insecure. Permit it explicitly so eval succeeds.
+          permittedInsecurePackages = [ "docker-28.5.2" ];
         };
         hostPlatform.system = "aarch64-darwin";
         overlays = [
@@ -196,13 +219,16 @@ in
         # shell = home-manager.pkgs.nushell;
         # shell = pkgs.nushell;
       };
-      modules.desktop.fonts.enable = true;
+      # NOTE: server intentionally omits modules/darwin/fonts.nix (commented out
+      # in flake.nix for a fast, minimal deploy), so the `modules.desktop.fonts`
+      # option is not declared here — do not enable it on this host.
       home-manager = {
         sharedModules = [ ];
         extraSpecialArgs = {
           inherit self;
           inherit secrets;
           inherit inputs;
+          inherit host;
         };
         backupFileExtension = "backup";
         useGlobalPkgs = true;
