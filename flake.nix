@@ -34,16 +34,18 @@
       url = "github:zhaofengli/nix-homebrew";
     };
 
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      # Recommends not using following
-    };
+    # nixvim/nvix retired: neovim is now a plain lazy.nvim config in
+    # home/nvim (old module preserved in home/_legacy/nvim-nixvim).
+    # nixvim = {
+    #   url = "github:nix-community/nixvim";
+    #   # Recommends not using following
+    # };
 
-    nvix = {
-      # url = "github:GatlenCulp/nvix";
-      url = "git+file:/Users/gat/nix/nvix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+    # nvix = {
+    #   # url = "github:GatlenCulp/nvix";
+    #   url = "git+file:/Users/gat/nix/nvix";
+    #   inputs.nixpkgs.follows = "nixpkgs-unstable";
+    # };
 
     nix-gat-vscode = {
       # url = "github:GatlenCulp/nix-gat-vscode";
@@ -71,9 +73,7 @@
       nix-darwin,
       home-manager,
       # nix-vscode-extensions,
-      nur,
-      nixvim,
-      nvix,
+      # nur, # input is commented out above; destructuring it would break eval
       nix-homebrew,
       sops-nix,
       nix-gat-vscode,
@@ -100,21 +100,17 @@
       darwinConfigurations = {
         "gatty" = nix-darwin.lib.darwinSystem {
           modules = [
-            (
-              import ./hosts/gatty.nix {
+            (import ./hosts/gatty.nix {
               # TODO: just pass inputs I guess
               # inherit inputs;
               inherit self;
               inherit nix-darwin;
               inherit home-manager;
               # inherit nur;
-              inherit nixvim;
-              inherit nvix;
               inherit nix-homebrew;
               inherit sops-nix;
               inherit nix-gat-vscode;
-            }
-            ).gatty-config
+            }).gatty-config
             sops-nix.darwinModules.sops
             "${self}/modules/darwin/fonts.nix"
             "${self}/modules/darwin/homebrew.nix"
@@ -122,21 +118,17 @@
         };
         "server" = nix-darwin.lib.darwinSystem {
           modules = [
-            (
-              import ./hosts/server.nix {
+            (import ./hosts/server.nix {
               # TODO: just pass inputs I guess
               # inherit inputs;
               inherit self;
               inherit nix-darwin;
               inherit home-manager;
               # inherit nur;
-              inherit nixvim;
-              inherit nvix;
               inherit nix-homebrew;
               inherit sops-nix;
               inherit nix-gat-vscode;
-            }
-            ).gatty-config
+            }).gatty-config
             sops-nix.darwinModules.sops
             # "${self}/modules/darwin/fonts.nix"
             # "${self}/modules/darwin/homebrew.nix"
