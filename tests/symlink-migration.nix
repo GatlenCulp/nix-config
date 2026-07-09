@@ -36,7 +36,12 @@ let
 
   # Evaluate `e`, returning its value on success or `null` if it throws
   # (e.g. selecting `.target` on a plain path in the pre-migration state).
-  try = e: let r = builtins.tryEval e; in if r.success then r.value else null;
+  try =
+    e:
+    let
+      r = builtins.tryEval e;
+    in
+    if r.success then r.value else null;
 
   ## ---------------- ghostty ----------------
   gEntry = ghostty.xdg.configFile."ghostty/config";
@@ -55,7 +60,7 @@ let
   settingsRemoved = !(ccode ? settings);
   # MCP servers moved to the live-editable mcp.json (see home/claude-code);
   # the store-baked mcpServers option must now stay UNSET.
-  mcpKept = !(ccode ? mcpServers);
+  mcpUnset = !(ccode ? mcpServers);
 
   ## ---------------- settings.json content ----------------
   settingsPath = ../home/claude-code/settings.json;
@@ -73,7 +78,10 @@ let
   modeOk = sjsonOk && (try (sjson.permissions.defaultMode == "acceptEdits") == true);
   hooksOk =
     sjsonOk
-    && (try (builtins.isList sjson.hooks.PostToolUse && builtins.length sjson.hooks.PostToolUse >= 1) == true);
+    && (
+      try (builtins.isList sjson.hooks.PostToolUse && builtins.length sjson.hooks.PostToolUse >= 1)
+      == true
+    );
   allowOk = sjsonOk && (try (builtins.elem "Edit" sjson.permissions.allow) == true);
   denyOk = sjsonOk && (try (builtins.elem "Read(./secrets/**)" sjson.permissions.deny) == true);
   statusOk = sjsonOk && (try (sjson.statusLine.command == "bunx ccstatusline@latest") == true);
@@ -114,8 +122,8 @@ let
     }
     {
       name = "claude: mcpServers option unset (servers live in editable mcp.json)";
-      ok = mcpKept;
-      detail = "mcpServers=${toString mcpKept}";
+      ok = mcpUnset;
+      detail = "mcpServers=${toString mcpUnset}";
     }
     {
       name = "settings.json: parses as valid JSON";

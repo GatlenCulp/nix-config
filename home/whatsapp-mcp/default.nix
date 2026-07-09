@@ -17,7 +17,7 @@
 # After pairing, the launchd agent below keeps the bridge running across
 # logins. `go` comes from home/_go (programs.go), `uv` from home/_python
 # (programs.uv) — both already enabled on gatty.
-{ config, ... }:
+{ config, pkgs, ... }:
 let
   bridgeDir = "${config.home.homeDirectory}/whatsapp-mcp/whatsapp-bridge";
   logFile = "${config.home.homeDirectory}/Library/Logs/whatsapp-bridge.log";
@@ -26,7 +26,8 @@ in
   launchd.agents.whatsapp-bridge = {
     enable = true;
     config = {
-      # Login shell so PATH includes the home-manager profile (go).
+      # go is resolved from the Nix store directly — launchd's login-shell
+      # PATH is not guaranteed to include the home-manager profile.
       # Exits 0 (no respawn churn) when the repo has not been cloned yet.
       ProgramArguments = [
         "/bin/bash"
@@ -37,7 +38,7 @@ in
             echo "whatsapp-bridge: ${bridgeDir} not found; clone lharries/whatsapp-mcp and pair first (see home/whatsapp-mcp/default.nix)"
             exit 0
           fi
-          cd "${bridgeDir}" && exec go run main.go
+          cd "${bridgeDir}" && exec ${pkgs.go}/bin/go run main.go
         ''
       ];
       RunAtLoad = true;

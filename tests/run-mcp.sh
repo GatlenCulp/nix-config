@@ -50,6 +50,7 @@ out=$(nix eval --impure --json --expr '
   let
     m = import ./home/whatsapp-mcp/default.nix {
       config.home.homeDirectory = "/home/gattest";
+      pkgs.go = "/mock/go-store-path";
     };
     a = m.launchd.agents.whatsapp-bridge;
   in {
