@@ -18,15 +18,15 @@ in
     # apply on `aerospace reload-config` with no rebuild and flow back to git.
   };
 
-  # Home-manager's programs.aerospace module unconditionally writes
-  # home.file.".config/aerospace/aerospace.toml" from the store when enable = true.
-  # Override that exact home.file entry (NOT a separate xdg.configFile entry —
-  # that resolves to the same target and trips home-manager's "conflicting managed
-  # target files" assertion) with an out-of-store symlink to the committed repo
-  # file so the config stays live-editable.
-  home.file.".config/aerospace/aerospace.toml".source = lib.mkForce (
-    config.lib.file.mkOutOfStoreSymlink "${flakeDir}/home/aerospace/aerospace.toml"
-  );
+  # Home-manager's programs.aerospace force-writes ~/.config/aerospace/aerospace.toml
+  # from the store when enable = true (via home.file). Override that same entry
+  # with an out-of-store symlink to the committed repo file so the config stays
+  # live-editable. Note: it must be home.file (not xdg.configFile) to actually
+  # override the module's definition, otherwise both target the same path and
+  # home-manager errors with "Conflicting managed target files".
+  home.file.".config/aerospace/aerospace.toml" = lib.mkForce {
+    source = config.lib.file.mkOutOfStoreSymlink "${flakeDir}/home/aerospace/aerospace.toml";
+  };
 
   # home.file.".config/aerospace/pip-move.sh" = {
   xdg.configFile."aerospace/pip-move.sh" = {

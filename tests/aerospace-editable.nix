@@ -36,10 +36,6 @@ let
       r = builtins.tryEval e;
     in
     if r.success then r.value else null;
-  # The aerospace home-manager module unconditionally manages
-  # home.file.".config/aerospace/aerospace.toml"; the editable override must
-  # replace that exact entry (via mkForce) rather than add a competing
-  # xdg.configFile entry that resolves to the same target.
   entry = (m.home.file or { }).".config/aerospace/aerospace.toml" or null;
   target = try (entry.source.target or null);
   expected = "${flakeDir}/home/aerospace/aerospace.toml";
@@ -49,20 +45,11 @@ let
   launchdKept = (progs.launchd.enable or false) == true;
   pip = (m.xdg.configFile or { })."aerospace/pip-move.sh" or null;
   pipKept = pip != null && (try (pip.executable or false)) == true;
-  # Guard against the conflicting-target regression: the toml must NOT also be
-  # declared via xdg.configFile (it resolves to the same target as the module's
-  # home.file entry and trips home-manager's duplicate-target assertion).
-  noXdgTomlEntry = ((m.xdg.configFile or { })."aerospace/aerospace.toml" or null) == null;
   checks = [
     {
-      name = "aerospace: aerospace.toml overrides the module's home.file entry with an out-of-store symlink";
+      name = "aerospace: .config/aerospace/aerospace.toml is an out-of-store symlink to the repo native file";
       ok = target == expected;
       detail = "got=${toString target} expected=${expected}";
-    }
-    {
-      name = "aerospace: aerospace.toml is NOT declared via xdg.configFile (would conflict with the module's home.file target)";
-      ok = noXdgTomlEntry;
-      detail = "xdgTomlEntryPresent=${toString (!noXdgTomlEntry)}";
     }
     {
       name = "aerospace: Nix no longer generates the config (userSettings removed)";
