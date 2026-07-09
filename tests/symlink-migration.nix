@@ -53,7 +53,9 @@ let
   cForce = if cHas then try (cEntry.force or false) else false;
   ccode = claude.programs.claude-code or { };
   settingsRemoved = !(ccode ? settings);
-  mcpKept = ccode ? mcpServers;
+  # MCP servers moved to the live-editable mcp.json (see home/claude-code);
+  # the store-baked mcpServers option must now stay UNSET.
+  mcpKept = !(ccode ? mcpServers);
 
   ## ---------------- settings.json content ----------------
   settingsPath = ../home/claude-code/settings.json;
@@ -111,7 +113,7 @@ let
       detail = "removed=${toString settingsRemoved}";
     }
     {
-      name = "claude: MCP servers still managed by Nix (behaviour unchanged)";
+      name = "claude: mcpServers option unset (servers live in editable mcp.json)";
       ok = mcpKept;
       detail = "mcpServers=${toString mcpKept}";
     }
