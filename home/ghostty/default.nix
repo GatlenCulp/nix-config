@@ -32,9 +32,12 @@ in
     source = config.lib.file.mkOutOfStoreSymlink "${flakeDir}/home/ghostty/test-file.txt";
   };
 
-  #  Duplicate (macOS Application Support path) — symlink it too so both
-  #  locations stay live-editable and in sync with the repo.
-  home.file."./Library/Application Support/com.mitchellh.ghostty.config" = {
+  #  macOS-native config path. On macOS Ghostty loads this AFTER the XDG
+  #  config, so it takes precedence — it must point at the repo config or a
+  #  stale template here silently overrides everything. Note the path is a
+  #  file named `config` INSIDE the `com.mitchellh.ghostty` directory (not a
+  #  dotted `com.mitchellh.ghostty.config` file, which Ghostty never reads).
+  home.file."./Library/Application Support/com.mitchellh.ghostty/config" = {
     source = config.lib.file.mkOutOfStoreSymlink "${flakeDir}/home/ghostty/config";
   };
   # programs.ghostty = {
