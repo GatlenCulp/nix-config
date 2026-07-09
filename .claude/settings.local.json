@@ -25,7 +25,11 @@
       "Bash(echo \"=== darwin-store plist ===\"; cat /Library/LaunchDaemons/org.nixos.darwin-store.plist)",
       "Read(//private/etc/synthetic.conf)",
       "Read(//private/etc/fstab)",
-      "Read(//Library/LaunchDaemons/org.nixos.darwin-store.plist)"
+      "Read(//Library/LaunchDaemons/org.nixos.darwin-store.plist)",
+      "Bash(/usr/bin/security find-generic-password *)",
+      "Bash(sudo /usr/sbin/diskutil apfs unlockVolume \"Nix Store\" -mountpoint \"/nix\" -stdinpassphrase)",
+      "Bash(bash -c ' *)",
+      "Bash(shellcheck /Users/gat/.config/nix-config/fix-nix-mount.sh)"
     ],
     "deny": [],
     "ask": [
