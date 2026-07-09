@@ -5,6 +5,7 @@
 
 # THEME
 background-opacity = 0.8
+background-blur-radius = 10
 theme = Dracula
 background = #1e1f29
 foreground = #e6e6e6
@@ -43,5 +44,5 @@ window-height = 42
 keybind = shift+enter=text:\n
 
 # MISC
-working-directory = $HOME
-command = "/Users/gat/.config/ghostty/startup.sh"
+working-directory = home
+command = /Users/gat/.config/ghostty/startup.sh
