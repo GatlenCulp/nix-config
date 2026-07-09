@@ -7,7 +7,6 @@
 # 3. Validate the committed native file parses as TOML.
 set -euo pipefail
 
-export NIX_SSL_CERT_FILE="${NIX_SSL_CERT_FILE:-/root/.ccr/ca-bundle.crt}"
 
 cd "$(dirname "$0")/.."
 repo="$(pwd)"

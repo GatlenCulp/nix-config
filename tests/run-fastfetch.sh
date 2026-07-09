@@ -8,7 +8,6 @@
 # 3. Validates the committed native file parses as JSON.
 set -euo pipefail
 
-export NIX_SSL_CERT_FILE="${NIX_SSL_CERT_FILE:-/root/.ccr/ca-bundle.crt}"
 
 # Resolve repo root (parent of this script's dir).
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

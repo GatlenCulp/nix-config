@@ -9,7 +9,6 @@
 # Exits 0 only if all three pass.
 set -euo pipefail
 
-export NIX_SSL_CERT_FILE="${NIX_SSL_CERT_FILE:-/root/.ccr/ca-bundle.crt}"
 
 # Resolve repo root from this script's location.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
