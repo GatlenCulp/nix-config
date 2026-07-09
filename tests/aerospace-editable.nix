@@ -36,7 +36,7 @@ let
       r = builtins.tryEval e;
     in
     if r.success then r.value else null;
-  entry = (m.xdg.configFile or { })."aerospace/aerospace.toml" or null;
+  entry = (m.home.file or { }).".config/aerospace/aerospace.toml" or null;
   target = try (entry.source.target or null);
   expected = "${flakeDir}/home/aerospace/aerospace.toml";
   progs = (m.programs.aerospace or { });
@@ -47,7 +47,7 @@ let
   pipKept = pip != null && (try (pip.executable or false)) == true;
   checks = [
     {
-      name = "aerospace: aerospace/aerospace.toml is an out-of-store symlink to the repo native file";
+      name = "aerospace: .config/aerospace/aerospace.toml is an out-of-store symlink to the repo native file";
       ok = target == expected;
       detail = "got=${toString target} expected=${expected}";
     }
