@@ -3,45 +3,12 @@
   home-manager,
   # nix-vscode-extensions,
   # nur,
-  nixvim,
-  nvix,
   nix-homebrew,
   sops-nix,
   nix-gat-vscode,
   ...
 }@inputs:
 let
-  nixvim-config = {
-    programs.nixvim = {
-      enable = true;
-      # nixvim pins its own (unstable) nixpkgs, which recently marked some vim
-      # plugins (e.g. git-conflict.nvim) as unfree. Allow unfree for nixvim's
-      # nixpkgs instance so those plugins still evaluate. (We can't use the
-      # system pkgs here because nixvim's lib is newer than the 25.11 channel.)
-      nixpkgs.config.allowUnfree = true;
-      viAlias = true;
-      vimAlias = true;
-      imports = with nvix.nvixPlugins; [
-        ai
-        common
-        lang
-        lsp
-        lualine
-        snacks
-        autosession
-        blink-cmp
-        buffer
-        firenvim
-        git
-        noice
-        precognition
-        smear-cursor
-        tex
-        treesitter
-        ux
-      ];
-    };
-  };
   secrets = import "/Users/gat/.config/nix-config/secrets/secrets.nix";
   homeManagerConfig = {
     imports = [
@@ -89,6 +56,7 @@ let
       "${self}/home/mise"
       "${self}/home/mpv"
       "${self}/home/neovide"
+      "${self}/home/nvim"
       "${self}/home/obsidian"
       "${self}/home/opencode"
       # "${self}/home/rectangle"
@@ -227,10 +195,7 @@ in
       };
       modules.desktop.fonts.enable = true;
       home-manager = {
-        sharedModules = [
-          nixvim.homeModules.nixvim
-          nixvim-config
-        ];
+        sharedModules = [ ];
         extraSpecialArgs = {
           inherit self;
           inherit secrets;
