@@ -66,22 +66,34 @@ not the branch in isolation:
 2. Preview conflicts or failures: rebase the PR branch onto current main,
    resolve, push, and re-enter Step 1 (CI + CodeRabbit must pass again on the
    new head). If the resolution is not small and obvious → skip and report.
-3. Merge via GitHub: **squash** (PR title as the commit title), then **delete
+3. Record the **validated head SHA** (the commit CI, CodeRabbit, and the
+   preview test all ran against). Immediately before merging, re-fetch the PR
+   and confirm the head still equals it — a push in between means unreviewed
+   code; abort and restart from Step 1 for the new head. Pin the merge to the
+   SHA where the tooling allows (`gh pr merge --match-head-commit <sha>`, or
+   the merge API's `sha` field).
+4. Merge via GitHub: **squash** (PR title as the commit title), then **delete
    the branch**.
-4. Update local main and use it as the base for the next PR's preview.
+5. Update local main and use it as the base for the next PR's preview.
 
 Never force-push main. Never merge locally and push — always merge through
 GitHub so the PR closes properly.
 
 ## Step 5 — Build
 
-- **On the Mac**: pull merged main into `~/.config/nix-config`, then run the
-  `rebuild` alias (`sudo darwin-rebuild switch --flake ~/.config/nix-config
-  --show-trace --impure`).
+- **On the Mac**, make the checkout deterministic before rebuilding: in
+  `~/.config/nix-config` require a clean worktree (`git status --porcelain`
+  empty — stop and ask if not), `git switch main`, `git pull --ff-only origin
+  main`, then run the `rebuild` alias (`sudo darwin-rebuild switch --flake
+  ~/.config/nix-config --show-trace --impure`).
   - If it fails after merges have landed: **fix forward** — diagnose, commit
-    the fix directly to main, rebuild until it switches cleanly. If the
-    culprit is unclear, bisect the merged PRs with `darwin-rebuild build`
-    before committing anything.
+    the fix directly to main, rebuild until it switches cleanly. This is the
+    owner's explicit policy for post-merge build breakage; it is scoped to
+    **minimal build repairs** (eval errors, missing module args, buildEnv
+    collisions). Anything larger — new behaviour, refactors, config changes —
+    goes back through a PR like any other change. If the culprit is unclear,
+    bisect the merged PRs with `darwin-rebuild build` before committing
+    anything.
 - **On Linux/remote sessions**: `darwin-rebuild` is impossible — run
   `bash tests/ci.sh` on merged main instead, and tell the user to run
   `rebuild` on the Mac.
