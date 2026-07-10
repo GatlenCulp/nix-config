@@ -38,18 +38,32 @@ Before touching any file, determine (web search / `brew info` / upstream repo):
 nixpkgs are chronically second-class in this repo's experience (spotify broke,
 ghostty is a cask). Do not spend time on the nixpkgs tier for GUI.
 
-**CLIs, in order:**
+**CLIs, in order.** All checks below must resolve against the revisions
+pinned in this repo's `flake.lock` — a bare `nixpkgs#<attr>` goes through the
+flake registry (latest unstable) and can disagree with what
+`darwin-rebuild --flake` actually evaluates. Pin it first:
 
-1. **home-manager module** — does `programs.<name>` exist?
-   (Check: https://home-manager-options.extranix.com, or locally
-   `man home-configuration.nix`.) If yes → use it.
-2. **nixpkgs** — does the attr exist AND build on aarch64-darwin? All of:
-   - attr exists: `nix eval nixpkgs#<attr>.pname`
-   - not broken: `nix eval nixpkgs#<attr>.meta.broken` is `false`
-   - platform supported: `nix eval --json nixpkgs#<attr>.meta.platforms`
+```bash
+# Most packages follow the nixpkgs-unstable input (see flake.nix `follows`).
+pin="github:NixOS/nixpkgs/$(jq -r '.nodes["nixpkgs-unstable"].locked.rev' flake.lock)"
+```
+
+1. **home-manager module** — does `programs.<name>` exist *in the pinned
+   home-manager*? Authoritative check on the Mac: `man home-configuration.nix`
+   (generated from the locked input). Off the Mac, check the locked source
+   tree: `hm_rev=$(jq -r '.nodes["home-manager"].locked.rev' flake.lock)`,
+   then look for the module at
+   `https://github.com/nix-community/home-manager/tree/$hm_rev/modules/programs`.
+   https://home-manager-options.extranix.com is a *secondary* reference only
+   (it tracks release/master, which may not match the pin). If yes → use it.
+2. **nixpkgs** — does the attr exist AND build on aarch64-darwin, *at the
+   pinned rev*? All of:
+   - attr exists: `nix eval "$pin#<attr>.pname"`
+   - not broken: `nix eval "$pin#<attr>.meta.broken"` is `false`
+   - platform supported: `nix eval --json "$pin#<attr>.meta.platforms"`
      includes `aarch64-darwin` (or the package is platform-agnostic)
    - on the Mac, confirm buildability with
-     `nix build nixpkgs#<attr> --dry-run` (a cache hit is a strong signal);
+     `nix build "$pin#<attr>" --dry-run` (a cache hit is a strong signal);
      on Linux sessions this cannot be proven — say so in the PR/commit.
    If all pass → use it, **unless the staleness rule fires** (next section).
 3. **brew** — formula (CLIs) or cask (GUI). Use tap-qualified tokens
@@ -63,7 +77,8 @@ ghostty is a cask). Do not spend time on the nixpkgs tier for GUI.
 **Staleness rule (nixpkgs → brew):** fall through to brew if the nixpkgs
 version is ≥1 major version behind upstream, OR the tool is a fast-moving
 vendor CLI designed to self-update (infisical/gh-class release cadence).
-Compare `nix eval nixpkgs#<attr>.version` against the latest upstream release.
+Compare `nix eval "$pin#<attr>.version"` (the locked rev — that is what would
+actually install) against the latest upstream release.
 
 ## Step 3 — Place it (repo conventions)
 
