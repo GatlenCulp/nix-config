@@ -1,12 +1,13 @@
 {
   homebrew = {
-    enable = false; # disable homebrew for fast deploy
+    enable = true; # manage casks/brews/MAS apps so a factory-reset rebuild reinstalls everything
 
     onActivation = {
       autoUpdate = false; # Fetch the newest stable branch of Homebrew's git repo
       upgrade = false; # Upgrade outdated casks, formulae, and App Store apps
-      # 'zap': uninstalls all formulae(and related files) not listed in the generated Brewfile
-      cleanup = "zap";
+      # 'none': never uninstall anything — keeps manually-installed brew packages.
+      # (was 'zap', which would remove any formula/cask not declared here.)
+      cleanup = "none";
     };
 
     taps = [
@@ -24,14 +25,17 @@
       "czg"
       "ucspi-tcp"
       "zrok"
-      "huggingface-cli"
+      "hf" # HuggingFace CLI (formula renamed from huggingface-cli)
       "latexindent"
+      "tiger-vnc" # VNC client; nixpkgs tigervnc is marked broken on darwin
     ];
 
     casks = [
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ Development ━━━━━━━━━━━━━━━━━━━━━━━━━━━
       "netron" # On nixpkgs but not darwin
       "postman"
+      "linear" # Linear desktop app (was manually installed, not in config)
+      "gcloud-cli" # Google Cloud SDK (was manually installed, not in config)
       # "anythingllm" # Broken for some reason
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━ Browsers ━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -46,9 +50,11 @@
       "clipgrab"
       "loom" # For contracting
       "obs"
-      # "vlc" # use MPV
+      "vlc" # still installed despite MPV; kept per reset audit
+      "canva" # still installed; kept per reset audit
       "cold-turkey-blocker"
-      # "jellyfin-media-player" #
+      "jellyfin-media-player" # installed & used; nixpkgs jellyfin-media-player unavailable on darwin
+      "sweet-home3d" # Interior design app (was manually installed, not in config)
       # "canva" # I don't use much anymore
 
       # ━━━━━━━━━━━━━━━━━━━━━━━ Productivity & Utilities ━━━━━━━━━━━━━━━━━━━━━━━
@@ -74,6 +80,7 @@
 
       # ━━━━━━━━━━━━━━━━━━━━━━━ Security & Terminals ━━━━━━━━━━━━━━━━━━━━━━━
       # "burp-suite" # Don't need rn
+      "1password" # Password manager desktop app (was manually installed, not in config)
       "ghostty"
       # "protonvpn" # I use NordVPN now
       # "qflipper" # Don't need rn
@@ -87,7 +94,7 @@
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ AI ━━━━━━━━━━━━━━━━━━━━━━━━━━━
       "claude"
-      # "codex" DOn't really use
+      "codex-app" # still installed; kept per reset audit
       # "chatgpt" Don't really use
       "openclaw"
       "manaflow-ai/cmux/cmux" # Ghostty-based terminal for parallel AI agents (config from home/ghostty)

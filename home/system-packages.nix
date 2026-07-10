@@ -16,11 +16,13 @@ let
       just
       yo
       gnumake
+      bats # Bash Automated Testing System (was manually brew-installed)
     ];
 
     communication = [
       slack
       zoom-us
+      slackdump # Export Slack messages/threads (was manually brew-installed)
     ];
 
     data-config = [
@@ -110,6 +112,7 @@ let
       httpie
       wget
       transmission_4 # Only the CLI
+      unbound # Validating, recursive DNS resolver (was manually brew-installed)
       # cloudflare-warp # Using CloudFlare infrastructure for faster connection (plus 1.1.1.1)
     ];
 
