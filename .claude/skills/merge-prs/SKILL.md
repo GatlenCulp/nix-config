@@ -67,11 +67,15 @@ not the branch in isolation:
    resolve, push, and re-enter Step 1 (CI + CodeRabbit must pass again on the
    new head). If the resolution is not small and obvious → skip and report.
 3. Record the **validated head SHA** (the commit CI, CodeRabbit, and the
-   preview test all ran against). Immediately before merging, re-fetch the PR
-   and confirm the head still equals it — a push in between means unreviewed
-   code; abort and restart from Step 1 for the new head. Pin the merge to the
-   SHA where the tooling allows (`gh pr merge --match-head-commit <sha>`, or
-   the merge API's `sha` field).
+   preview test all ran against) **and the main base SHA the preview merged
+   onto**. Immediately before merging, re-fetch both:
+   - PR head moved → unreviewed code; abort and restart from Step 1 for the
+     new head. Pin the merge to the SHA where the tooling allows
+     (`gh pr merge --match-head-commit <sha>`, or the merge API's `sha`
+     field — that guards the head, not the base).
+   - main moved (someone else merged meanwhile) → the preview is stale;
+     rerun step 1 of this section against the new main before merging. CI
+     and CodeRabbit on the unchanged PR head remain valid.
 4. Merge via GitHub: **squash** (PR title as the commit title), then **delete
    the branch**.
 5. Update local main and use it as the base for the next PR's preview.
