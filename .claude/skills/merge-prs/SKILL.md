@@ -30,13 +30,17 @@ that PR can merge.
   obvious (wording, guards, formatting, missing test), push, and wait for
   CI + re-review again. Substantial rework demanded → skip the PR and report.
 - Static-analyzer noise (e.g. lint findings that misread a policy document as
-  code) may be skipped — state the reason in the final report.
+  code) may be skipped, but not silently: reply on the finding's thread with
+  the false-positive rationale so it is explicitly dismissed rather than left
+  open, and state the reason in the final report. A finding dismissed this
+  way does not count as "open" for the merge bar (Step 2.2).
 
 ## Step 2 — The merge bar (every PR, all four)
 
 1. **CI green** on the head commit.
 2. **Reviews clean**: no unresolved review threads, no open CodeRabbit
-   findings.
+   findings (findings explicitly dismissed as false positives per Step 1 —
+   rationale on the thread and in the report — are not open).
 3. **Mergeable**: no conflicts against current main.
 4. **Read the diff yourself.** Look for anything the PR description does not
    account for: committed secrets or tokens, unexpected files, scope creep,
@@ -63,9 +67,11 @@ PRs that pass alone can break combined, so test the *result* of each merge,
 not the branch in isolation:
 
 1. Locally: from main-as-merged-so-far, create a throwaway branch and merge
-   the PR branch into it. Run `bash tests/ci.sh` — must print
-   `CI RESULT: ALL PASS`. (In a repo without `tests/ci.sh`, use that repo's
-   CI entrypoint.)
+   the PR branch into it. The preview must be **isolated**: `git status
+   --porcelain` empty before it starts (or use a fresh `git worktree`), so a
+   passing test reflects the cumulative merge, not stray local edits. Run
+   `bash tests/ci.sh` — must print `CI RESULT: ALL PASS`. (In a repo without
+   `tests/ci.sh`, use that repo's CI entrypoint.)
 2. Preview problems are two different things — treat them differently:
    - **Merge conflict**: rebase the PR branch onto current main, resolve,
      and push with `--force-with-lease` (a rebase rewrites the branch, so a
@@ -86,10 +92,9 @@ not the branch in isolation:
    - main moved (someone else merged meanwhile) → the preview is stale;
      rerun step 1 of this section against the new main AND re-check the
      merge bar's mergeability (Step 2.3) before merging. CI and CodeRabbit
-     on the unchanged PR head remain valid, but if the PR's effective diff
-     against the new main differs from what was read (e.g. semantic
-     overlap with what just landed), redo the diff read and the risk gate
-     (Steps 2.4 and 3) too.
+     on the unchanged PR head remain valid; redo the diff read and the risk
+     gate (Steps 2.4 and 3) against the new main — semantic impact can
+     change even when the PR's own commits did not.
 4. Merge via GitHub: **squash** (PR title as the commit title), then **delete
    the branch**.
 5. Update local main and use it as the base for the next PR's preview.
