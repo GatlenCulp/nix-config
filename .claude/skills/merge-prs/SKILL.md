@@ -53,6 +53,9 @@ touching secrets handling, launchd agents, or shell init files.
   personally. Running this skill does **not** waive that: confirm each risky
   PR with the user individually (AskUserQuestion when interactive) before
   merging it. Ordinary PRs merge without asking.
+- **Fail closed when there is no way to ask** (noninteractive/headless run):
+  a risky PR is never merged on silence — leave it unmerged and mark it
+  awaiting-user in the report.
 
 ## Step 4 — Merge-preview test, then merge (sequential, oldest first)
 
@@ -65,8 +68,10 @@ not the branch in isolation:
    CI entrypoint.)
 2. Preview problems are two different things — treat them differently:
    - **Merge conflict**: rebase the PR branch onto current main, resolve,
-     push, and re-enter Step 1 (CI + CodeRabbit must pass again on the new
-     head). Resolution not small and obvious → skip and report.
+     and push with `--force-with-lease` (a rebase rewrites the branch, so a
+     plain push is rejected; force-with-lease is fine on PR branches, never
+     on main). Re-enter Step 1 — CI + CodeRabbit must pass again on the new
+     head. Resolution not small and obvious → skip and report.
    - **Test failure** (`tests/ci.sh` red on the combined result): rebasing
      will not fix a real regression — diagnose it first. Only a small,
      obvious fix may be pushed to the PR branch (then re-enter Step 1);
@@ -79,8 +84,12 @@ not the branch in isolation:
      (`gh pr merge --match-head-commit <sha>`, or the merge API's `sha`
      field — that guards the head, not the base).
    - main moved (someone else merged meanwhile) → the preview is stale;
-     rerun step 1 of this section against the new main before merging. CI
-     and CodeRabbit on the unchanged PR head remain valid.
+     rerun step 1 of this section against the new main AND re-check the
+     merge bar's mergeability (Step 2.3) before merging. CI and CodeRabbit
+     on the unchanged PR head remain valid, but if the PR's effective diff
+     against the new main differs from what was read (e.g. semantic
+     overlap with what just landed), redo the diff read and the risk gate
+     (Steps 2.4 and 3) too.
 4. Merge via GitHub: **squash** (PR title as the commit title), then **delete
    the branch**.
 5. Update local main and use it as the base for the next PR's preview.
