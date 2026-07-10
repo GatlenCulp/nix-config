@@ -1,4 +1,29 @@
 {
+  "includeCoAuthoredBy": false,
+  "permissions": {
+    "allow": [
+      "Edit",
+      "Bash(cursor:*)",
+      "Bash(find:*)",
+      "Bash(git diff:*)",
+      "Bash(git mv:*)",
+      "Bash(ls:*)",
+      "Bash(grep:*)",
+      "Bash(md5:*)",
+      "Bash(mkdir:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./secrets/**)"
+    ],
+    "ask": [
+      "Bash(git push:*)",
+      "Bash(uv run python:*)",
+      "Bash(python3:*)"
+    ],
+    "defaultMode": "acceptEdits",
+    "disableBypassPermissionsMode": "disable"
+  },
   "hooks": {
     "PostToolUse": [
       {
@@ -17,35 +42,22 @@
     ],
     "PreToolUse": []
   },
-  "includeCoAuthoredBy": false,
-  "permissions": {
-    "allow": [
-      "Edit",
-      "Bash(cursor:*)",
-      "Bash(find:*)",
-      "Bash(git diff:*)",
-      "Bash(git mv:*)",
-      "Bash(ls:*)",
-      "Bash(grep:*)",
-      "Bash(md5:*)",
-      "Bash(mkdir:*)"
-    ],
-    "ask": [
-      "Bash(git push:*)",
-      "Bash(uv run python:*)",
-      "Bash(python3:*)"
-    ],
-    "defaultMode": "acceptEdits",
-    "deny": [
-      "Read(./.env)",
-      "Read(./secrets/**)"
-    ],
-    "disableBypassPermissionsMode": "disable"
-  },
   "statusLine": {
+    "type": "command",
     "command": "bunx ccstatusline@latest",
-    "padding": 0,
-    "type": "command"
+    "padding": 0
   },
-  "theme": "dark"
+  "extraKnownMarketplaces": {
+    "ralph-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "snarktank/ralph"
+      }
+    }
+  },
+  "theme": "dark",
+  "agentPushNotifEnabled": true,
+  "enabledPlugins": {
+    "ralph-skills@ralph-marketplace": true
+  }
 }
