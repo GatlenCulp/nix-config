@@ -16,6 +16,7 @@
       "noborus/tap"
       "manaflow-ai/cmux" # cmux terminal
       "stablyai/orca" # orca agent IDE
+      "infisical/get-cli" # infisical CLI
     ];
 
     brews = [
@@ -28,6 +29,10 @@
       "hf" # HuggingFace CLI (formula renamed from huggingface-cli)
       "latexindent"
       "tiger-vnc" # VNC client; nixpkgs tigervnc is marked broken on darwin
+      # Secret manager CLI. Official tap; chosen over nixpkgs (0.41.90) because
+      # upstream is a self-updating vendor CLI shipping multiple releases/day
+      # (0.43.x) — see .claude/skills/add-program-to-nix staleness rule.
+      "infisical/get-cli/infisical"
     ];
 
     casks = [
