@@ -63,9 +63,14 @@ not the branch in isolation:
    the PR branch into it. Run `bash tests/ci.sh` — must print
    `CI RESULT: ALL PASS`. (In a repo without `tests/ci.sh`, use that repo's
    CI entrypoint.)
-2. Preview conflicts or failures: rebase the PR branch onto current main,
-   resolve, push, and re-enter Step 1 (CI + CodeRabbit must pass again on the
-   new head). If the resolution is not small and obvious → skip and report.
+2. Preview problems are two different things — treat them differently:
+   - **Merge conflict**: rebase the PR branch onto current main, resolve,
+     push, and re-enter Step 1 (CI + CodeRabbit must pass again on the new
+     head). Resolution not small and obvious → skip and report.
+   - **Test failure** (`tests/ci.sh` red on the combined result): rebasing
+     will not fix a real regression — diagnose it first. Only a small,
+     obvious fix may be pushed to the PR branch (then re-enter Step 1);
+     anything else → skip and report the PR without merging.
 3. Record the **validated head SHA** (the commit CI, CodeRabbit, and the
    preview test all ran against) **and the main base SHA the preview merged
    onto**. Immediately before merging, re-fetch both:
