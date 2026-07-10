@@ -119,7 +119,8 @@ Compare `nix eval nixpkgs#<attr>.version` against the latest upstream release.
    (`brew install infisical/get-cli/infisical`, add the `infisical/get-cli`
    tap). The nixpkgs-vs-upstream version comparison is only the deciding
    factor for *ordinary* CLIs; here it merely corroborates the choice.
-4. **Place**: nixpkgs path → `security` profile in `home/system-packages.nix`;
-   brew path → `brews` + `taps` in `modules/darwin/homebrew.nix`.
+4. **Place**: add the formula to `brews` and the tap to `taps` in
+   `modules/darwin/homebrew.nix` (brew won in step 3, so nixpkgs placement
+   does not apply here).
 5. **Validate** (Step 4), then open the draft PR (Step 5) noting: "secret
    manager → PR per policy; chose <tier> because <reason>".
