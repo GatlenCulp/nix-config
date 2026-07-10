@@ -43,10 +43,15 @@ ghostty is a cask). Do not spend time on the nixpkgs tier for GUI.
 1. **home-manager module** — does `programs.<name>` exist?
    (Check: https://home-manager-options.extranix.com, or locally
    `man home-configuration.nix`.) If yes → use it.
-2. **nixpkgs** — does the attr exist and build on aarch64-darwin?
-   (Check: `nix eval nixpkgs#<attr>.pname` and `meta.broken`;
-   https://search.nixos.org.) If yes → use it, **unless the staleness rule
-   fires** (next section).
+2. **nixpkgs** — does the attr exist AND build on aarch64-darwin? All of:
+   - attr exists: `nix eval nixpkgs#<attr>.pname`
+   - not broken: `nix eval nixpkgs#<attr>.meta.broken` is `false`
+   - platform supported: `nix eval --json nixpkgs#<attr>.meta.platforms`
+     includes `aarch64-darwin` (or the package is platform-agnostic)
+   - on the Mac, confirm buildability with
+     `nix build nixpkgs#<attr> --dry-run` (a cache hit is a strong signal);
+     on Linux sessions this cannot be proven — say so in the PR/commit.
+   If all pass → use it, **unless the staleness rule fires** (next section).
 3. **brew** — formula (CLIs) or cask (GUI). Use tap-qualified tokens
    (`owner/tap/name`) when not in homebrew-core, and add the tap to `taps`.
 4. **Tier 4 (nowhere packaged)** — ASK THE USER FIRST, then in order:
@@ -109,10 +114,11 @@ Compare `nix eval nixpkgs#<attr>.version` against the latest upstream release.
 2. **Risk**: security/credential tooling → **PR required**, even though the
    change itself is one line.
 3. **Resolve**: no `programs.infisical` in home-manager → nixpkgs has
-   `infisical` → staleness check: vendor CLI, self-updating class; compare
-   `nix eval nixpkgs#infisical.version` vs the latest GitHub release. If ≥1
-   major behind → brew (`brew install infisical/get-cli/infisical`, add the
-   `infisical/get-cli` tap); otherwise nixpkgs wins.
+   `infisical` → staleness rule: infisical is a **self-updating vendor CLI**,
+   so the vendor clause fires **unconditionally** → brew
+   (`brew install infisical/get-cli/infisical`, add the `infisical/get-cli`
+   tap). The nixpkgs-vs-upstream version comparison is only the deciding
+   factor for *ordinary* CLIs; here it merely corroborates the choice.
 4. **Place**: nixpkgs path → `security` profile in `home/system-packages.nix`;
    brew path → `brews` + `taps` in `modules/darwin/homebrew.nix`.
 5. **Validate** (Step 4), then open the draft PR (Step 5) noting: "secret
