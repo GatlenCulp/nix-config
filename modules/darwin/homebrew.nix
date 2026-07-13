@@ -1,4 +1,24 @@
+let
+  # Third-party (non-official) taps. Homebrew 6.0 (June 2026) added "tap trust":
+  # formulae/casks/commands from non-official taps refuse to load until the tap
+  # is explicitly trusted, otherwise `brew bundle` aborts activation. `brew bundle`
+  # does NOT auto-trust even fully-qualified entries, so every tap here must be
+  # trusted. We do that declaratively via `nix-homebrew.trust.taps` below (it runs
+  # `brew trust --tap` during activation, before the bundle).
+  taps = [
+    "charmbracelet/tap"
+    "mayowa-ojo/tap"
+    "noborus/tap"
+    "manaflow-ai/cmux" # cmux terminal
+    "stablyai/orca" # orca agent IDE
+    "infisical/get-cli" # infisical CLI
+  ];
+in
 {
+  # Trust the non-official taps this host declares. Note (per nix-homebrew): trust
+  # entries are NOT removed when you drop a tap from this list — use `brew untrust`.
+  nix-homebrew.trust.taps = taps;
+
   homebrew = {
     enable = true; # manage casks/brews/MAS apps so a factory-reset rebuild reinstalls everything
 
@@ -10,14 +30,7 @@
       cleanup = "none";
     };
 
-    taps = [
-      "charmbracelet/tap"
-      "mayowa-ojo/tap"
-      "noborus/tap"
-      "manaflow-ai/cmux" # cmux terminal
-      "stablyai/orca" # orca agent IDE
-      "infisical/get-cli" # infisical CLI
-    ];
+    inherit taps;
 
     brews = [
       "clipboard"
