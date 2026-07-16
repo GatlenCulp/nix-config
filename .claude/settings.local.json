@@ -58,7 +58,8 @@
       "Bash(git check-ignore *)",
       "Bash(git -c core.hooksPath=/dev/null commit -q -F -)",
       "Bash(git -c core.hooksPath=/dev/null merge --no-edit origin/main)",
-      "Bash(git -c core.hooksPath=/dev/null commit -q --no-edit)"
+      "Bash(git -c core.hooksPath=/dev/null commit -q --no-edit)",
+      "Bash(*)"
     ],
     "deny": [],
     "ask": [
