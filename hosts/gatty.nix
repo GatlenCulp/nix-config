@@ -77,6 +77,7 @@ let
       "${self}/home/dropbox"
       "${self}/home/duti"
       "${self}/home/fastfetch"
+      "${self}/home/fnm"
       # "${self}/home/firefox" # re-enable nur packages, takes a while to build.
       "${self}/home/git"
       "${self}/home/ghostty"
