@@ -127,8 +127,13 @@ in
 
     masApps = {
       "image2icon" = 992115977;
+      "Amphetamine" = 937984704; # Prevents sleep
+      "Command X" = 6448461551; # Adds cut/paste to Finder (Sindre Sorhus)
+      "Folder Preview" = 6698876601; # Quick Look for folder contents (Anybox)
+      "LastPass for Safari" = 6504626762; # Safari extension for LastPass
+      "Markdown Preview" = 6739955340; # Quick Look for Markdown (Anybox)
+      "Unzip - RAR ZIP 7Z Unarchiver" = 1537056818; # Archive extractor
       # Xcode = 497799835; # Note: Takes almost an hour to download, skip for fast install
-      # "1Password for Safari" = 1569813296;
     };
   };
 }

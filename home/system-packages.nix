@@ -70,6 +70,7 @@ let
 
     file-ops = [
       brotli
+      coreutils # GNU coreutils (was manually brew-installed)
       curl
       gnugrep
       gnutar
@@ -163,16 +164,16 @@ let
 
     # Unsupported on darwin (future)
     darwin-future = [
-    #   clipgrab             # unsupported on darwin
-    #   minecraft            # broken on darwin
-    #   netron               # unsupported on darwin
-    #   notion               # unsupported on darwin
-    #   obs-studio           # unsupported on darwin
-    #   postman              # broken on darwin
-    #   signal-desktop       # unsupported on darwin
-    #   ucspi-tcp            # unsupported on darwin
-    #   whatsapp-for-mac     # broken on darwin
-    #   zrok                 # unsupported on darwin
+      #   clipgrab             # unsupported on darwin
+      #   minecraft            # broken on darwin
+      #   netron               # unsupported on darwin
+      #   notion               # unsupported on darwin
+      #   obs-studio           # unsupported on darwin
+      #   postman              # broken on darwin
+      #   signal-desktop       # unsupported on darwin
+      #   ucspi-tcp            # unsupported on darwin
+      #   whatsapp-for-mac     # broken on darwin
+      #   zrok                 # unsupported on darwin
     ];
 
     # Not packaged (future)
