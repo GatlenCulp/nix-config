@@ -9,12 +9,14 @@
 # What it does, in order:
 #   1. Sanity-checks the machine (macOS, Apple Silicon, not root).
 #   2. Ensures the Xcode Command Line Tools (git + a C compiler) are present.
-#   3. Installs Lix (the Nix implementation this flake pins) via the Lix installer.
-#   4. Clones this config to ~/.config/nix-config.
-#   5. Clones the local flake dependency (nix-gat-vscode) that flake.nix expects
+#   3. Installs Rosetta 2 (Intel-only casks + the Intel Homebrew prefix need it).
+#   4. Installs Lix (the Nix implementation this flake pins) via the Lix installer.
+#   5. Clones this config to ~/.config/nix-config.
+#   6. Clones the local flake dependency (nix-gat-vscode) that flake.nix expects
 #      at /Users/gat/nix/nix-gat-vscode.
-#   6. Checks the sops age key + optional plaintext secrets file.
-#   7. Runs the first `darwin-rebuild switch` to build the system.
+#   7. Checks the sops age key + optional plaintext secrets file.
+#   8. Moves the Lix installer's /etc/nix/nix.conf aside so nix-darwin can own it,
+#      then runs the first `darwin-rebuild switch` to build the system.
 #
 # Everything is idempotent: re-running skips steps that are already done.
 #
@@ -136,6 +138,28 @@ ensure_clt() {
 }
 
 # ----------------------------------------------------------------------------
+# 2b. Rosetta 2 (x86_64 translation)
+# ----------------------------------------------------------------------------
+ensure_rosetta() {
+  step "Rosetta 2 (x86_64 translation)"
+  # Needed on Apple Silicon for anything Intel-only. This config relies on it in
+  # two places: nix-homebrew.enableRosetta sets up the /usr/local (Intel) Homebrew
+  # prefix, and some casks are Intel-only (e.g. gog-galaxy) — without Rosetta the
+  # first rebuild fails their install ("requires Rosetta 2 to be installed").
+  if [ -d /Library/Apple/usr/share/rosetta ] || /usr/bin/pgrep -q oahd 2>/dev/null; then
+    ok "Rosetta 2 already installed"
+    return
+  fi
+  info "Installing Rosetta 2 (Intel-only casks + the Intel Homebrew prefix need it)…"
+  if softwareupdate --install-rosetta --agree-to-license; then
+    ok "Rosetta 2 installed"
+  else
+    warn "Rosetta 2 install failed. Intel-only casks (e.g. gog-galaxy) will fail"
+    warn "to install. Re-run manually: softwareupdate --install-rosetta --agree-to-license"
+  fi
+}
+
+# ----------------------------------------------------------------------------
 # 3. Install Lix
 # ----------------------------------------------------------------------------
 load_nix_env() {
@@ -242,6 +266,33 @@ check_secrets() {
 }
 
 # ----------------------------------------------------------------------------
+# 6b. Make /etc ready for nix-darwin to take over
+# ----------------------------------------------------------------------------
+prepare_etc() {
+  # nix-darwin wants to *own* /etc/nix/nix.conf (and its included nix.custom.conf).
+  # The Lix installer already wrote both, so the first `darwin-rebuild switch`
+  # aborts with "Unexpected files in /etc" / "custom settings in nix.custom.conf"
+  # unless they're moved aside first. Do that here (the documented remediation);
+  # nix-darwin regenerates nix.conf with the experimental features this config
+  # declares, so nothing is lost. The bootstrap `nix run` below still works
+  # because it passes the features via NIX_CONFIG (see first_rebuild).
+  local f moved=0
+  for f in /etc/nix/nix.conf /etc/nix/nix.custom.conf; do
+    [ -e "$f" ] || continue
+    [ -e "$f.before-nix-darwin" ] && continue   # already moved on a previous run
+    # Only touch the Lix installer's own nix.conf, never a nix-darwin-managed one.
+    if [ "$f" = /etc/nix/nix.conf ] && ! head -n1 "$f" 2>/dev/null | grep -q 'install.lix.systems'; then
+      continue
+    fi
+    if [ "$moved" = 0 ]; then step "Preparing /etc for nix-darwin"; fi
+    info "Moving $f -> $f.before-nix-darwin"
+    sudo mv "$f" "$f.before-nix-darwin"
+    moved=1
+  done
+  [ "$moved" = 1 ] && ok "Installer nix config moved aside"
+}
+
+# ----------------------------------------------------------------------------
 # 7. First rebuild
 # ----------------------------------------------------------------------------
 first_rebuild() {
@@ -249,13 +300,28 @@ first_rebuild() {
   info "Target: $CONFIG_DIR#$FLAKE_NAME"
   info "This bootstraps nix-darwin and applies the whole configuration."
   info "It will ask for your password (sudo) and take several minutes."
+  info ""
+  info "Two macOS prompts to expect during this run:"
+  info "  • ${BOLD}App Management${RESET}: activation aborts with 'permission denied when"
+  info "    trying to update apps' until you grant your terminal App Management"
+  info "    under System Settings > Privacy & Security > App Management, then re-run."
+  info "  • ${BOLD}App Store${RESET}: the Mac App Store apps (masApps) only install if you are"
+  info "    signed in to the App Store; otherwise they fail with 'MASError error 5'."
+  info "Homebrew casks are downloaded up front, so expect a long quiet stretch and"
+  info "one or more sudo ${BOLD}Password:${RESET} prompts for pkg-based casks (Office, NordVPN, …)."
   confirm "Run the rebuild now?" || {
     warn "Skipping. Run it yourself when ready:"
-    info "  sudo nix run $NIX_DARWIN_FLAKE#darwin-rebuild -- \\"
+    info "  # Move the Lix installer's nix config aside so nix-darwin can take over:"
+    info "  sudo mv /etc/nix/nix.conf{,.before-nix-darwin} 2>/dev/null || true"
+    info "  sudo mv /etc/nix/nix.custom.conf{,.before-nix-darwin} 2>/dev/null || true"
+    info "  sudo NIX_CONFIG='extra-experimental-features = nix-command flakes' \\"
+    info "    nix run $NIX_DARWIN_FLAKE#darwin-rebuild -- \\"
     info "    switch --flake $CONFIG_DIR#$FLAKE_NAME --impure \\"
     info "    --override-input nix-gat-vscode $VSCODE_DIR"
     return
   }
+
+  prepare_etc
 
   # Absolute-path nix + preserved PATH so sudo can find it. Enable the
   # experimental features via NIX_CONFIG rather than a command-line flag: the
@@ -289,6 +355,7 @@ main() {
 
   preflight
   ensure_clt
+  ensure_rosetta
   ensure_lix
   clone_sources
   check_secrets
