@@ -3,22 +3,65 @@ let
   # Declarative file association mappings: bundleId -> [extensions]
   associations = {
     "com.adobe.Acrobat.Pro" = [ "pdf" ];
-    "io.mpv" = [ "mp4" "mkv" ];
+    "io.mpv" = [
+      "mp4"
+      "mkv"
+      "mov"
+      "webm"
+      "m4v"
+      "avi"
+      "flv"
+      "wmv"
+    ];
     "com.microsoft.VSCode" = [
       "json"
-      # "html"
+      "html"
       "css"
       "py"
       "nix"
       "csv"
       "md"
+      "js"
+      "ts"
+      "tsx"
+      "jsx"
+      "xml"
+      "yaml"
+      "yml"
+      "toml"
+      "sh"
+      "log"
+      "txt"
+      "sql"
+      "ipynb"
     ];
     "pl.maketheweb.cleanshotx" = [
       "jpg"
       "jpeg"
       "png"
+      "heic"
+      "gif"
+      "webp"
+      "tiff"
+      "bmp"
+      "svg"
     ];
     "org.m0k.transmission" = [ "torrent" ];
+    "com.microsoft.Word" = [ "docx" "doc" ];
+    "com.microsoft.Excel" = [ "xlsx" "xls" ];
+    "com.microsoft.Powerpoint" = [ "pptx" "ppt" ];
+    # Notion Calendar's bundle ID is still `com.cron.electron` (from its Cron origins).
+    "com.cron.electron" = [ "ics" ];
+    "com.lutzroeder.netron" = [
+      "onnx"
+      "pb"
+      "tflite"
+      "h5"
+      "pt"
+    ];
+    # `.command` is a macOS-specific "run in Terminal" shell script.
+    "com.mitchellh.ghostty" = [ "command" ];
+    "com.eteks.sweethome3d.SweetHome3D" = [ "sh3d" "sh3f" ];
   };
 
   # Generate duti commands from associations.
