@@ -71,9 +71,14 @@ die()  { printf '\n%s✗ %s%s\n' "$RED$BOLD" "$*" "$RESET" >&2; exit 1; }
 confirm() {
   local prompt="$1" reply
   if [ "$ASSUME_YES" = "1" ]; then return 0; fi
-  if [ -e /dev/tty ]; then
-    printf '  %s%s [y/N] %s' "$BOLD" "$prompt" "$RESET" > /dev/tty
-    read -r reply < /dev/tty || reply=""
+  # Open the controlling terminal on fd 3. This fails (rather than just being
+  # "missing") when there is no *usable* tty — e.g. /dev/tty exists but the
+  # process has no controlling terminal — so we fall through to the safe
+  # non-interactive path instead of tripping `set -e` on the read/printf below.
+  if exec 3<>/dev/tty 2>/dev/null; then
+    printf '  %s%s [y/N] %s' "$BOLD" "$prompt" "$RESET" >&3
+    read -r reply <&3 || reply=""
+    exec 3>&-
   else
     # No terminal available and not told to assume yes -> be safe.
     warn "No terminal for prompt; pass ASSUME_YES=1 to proceed non-interactively."
@@ -121,7 +126,14 @@ ensure_clt() {
   info "Triggering the Command Line Tools installer (a GUI dialog will appear)…"
   xcode-select --install >/dev/null 2>&1 || true
   info "Waiting for the installation to finish — complete the dialog, then come back."
-  until xcode-select -p >/dev/null 2>&1; do sleep 5; done
+  local waited=0 timeout=1800   # give up after 30 minutes
+  until xcode-select -p >/dev/null 2>&1; do
+    if [ "$waited" -ge "$timeout" ]; then
+      die "Command Line Tools still not installed after $((timeout / 60))m. Complete the GUI installer (or run 'xcode-select --install' manually), then re-run this script."
+    fi
+    sleep 5
+    waited=$((waited + 5))
+  done
   ok "Command Line Tools installed"
 }
 
@@ -147,9 +159,9 @@ ensure_lix() {
 
   info "Installing Lix via the official installer:"
   info "  $LIX_INSTALLER_URL"
-  local flags="install"
-  [ "$ASSUME_YES" = "1" ] && flags="install --no-confirm"
-  curl -sSf -L "$LIX_INSTALLER_URL" | sh -s -- $flags
+  local flags=(install)
+  [ "$ASSUME_YES" = "1" ] && flags+=(--no-confirm)
+  curl -sSf -L "$LIX_INSTALLER_URL" | sh -s -- "${flags[@]}"
 
   load_nix_env
   command -v nix >/dev/null 2>&1 || die "Nix not on PATH after install. Open a new shell and re-run."
@@ -240,16 +252,23 @@ first_rebuild() {
   confirm "Run the rebuild now?" || {
     warn "Skipping. Run it yourself when ready:"
     info "  sudo nix run $NIX_DARWIN_FLAKE#darwin-rebuild -- \\"
-    info "    switch --flake $CONFIG_DIR#$FLAKE_NAME --impure"
+    info "    switch --flake $CONFIG_DIR#$FLAKE_NAME --impure \\"
+    info "    --override-input nix-gat-vscode git+file:$VSCODE_DIR"
     return
   }
 
   # Absolute-path nix + preserved PATH so sudo can find it; extra experimental
   # features in case the installer's defaults aren't picked up under sudo.
+  #
+  # --override-input points the nix-gat-vscode flake input at wherever we cloned
+  # it. flake.nix hardcodes git+file:/Users/gat/nix/nix-gat-vscode, so without
+  # this a non-default NIX_GAT_VSCODE_DIR (or user) would fail evaluation. The
+  # follows-declarations in flake.nix (nixpkgs) are preserved across the override.
   sudo --preserve-env=PATH env PATH="$PATH" \
     nix run "$NIX_DARWIN_FLAKE#darwin-rebuild" -- \
     switch --flake "$CONFIG_DIR#$FLAKE_NAME" \
     --impure --show-trace \
+    --override-input nix-gat-vscode "git+file:$VSCODE_DIR" \
     --extra-experimental-features "nix-command flakes"
 
   ok "System built"
