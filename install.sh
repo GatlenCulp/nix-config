@@ -26,7 +26,6 @@
 #   NIX_GAT_VSCODE_REPO   git URL of the nix-gat-vscode flake dependency
 #   NIX_GAT_VSCODE_DIR    where to clone it (default: ~/nix/nix-gat-vscode)
 #   ASSUME_YES=1          don't prompt for confirmation, just go
-#   ALLOW_NO_AGE_KEY=1    continue even if the sops age key is missing
 
 set -euo pipefail
 
@@ -49,7 +48,6 @@ LIX_INSTALLER_URL="https://install.lix.systems/lix"
 NIX_DARWIN_FLAKE="github:LnL7/nix-darwin/nix-darwin-25.11"
 
 ASSUME_YES="${ASSUME_YES:-0}"
-ALLOW_NO_AGE_KEY="${ALLOW_NO_AGE_KEY:-0}"
 
 # ----------------------------------------------------------------------------
 # Pretty logging
@@ -221,7 +219,10 @@ check_secrets() {
     ok "secrets/secrets.nix present or no template to seed"
   fi
 
-  # sops-nix age key — REQUIRED for activation to decrypt secrets.yaml.
+  # sops-nix age key — OPTIONAL. The config's sops wiring only activates when
+  # this key is present (see secrets/sops.nix); without it the rebuild simply
+  # skips the encrypted secrets instead of failing. So a missing key is just a
+  # heads-up (the API keys from secrets.yaml won't be available), not a blocker.
   mkdir -p "$(dirname "$AGE_KEY_FILE")"
   if [ -e "$AGE_KEY_FILE" ]; then
     ok "sops age key found: $AGE_KEY_FILE"
@@ -229,21 +230,15 @@ check_secrets() {
   fi
 
   warn "sops age key missing: $AGE_KEY_FILE"
-  warn "secrets/secrets.yaml is encrypted with sops-nix; without this key the"
-  warn "rebuild will fail when it tries to decrypt secrets during activation."
+  info "sops is optional — the rebuild will proceed and skip the encrypted"
+  info "secrets (secrets/secrets.yaml), so the API keys they hold won't be set."
   info ""
-  info "Restore it from your password manager / another machine, e.g.:"
+  info "To enable them later, restore the key from your password manager /"
+  info "another machine and rebuild, e.g.:"
   info "  mkdir -p $(dirname "$AGE_KEY_FILE")"
   info "  pbpaste > $AGE_KEY_FILE   # or copy the file across"
   info "  chmod 600 $AGE_KEY_FILE"
   info ""
-
-  if [ "$ALLOW_NO_AGE_KEY" = "1" ]; then
-    warn "ALLOW_NO_AGE_KEY=1 set — continuing without it (rebuild may fail)."
-    return
-  fi
-  confirm "Continue without the age key (rebuild will likely fail)?" \
-    || die "Add the age key and re-run. (Or set ALLOW_NO_AGE_KEY=1 to force.)"
 }
 
 # ----------------------------------------------------------------------------
@@ -262,8 +257,13 @@ first_rebuild() {
     return
   }
 
-  # Absolute-path nix + preserved PATH so sudo can find it; extra experimental
-  # features in case the installer's defaults aren't picked up under sudo.
+  # Absolute-path nix + preserved PATH so sudo can find it. Enable the
+  # experimental features via NIX_CONFIG rather than a command-line flag: the
+  # flag would have to go to `nix run` (not darwin-rebuild, which doesn't know
+  # it — that's the `unknown option '--extra-experimental-features'` error),
+  # and NIX_CONFIG is also inherited by the nested nix invocations that
+  # darwin-rebuild spawns under sudo, in case the installer's defaults aren't
+  # picked up there.
   #
   # --override-input points the nix-gat-vscode flake input at wherever we cloned
   # it. flake.nix hardcodes git+file:/Users/gat/nix/nix-gat-vscode, so without
@@ -271,11 +271,11 @@ first_rebuild() {
   # the checkout as a plain path (not a git+file: URL) so a dir containing spaces
   # still parses; the nixpkgs follows in flake.nix are preserved across the override.
   sudo --preserve-env=PATH env PATH="$PATH" \
+    NIX_CONFIG="extra-experimental-features = nix-command flakes" \
     nix run "$NIX_DARWIN_FLAKE#darwin-rebuild" -- \
     switch --flake "$CONFIG_DIR#$FLAKE_NAME" \
     --impure --show-trace \
-    --override-input nix-gat-vscode "$VSCODE_DIR" \
-    --extra-experimental-features "nix-command flakes"
+    --override-input nix-gat-vscode "$VSCODE_DIR"
 
   ok "System built"
 }

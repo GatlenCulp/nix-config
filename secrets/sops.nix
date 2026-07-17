@@ -4,9 +4,21 @@
 # hosts/base.nix). This keeps the decryption identity and encrypted-file path
 # machine-specific so a work laptop can be pointed at a work-only secrets file
 # with its own age key, without touching this module.
-{ host, ... }:
+#
+# The whole wiring is *optional*: it only activates when the age decryption key
+# actually exists on the machine, or when a host explicitly sets
+# `host.sops.enable`. A freshly-provisioned machine that hasn't had its key
+# restored yet — or one that simply doesn't use sops — then rebuilds cleanly
+# instead of failing when sops-nix tries to decrypt during activation. Consumers
+# of config.sops.secrets.* must apply the same guard (see home/shells), since
+# these secrets are undefined when sops is off.
+{ host, lib, ... }:
+let
+  # Explicit opt-in/out wins; otherwise auto-detect from the age key's presence.
+  sopsEnabled = host.sops.enable or (builtins.pathExists host.sops.ageKeyFile);
+in
 {
-  sops = {
+  sops = lib.mkIf sopsEnabled {
     age.keyFile = host.sops.ageKeyFile;
     defaultSopsFile = host.sops.sopsFile;
     defaultSymlinkPath = host.sops.symlinkPath;
