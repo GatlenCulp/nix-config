@@ -17,6 +17,11 @@ let
   fishConfig = import ./fish.nix;
   nushellConfig = import ./nushell.nix { inherit lib pkgs; };
   xonshConfig = import ./xonsh.nix { inherit pkgs; };
+
+  # sops is optional (see secrets/sops.nix): explicit host.sops.enable wins,
+  # else auto-detect from the age key. When off, config.sops.secrets.* is
+  # undefined, so the API-key exports below must be gated on this.
+  sopsEnabled = host.sops.enable or (builtins.pathExists host.sops.ageKeyFile);
 in
 lib.mkMerge [
   zshConfig
@@ -68,6 +73,19 @@ lib.mkMerge [
       MANPAGER = "ov --section-delimiter '^[^\s]' --section-header";
       SOPS_AGE_KEY_FILE = "${config.xdg.configHome}/sops/age/keys-nix-sops.txt";
 
+      ### COOKIECUTTER
+      COOKIECUTTER_CONFIG = "${config.xdg.configHome}/nix-config/assets/gatlen-cookiecutter-config.yaml";
+
+      edit_config = "$EDITOR ~/.config/nix-config";
+      # Targets THIS machine's darwinConfigurations attr (see host.flakeName),
+      # so the same alias rebuilds the right profile on personal vs work.
+      rebuild = "NIXPKGS_ALLOW_UNFREE=1 sudo darwin-rebuild switch --flake ~/.config/nix-config#${host.flakeName} --show-trace --impure";
+      lsr = "eza -T --git-ignore";
+    }
+    # The API keys come from sops, which is optional (see secrets/sops.nix):
+    # when it's off, config.sops.secrets.* is undefined, so only reference — and
+    # export — these when sops is actually wired up.
+    // lib.optionalAttrs sopsEnabled {
       ### API KEYS FROM SOPS
       # AI API KEYS
       OPENAI_API_KEY = "$(cat ${config.sops.secrets.OPENAI_API_KEY.path})";
@@ -85,15 +103,6 @@ lib.mkMerge [
 
       ### MIT
       CSAIL_USERNAME = "$(cat ${config.sops.secrets.CSAIL_USERNAME.path})";
-
-      ### COOKIECUTTER
-      COOKIECUTTER_CONFIG = "${config.xdg.configHome}/nix-config/assets/gatlen-cookiecutter-config.yaml";
-
-      edit_config = "$EDITOR ~/.config/nix-config";
-      # Targets THIS machine's darwinConfigurations attr (see host.flakeName),
-      # so the same alias rebuilds the right profile on personal vs work.
-      rebuild = "NIXPKGS_ALLOW_UNFREE=1 sudo darwin-rebuild switch --flake ~/.config/nix-config#${host.flakeName} --show-trace --impure";
-      lsr = "eza -T --git-ignore";
     };
   }
 ]
