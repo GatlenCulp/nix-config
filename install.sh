@@ -253,7 +253,7 @@ first_rebuild() {
     warn "Skipping. Run it yourself when ready:"
     info "  sudo nix run $NIX_DARWIN_FLAKE#darwin-rebuild -- \\"
     info "    switch --flake $CONFIG_DIR#$FLAKE_NAME --impure \\"
-    info "    --override-input nix-gat-vscode git+file:$VSCODE_DIR"
+    info "    --override-input nix-gat-vscode $VSCODE_DIR"
     return
   }
 
@@ -262,13 +262,14 @@ first_rebuild() {
   #
   # --override-input points the nix-gat-vscode flake input at wherever we cloned
   # it. flake.nix hardcodes git+file:/Users/gat/nix/nix-gat-vscode, so without
-  # this a non-default NIX_GAT_VSCODE_DIR (or user) would fail evaluation. The
-  # follows-declarations in flake.nix (nixpkgs) are preserved across the override.
+  # this a non-default NIX_GAT_VSCODE_DIR (or user) would fail evaluation. Pass
+  # the checkout as a plain path (not a git+file: URL) so a dir containing spaces
+  # still parses; the nixpkgs follows in flake.nix are preserved across the override.
   sudo --preserve-env=PATH env PATH="$PATH" \
     nix run "$NIX_DARWIN_FLAKE#darwin-rebuild" -- \
     switch --flake "$CONFIG_DIR#$FLAKE_NAME" \
     --impure --show-trace \
-    --override-input nix-gat-vscode "git+file:$VSCODE_DIR" \
+    --override-input nix-gat-vscode "$VSCODE_DIR" \
     --extra-experimental-features "nix-command flakes"
 
   ok "System built"
