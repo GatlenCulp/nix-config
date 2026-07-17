@@ -144,8 +144,13 @@ load_nix_env() {
   # Make `nix` available in the current shell after a fresh install.
   local daemon_sh="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
   if [ -e "$daemon_sh" ]; then
+    # The daemon profile references $ZSH_VERSION / $BASH_VERSION unguarded, which
+    # aborts under our `set -u` (nounset). Relax *only* nounset for the source so
+    # a genuine failure in the profile still trips errexit; restore it afterward.
+    set +u
     # shellcheck disable=SC1090
     . "$daemon_sh"
+    set -u
   fi
 }
 
