@@ -1,5 +1,24 @@
 # nix-darwin
 
+## Fresh install (new machine)
+
+On a clean Apple Silicon Mac, bootstrap everything (Lix + nix-darwin +
+home-manager + this config) with one command:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/GatlenCulp/nix-config/main/install.sh | bash
+```
+
+`install.sh` is idempotent and walks through: Xcode Command Line Tools →
+install Lix → clone this repo to `~/.config/nix-config` → clone the
+`nix-gat-vscode` flake dependency → check secrets → first `darwin-rebuild
+switch`. It targets the `gatty` config by default; override with env vars
+(see the header of `install.sh`, e.g. `NIXCONFIG_FLAKE=work`).
+
+**Before it can finish** you need the sops age key at
+`~/.config/sops/age/keys-nix-sops.txt` (restored from your password manager /
+another machine) — without it the rebuild can't decrypt `secrets/secrets.yaml`.
+
 TODO: Assign macos terminal to use fira code nerd font
 TODO: Try embedded languages with nvim otter.
 
