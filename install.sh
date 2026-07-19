@@ -276,14 +276,17 @@ prepare_etc() {
   # nix-darwin regenerates nix.conf with the experimental features this config
   # declares, so nothing is lost. The bootstrap `nix run` below still works
   # because it passes the features via NIX_CONFIG (see first_rebuild).
+  # This runs during first-time bootstrap, before nix-darwin has ever managed
+  # /etc, so any file present here is an unmanaged one (Lix installer, a session
+  # hook, etc.) that must be moved aside whatever wrote it — matching on the Lix
+  # header would skip a stale non-Lix nix.conf and re-trigger the very abort we
+  # prevent. The .before-nix-darwin guard makes this idempotent and also protects
+  # a later nix-darwin-managed nix.conf: after a successful switch both it and its
+  # backup exist, so we skip it on re-runs.
   local f moved=0
   for f in /etc/nix/nix.conf /etc/nix/nix.custom.conf; do
     [ -e "$f" ] || continue
     [ -e "$f.before-nix-darwin" ] && continue   # already moved on a previous run
-    # Only touch the Lix installer's own nix.conf, never a nix-darwin-managed one.
-    if [ "$f" = /etc/nix/nix.conf ] && ! head -n1 "$f" 2>/dev/null | grep -q 'install.lix.systems'; then
-      continue
-    fi
     if [ "$moved" = 0 ]; then step "Preparing /etc for nix-darwin"; fi
     info "Moving $f -> $f.before-nix-darwin"
     sudo mv "$f" "$f.before-nix-darwin"
