@@ -19,6 +19,24 @@ in
   # entries are NOT removed when you drop a tap from this list — use `brew untrust`.
   nix-homebrew.trust.taps = taps;
 
+  # ── BetterDisplay post-rebuild reminder ──────────────────────────────────
+  # BetterDisplay's "Edit the system configuration of this display model" toggle
+  # is GUI-only: enabling it writes to the macOS system display config and needs
+  # an interactive admin-password prompt (AppleScript), so it can't be flipped
+  # declaratively or from the CLI. Custom HiDPI modes like 2026x1316 depend on
+  # that toggle being on. Once it's enabled by hand, the resolution *can* be
+  # applied from the CLI — so print the steps after every rebuild as a reminder.
+  system.activationScripts.postActivation.text = ''
+    echo ""
+    echo "  BetterDisplay — to apply the 2026x1316 HiDPI resolution:"
+    echo "    1. Open BetterDisplay, select your display, and enable"
+    echo "       'Edit the system configuration of this display model'"
+    echo "       (this prompts for your admin password — GUI-only, one time)."
+    echo "    2. Then run:"
+    echo "       betterdisplaycli set --name='<DisplayName>' --resolution=2026x1316"
+    echo ""
+  '';
+
   homebrew = {
     enable = true; # manage casks/brews/MAS apps so a factory-reset rebuild reinstalls everything
 
