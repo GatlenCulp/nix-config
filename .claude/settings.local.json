@@ -59,7 +59,8 @@
       "Bash(git -c core.hooksPath=/dev/null commit -q -F -)",
       "Bash(git -c core.hooksPath=/dev/null merge --no-edit origin/main)",
       "Bash(git -c core.hooksPath=/dev/null commit -q --no-edit)",
-      "Bash(*)"
+      "Bash(*)",
+      "mcp__Claude_Code_Remote__send_later"
     ],
     "deny": [],
     "ask": [
