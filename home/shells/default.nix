@@ -70,7 +70,10 @@ lib.mkMerge [
       VISUAL = "code";
       PAGER = "ov -F";
       PSQL_PAGER = "ov -F -C -d | -H1 --column-rainbow --align";
-      MANPAGER = "ov --section-delimiter '^[^\s]' --section-header";
+      # \\s (a literal backslash-s) so ov gets the regex '^[^\s]' — a line
+      # starting with a non-whitespace char. A single \s is an ill-defined Nix
+      # string escape that collapses to 's', which would wrongly mean '^[^s]'.
+      MANPAGER = "ov --section-delimiter '^[^\\s]' --section-header";
       SOPS_AGE_KEY_FILE = "${config.xdg.configHome}/sops/age/keys-nix-sops.txt";
 
       ### COOKIECUTTER

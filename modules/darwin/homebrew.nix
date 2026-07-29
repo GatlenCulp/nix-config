@@ -125,14 +125,34 @@ in
       "mactex"
     ];
 
+    # ━━━━━━━━━━━━━━━━━━━━━━━━ Mac App Store ━━━━━━━━━━━━━━━━━━━━━━━━
+    # TEMPORARILY DISABLED — do not re-enable until BOTH are true (see below).
+    #
+    # These fail to install for two independent reasons right now:
+    #   1. Upstream bug: `brew bundle` now calls `mas get <id>` (Homebrew/brew
+    #      #21559), but the installed `mas` doesn't know `get` ("2 unexpected
+    #      arguments: 'get', ...") — tracked in nix-darwin/nix-darwin#1722.
+    #   2. `mas` can't download without being signed in to the App Store
+    #      (fails with "MASError error 5").
+    #
+    # Critically, a `brew bundle` failure ABORTS `darwin-rebuild switch` *before*
+    # the home-manager activation step (Homebrew runs just ahead of it in the
+    # generated activation script). So while these are broken they take the whole
+    # user config down with them: no ~/.config dotfiles, no shell aliases, no
+    # aerospace/desktoppr launchd agents, no wallpaper. Disabling them lets the
+    # rest of the configuration activate. They can't install in this state
+    # anyway, so nothing is lost.
+    #
+    # To re-enable: sign in to the App Store, confirm `mas` supports `get`
+    # (`mas get <id>` works), then restore the block below and rebuild.
     masApps = {
-      "image2icon" = 992115977;
-      "Amphetamine" = 937984704; # Prevents sleep
-      "Command X" = 6448461551; # Adds cut/paste to Finder (Sindre Sorhus)
-      "Folder Preview" = 6698876601; # Quick Look for folder contents (Anybox)
-      "LastPass for Safari" = 6504626762; # Safari extension for LastPass
-      "Markdown Preview" = 6739955340; # Quick Look for Markdown (Anybox)
-      "Unzip - RAR ZIP 7Z Unarchiver" = 1537056818; # Archive extractor
+      # "image2icon" = 992115977;
+      # "Amphetamine" = 937984704; # Prevents sleep
+      # "Command X" = 6448461551; # Adds cut/paste to Finder (Sindre Sorhus)
+      # "Folder Preview" = 6698876601; # Quick Look for folder contents (Anybox)
+      # "LastPass for Safari" = 6504626762; # Safari extension for LastPass
+      # "Markdown Preview" = 6739955340; # Quick Look for Markdown (Anybox)
+      # "Unzip - RAR ZIP 7Z Unarchiver" = 1537056818; # Archive extractor
       # Xcode = 497799835; # Note: Takes almost an hour to download, skip for fast install
     };
   };
