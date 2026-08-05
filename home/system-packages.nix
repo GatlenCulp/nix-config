@@ -95,6 +95,7 @@ let
       # blender
       charm-freeze
       vhs
+      mpv # media player — system-level so mpv.app lands in /Applications/Nix Apps
     ];
 
     misc = [ neo-cowsay ];

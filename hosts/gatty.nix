@@ -87,7 +87,7 @@ let
       "${self}/home/jq"
       "${self}/home/less"
       "${self}/home/mise"
-      "${self}/home/mpv"
+      # "${self}/home/mpv" # moved to system-packages.nix (media) so mpv.app is discoverable in /Applications/Nix Apps
       "${self}/home/neovide"
       "${self}/home/nvim"
       "${self}/home/obsidian"
