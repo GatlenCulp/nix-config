@@ -15,7 +15,12 @@ let
     ];
     "com.microsoft.VSCode" = [
       "json"
-      "html"
+      # Do NOT put "html" here: `duti -s ... html all` sets VSCode as handler
+      # for the `public.html` UTI in ALL roles, which macOS then promotes to
+      # the http/https URL scheme handler — VSCode ends up being the default
+      # browser and OAuth flows (e.g. Notion Calendar's "Sign in with Google")
+      # try to open in VSCode. `urlSchemes` below explicitly re-pins http/https
+      # to Chrome to defend against similar future breakage.
       "css"
       "py"
       "nix"
@@ -64,6 +69,17 @@ let
     "com.eteks.sweethome3d.SweetHome3D" = [ "sh3d" "sh3f" ];
   };
 
+  # URL scheme handlers: bundleId -> [schemes]. `duti -s <bundle> <scheme>`
+  # sets the default app for a URL scheme (2-arg form, no role). Pinning
+  # http/https keeps the default browser stable — otherwise a stray `all`-role
+  # association (see the "html" warning above) can silently hijack it.
+  urlSchemes = {
+    "com.google.Chrome" = [
+      "http"
+      "https"
+    ];
+  };
+
   # Generate duti commands from associations.
   # Each mapping is wrapped so a single failure (e.g. an extension whose UTI
   # isn't registered with LaunchServices because no installed app declares
@@ -83,11 +99,27 @@ let
         ) associations
       )
     );
+
+  mkDutiSchemeCommands =
+    schemes:
+    lib.concatStringsSep "\n" (
+      lib.flatten (
+        lib.mapAttrsToList (
+          bundleId: schemeList:
+          map (scheme: ''
+            if ! ${pkgs.duti}/bin/duti -s ${bundleId} ${scheme} >/dev/null 2>&1; then
+              echo "warning: duti could not set ${bundleId} as ${scheme}:// handler (app may not be installed; skipping)"
+            fi
+          '') schemeList
+        ) schemes
+      )
+    );
 in
 {
   home.packages = [ pkgs.duti ];
 
   home.activation."configureDutiAppDefaults" = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     ${mkDutiCommands associations}
+    ${mkDutiSchemeCommands urlSchemes}
   '';
 }
