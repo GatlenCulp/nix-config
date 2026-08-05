@@ -1,3 +1,5 @@
+{ config, lib, pkgs, ... }:
+
 let
   # Third-party (non-official) taps. Homebrew 6.0 (June 2026) added "tap trust":
   # formulae/casks/commands from non-official taps refuse to load until the tap
@@ -18,6 +20,32 @@ in
   # Trust the non-official taps this host declares. Note (per nix-homebrew): trust
   # entries are NOT removed when you drop a tap from this list — use `brew untrust`.
   nix-homebrew.trust.taps = taps;
+
+  # nix-darwin's activate script has `set -e` and runs `brew bundle` directly
+  # ahead of the home-manager activation step. A single broken cask (recent
+  # example: `betterdisplay`'s `command_wrapper` breakage in Homebrew 6.0) or
+  # the `mas get` upstream regression causes brew bundle to exit non-zero,
+  # which aborts activation *before* home-manager runs — silently killing
+  # wallpaper, aerospace launchd agents, dotfile linking, everything.
+  #
+  # Override nix-darwin's homebrew activation to swallow the exit code and
+  # continue. The failure is still printed to stderr, so genuine misconfigs
+  # remain visible in rebuild output.
+  system.activationScripts.homebrew.text = lib.mkForce ''
+    echo >&2 "Homebrew bundle..."
+    if [ -f "${config.homebrew.brewPrefix}/brew" ]; then
+      PATH="${config.homebrew.brewPrefix}:${lib.makeBinPath [ pkgs.mas ]}:$PATH" \
+      sudo \
+        --preserve-env=PATH \
+        --user=${lib.escapeShellArg config.homebrew.user} \
+        --set-home \
+        env \
+        ${config.homebrew.onActivation.brewBundleCmd} \
+        || printf >&2 '\e[1;33mwarning: brew bundle exited non-zero; continuing activation\e[0m\n'
+    else
+      echo -e "\e[1;31merror: Homebrew is not installed, skipping...\e[0m" >&2
+    fi
+  '';
 
   homebrew = {
     enable = true; # manage casks/brews/MAS apps so a factory-reset rebuild reinstalls everything
@@ -67,8 +95,8 @@ in
       "adobe-creative-cloud"
       "clipgrab"
       "loom" # For contracting
-      "obs"
-      "vlc" # still installed despite MPV; kept per reset audit
+      # "obs"
+      # "vlc" # still installed despite MPV; kept per reset audit
       "canva" # still installed; kept per reset audit
       "cold-turkey-blocker"
       "jellyfin-media-player" # installed & used; nixpkgs jellyfin-media-player unavailable on darwin
@@ -79,7 +107,7 @@ in
       # "applite" # I don't need this anymore for homebrew
       "flux-app"
       "bartender"
-      "betterdisplay"
+      # "betterdisplay" The actual cask is broken I think
       "spotify" # For some reason, the nixpkgs version is breaking
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━ Office & Knowledge ━━━━━━━━━━━━━━━━━━━━━━━━
@@ -126,22 +154,16 @@ in
     ];
 
     # ━━━━━━━━━━━━━━━━━━━━━━━━ Mac App Store ━━━━━━━━━━━━━━━━━━━━━━━━
-    # TEMPORARILY DISABLED — do not re-enable until BOTH are true (see below).
-    #
-    # These fail to install for two independent reasons right now:
+    # TEMPORARILY DISABLED for two independent reasons:
     #   1. Upstream bug: `brew bundle` now calls `mas get <id>` (Homebrew/brew
     #      #21559), but the installed `mas` doesn't know `get` ("2 unexpected
     #      arguments: 'get', ...") — tracked in nix-darwin/nix-darwin#1722.
     #   2. `mas` can't download without being signed in to the App Store
     #      (fails with "MASError error 5").
     #
-    # Critically, a `brew bundle` failure ABORTS `darwin-rebuild switch` *before*
-    # the home-manager activation step (Homebrew runs just ahead of it in the
-    # generated activation script). So while these are broken they take the whole
-    # user config down with them: no ~/.config dotfiles, no shell aliases, no
-    # aerospace/desktoppr launchd agents, no wallpaper. Disabling them lets the
-    # rest of the configuration activate. They can't install in this state
-    # anyway, so nothing is lost.
+    # These no longer take down the rest of activation — the
+    # `system.activationScripts.homebrew.text` override above makes brew bundle
+    # non-fatal — but they still can't install in this state, so leave disabled.
     #
     # To re-enable: sign in to the App Store, confirm `mas` supports `get`
     # (`mas get <id>` works), then restore the block below and rebuild.
