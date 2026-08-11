@@ -32,8 +32,8 @@ TODO: want to write a blog post on nix and home-manager. Explaining things but a
 
 ```bash
 # Move the installer's nix config aside so nix-darwin can own /etc/nix:
-sudo mv /etc/nix/nix.conf{,.before-nix-darwin} 2>/dev/null || true
-sudo mv /etc/nix/nix.custom.conf{,.before-nix-darwin} 2>/dev/null || true
+sudo mv -n /etc/nix/nix.conf{,.before-nix-darwin} 2>/dev/null || true
+sudo mv -n /etc/nix/nix.custom.conf{,.before-nix-darwin} 2>/dev/null || true
 
 sudo --preserve-env=PATH env PATH="$PATH" \
   NIX_CONFIG='extra-experimental-features = nix-command flakes' \

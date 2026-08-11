@@ -321,8 +321,8 @@ print_manual_rebuild() {
 
   # Or do the same thing by hand:
   # 1. Hand /etc/nix over to nix-darwin (no-op if already done):
-  sudo mv /etc/nix/nix.conf{,.before-nix-darwin} 2>/dev/null || true
-  sudo mv /etc/nix/nix.custom.conf{,.before-nix-darwin} 2>/dev/null || true
+  sudo mv -n /etc/nix/nix.conf{,.before-nix-darwin} 2>/dev/null || true
+  sudo mv -n /etc/nix/nix.custom.conf{,.before-nix-darwin} 2>/dev/null || true
 
   # 2. Build and switch. The experimental features must be passed explicitly:
   #    under sudo, nix does not read your ~/.config/nix/nix.conf.
