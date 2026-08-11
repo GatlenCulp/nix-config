@@ -15,9 +15,11 @@ install Lix → clone this repo to `~/.config/nix-config` → clone the
 switch`. It targets the `gatty` config by default; override with env vars
 (see the header of `install.sh`, e.g. `NIXCONFIG_FLAKE=work`).
 
-**Before it can finish** you need the sops age key at
-`~/.config/sops/age/keys-nix-sops.txt` (restored from your password manager /
-another machine) — without it the rebuild can't decrypt `secrets/secrets.yaml`.
+The sops age key at `~/.config/sops/age/keys-nix-sops.txt` (restored from your
+password manager / another machine) is **optional but recommended**: the sops
+wiring only activates when the key is present, so without it the rebuild still
+succeeds — it just skips `secrets/secrets.yaml`, and the API keys it holds won't
+be set. Drop the key in and rebuild to pick them up.
 
 TODO: Assign macos terminal to use fira code nerd font
 TODO: Try embedded languages with nvim otter.
@@ -29,8 +31,33 @@ This will install nix-darwin if you don't already have it.
 TODO: want to write a blog post on nix and home-manager. Explaining things but also ranting/reviewing. This is nice: <https://gvolpe.com/blog/home-manager-dotfiles-management/>
 
 ```bash
-sudo nix run nix-darwin -- switch --flake ~/.config/nix-config --impure -j0
+# Move the installer's nix config aside so nix-darwin can own /etc/nix:
+sudo mv /etc/nix/nix.conf{,.before-nix-darwin} 2>/dev/null || true
+sudo mv /etc/nix/nix.custom.conf{,.before-nix-darwin} 2>/dev/null || true
+
+sudo --preserve-env=PATH env PATH="$PATH" \
+  NIX_CONFIG='extra-experimental-features = nix-command flakes' \
+  nix --extra-experimental-features 'nix-command flakes' \
+  run 'github:LnL7/nix-darwin/nix-darwin-25.11#darwin-rebuild' -- \
+  switch --flake ~/.config/nix-config#gatty --impure --show-trace
 ```
+
+Three things that command gets right and are easy to get wrong:
+
+- **`--extra-experimental-features` before `run`.** Under `sudo`, nix doesn't
+  read your `~/.config/nix/nix.conf` (`$HOME` isn't yours, so it falls back to
+  `/var/root`), and `/etc/nix/nix.conf` has just been moved aside — so nothing
+  enables `nix-command`/`flakes` for root and you get *"experimental Lix feature
+  'nix-command' is disabled"*. The flag has to go to `nix`, before the
+  subcommand: anything after the `--` is handed to `darwin-rebuild`, which
+  doesn't accept it. (`--enable-experimental-features` isn't a flag at all.)
+  `NIX_CONFIG` additionally covers the nested `nix` calls `darwin-rebuild` spawns.
+- **`#gatty`.** Without it, `darwin-rebuild` looks for
+  `darwinConfigurations.<hostname>`; the configs here are `gatty`, `work` and
+  `server`.
+- **the pinned `github:LnL7/nix-darwin/nix-darwin-25.11`** rather than the
+  `nix-darwin` registry alias, which resolves to whatever is current and may not
+  match this flake's inputs.
 
 To do a faster install once set up
 
@@ -167,7 +194,9 @@ SUPER COOL:
 ```
 
 ```
-#Initial installation: sudo nix run nix-darwin -- switch --flake ~/.config/nix-config
+# Initial installation: see "Fresh install (new machine)" at the top — the bare
+#   `sudo nix run nix-darwin -- switch --flake ~/.config/nix-config` is not
+#   enough (no experimental features under sudo, no `#gatty` attribute).
 # Subsequent updates: darwin-rebuild switch --flake ~/.config/nix-config
 #
 # nix-darwin: https://nix-darwin.github.io/nix-darwin/manual/index.html
