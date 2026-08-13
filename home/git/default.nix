@@ -84,10 +84,36 @@
       pull.rebase = true;
       log.date = "iso"; # use iso format for date
 
-      # replace https with ssh
+      # Replace https with ssh, and route each GitHub owner to the ssh host
+      # alias that pins the right key (see the github blocks in home/ssh).
+      #
+      # These are prefix rewrites applied at connect time only -- `git remote -v`
+      # still shows whatever URL was cloned, so remotes stay portable and repos
+      # cloned by `gh` on either machine authenticate as the right account with
+      # no per-repo setup.
       url = {
+        # Personal account: github.com already defaults to the personal key.
         "ssh://git@github.com/GatlenCulp" = {
           insteadOf = "https://github.com/GatlenCulp";
+        };
+
+        # Work org: force these through the alias carrying the work key,
+        # whichever form the remote was cloned in.
+        "ssh://git@github-civai/civicai" = {
+          insteadOf = [
+            "https://github.com/civicai"
+            "ssh://git@github.com/civicai"
+            "git@github.com:civicai"
+          ];
+        };
+
+        # Work account's own (non-org) repos.
+        "ssh://git@github-civai/Gatlen-CivAI" = {
+          insteadOf = [
+            "https://github.com/Gatlen-CivAI"
+            "ssh://git@github.com/Gatlen-CivAI"
+            "git@github.com:Gatlen-CivAI"
+          ];
         };
       };
 

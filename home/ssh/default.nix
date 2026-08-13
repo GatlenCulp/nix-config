@@ -22,15 +22,40 @@
     '';
 
     matchBlocks = {
+      # ── GitHub: two accounts, one config ──────────────────────────────────
+      #
+      # Both keys are registered on every machine; which one is used is decided
+      # by the repo, not the host. `home/git` rewrites remote URLs by owner so
+      # this is automatic -- GatlenCulp/* resolves to `github.com` and civicai/*
+      # to `github-civai`. Nothing to remember at push time.
+      #
+      # Each block MUST name an `identityFile`. `identitiesOnly` alone narrows
+      # nothing: ssh still offers every key loaded in the agent and GitHub
+      # authenticates as whichever it accepts first. With both accounts' keys in
+      # the agent that silently picks the wrong one, which surfaces as
+      # "Permission to GatlenCulp/<repo> denied to Gatlen-CivAI".
+      #
+      # Naming an identityFile also means the agent is not consulted at all, so
+      # `ssh-add` order stops mattering.
+
+      # Personal account (GatlenCulp). The default for github.com.
       "github.com" = {
         # "Using SSH over the HTTPS port for GitHub"
         # "(port 22 is banned by some proxies / firewalls)"
         hostname = "ssh.github.com";
         port = 443;
         user = "git";
+        identityFile = "~/.ssh/gatlen-personal";
+        identitiesOnly = true;
+      };
 
-        # Specifies that ssh should only use the identity file explicitly configured above
-        # required to prevent sending default identity files first.
+      # Work account (Gatlen-CivAI). Not a real hostname -- an alias that pins
+      # the work key; `hostname` below points it at the same GitHub endpoint.
+      "github-civai" = {
+        hostname = "ssh.github.com";
+        port = 443;
+        user = "git";
+        identityFile = "~/.ssh/id_ed25519";
         identitiesOnly = true;
       };
 
