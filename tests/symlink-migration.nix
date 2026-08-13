@@ -29,6 +29,11 @@ let
     };
     self = null;
     lib = { };
+    # claude-code takes its package from the claude-code-nix flake input. The
+    # tests never force `programs.claude-code.package`, so an empty stub is
+    # enough to satisfy the function argument without pulling in flake inputs
+    # (which would break this module's "no network, no flake" contract).
+    inputs = { };
   };
 
   ghostty = import ../home/ghostty/default.nix mockArgs;

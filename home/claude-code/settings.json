@@ -47,6 +47,9 @@
     "command": "bunx ccstatusline@latest",
     "padding": 0
   },
+  "enabledPlugins": {
+    "ralph-skills@ralph-marketplace": true
+  },
   "extraKnownMarketplaces": {
     "ralph-marketplace": {
       "source": {
@@ -57,7 +60,5 @@
   },
   "theme": "dark",
   "agentPushNotifEnabled": true,
-  "enabledPlugins": {
-    "ralph-skills@ralph-marketplace": true
-  }
+  "effortLevel": "high"
 }

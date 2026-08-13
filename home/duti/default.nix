@@ -13,14 +13,19 @@ let
       "flv"
       "wmv"
     ];
-    "com.microsoft.VSCode" = [
+    # Cursor is the default editor for source/text files. The bundle ID is
+    # opaque because Cursor ships via ToDesktop; verify after an app update
+    # with:  osascript -e 'id of app "Cursor"'
+    # (Cursor is installed outside nix, in /Applications — if it is ever
+    # missing on a host, the guarded duti calls below just warn and skip.)
+    "com.todesktop.230313mzl4w4u92" = [
       "json"
-      # Do NOT put "html" here: `duti -s ... html all` sets VSCode as handler
-      # for the `public.html` UTI in ALL roles, which macOS then promotes to
-      # the http/https URL scheme handler — VSCode ends up being the default
-      # browser and OAuth flows (e.g. Notion Calendar's "Sign in with Google")
-      # try to open in VSCode. `urlSchemes` below explicitly re-pins http/https
-      # to Chrome to defend against similar future breakage.
+      # Do NOT put "html" here: `duti -s ... html all` sets the editor as
+      # handler for the `public.html` UTI in ALL roles, which macOS then
+      # promotes to the http/https URL scheme handler — the editor ends up
+      # being the default browser and OAuth flows (e.g. Notion Calendar's
+      # "Sign in with Google") try to open in it. `urlSchemes` below explicitly
+      # re-pins http/https to Chrome to defend against similar future breakage.
       "css"
       "py"
       "nix"

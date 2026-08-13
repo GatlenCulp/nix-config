@@ -1,6 +1,17 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   flakeDir = "${config.home.homeDirectory}/.config/nix-config";
+
+  # Source the package from the claude-code-nix flake input instead of
+  # `pkgs.claude-code`: nixpkgs' copy lags upstream by weeks, and Claude Code
+  # ships several releases a week. Same official Anthropic binary, re-pinned
+  # hourly. See the input's comment in flake.nix.
+  claudeCode = inputs.claude-code-nix.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
 
   # MCP servers live in a LIVE-EDITABLE, repo-tracked JSON (mcp.json beside
   # this file) — same pattern as settings.json: edit + restart claude, no
@@ -19,12 +30,12 @@ let
   # value, pointed at the live repo file.
   wrappedClaudeCode = pkgs.symlinkJoin {
     name = "claude-code";
-    paths = [ pkgs.claude-code ];
+    paths = [ claudeCode ];
     nativeBuildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/claude --add-flags "--mcp-config=${flakeDir}/home/claude-code/mcp.json"
     '';
-    inherit (pkgs.claude-code) meta;
+    inherit (claudeCode) meta;
   };
 in
 {

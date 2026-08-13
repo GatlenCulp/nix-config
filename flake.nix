@@ -65,6 +65,18 @@
     nix-openclaw = {
       url = "github:openclaw/nix-openclaw"; # pins macOS app + gateway bundle
     };
+
+    # Claude Code straight from Anthropic's release CDN, re-pinned hourly by CI.
+    # nixpkgs' `claude-code` trails upstream by weeks (PR review + channel lag),
+    # which strands us many versions behind; this flake's package.nix is just a
+    # sha256-pinned fetchurl of the same official native binary plus a wrapper,
+    # so it is the identical artifact, only fresher. Consumed in
+    # home/claude-code (NOT as an overlay) so that module stays the single
+    # provider of `claude` on PATH -- see the note in home/nvim/default.nix.
+    claude-code-nix = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =
@@ -80,13 +92,22 @@
       nix-gat-vscode,
       zjstatus,
       nix-openclaw,
+      claude-code-nix,
       ...
     }:
     let
       # Inputs every host module needs. Each host file (hosts/*.nix) builds its
       # own `host` spec and imports hosts/base.nix with these.
       hostInputs = {
-        inherit self nix-darwin home-manager nix-homebrew sops-nix nix-gat-vscode;
+        inherit
+          self
+          nix-darwin
+          home-manager
+          nix-homebrew
+          sops-nix
+          nix-gat-vscode
+          claude-code-nix
+          ;
       };
 
       # A host file now returns a darwin module directly (via hosts/base.nix),
