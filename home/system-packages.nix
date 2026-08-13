@@ -124,7 +124,6 @@ let
       raycast
       # spotify
       tailscale # I think just the cli
-      zotero
       # mailspring # eh, not a huge fan
     ];
 

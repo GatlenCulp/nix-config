@@ -115,6 +115,7 @@ in
       # "memory" # May return to
       "microsoft-auto-update"
       "microsoft-office"
+      "zotero"
       "notion"
       "notion-calendar"
       "notion-mail"
