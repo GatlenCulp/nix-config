@@ -76,6 +76,7 @@ in
     }
     "${self}/home/system-defaults.nix"
     "${self}/home/system-packages.nix"
+    "${self}/modules/darwin/nix-daemon-heal.nix"
     {
       system = {
         configurationRevision = self.rev or self.dirtyRev or null;
