@@ -13,7 +13,10 @@ let
     build-tools = [
       actionlint
       go-task
-      just
+      # just — installed via homebrew instead; see modules/darwin/homebrew.nix.
+      # The channel this config evaluates against is frozen ~15 minor versions
+      # behind upstream, and nix profile bins outrank /opt/homebrew/bin on PATH,
+      # so it has to be absent here for the brew binary to win.
       yo
       gnumake
       bats # Bash Automated Testing System (was manually brew-installed)

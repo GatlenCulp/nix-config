@@ -69,6 +69,10 @@ in
       "zrok"
       "hf" # HuggingFace CLI (formula renamed from huggingface-cli)
       "latexindent"
+      # Command runner. homebrew-core tracks upstream same-day (1.58.x); the
+      # nixpkgs channel this config evaluates against sits ~15 minor versions
+      # back (1.43.1), so `just` was moved out of home/system-packages.nix.
+      "just"
       "tiger-vnc" # VNC client; nixpkgs tigervnc is marked broken on darwin
       # Secret manager CLI. Official tap; chosen over nixpkgs (0.41.90) because
       # upstream is a self-updating vendor CLI shipping multiple releases/day
