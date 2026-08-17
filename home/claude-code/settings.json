@@ -21,7 +21,7 @@
       "Bash(uv run python:*)",
       "Bash(python3:*)"
     ],
-    "defaultMode": "acceptEdits",
+    "defaultMode": "auto",
     "disableBypassPermissionsMode": "disable"
   },
   "hooks": {
@@ -48,7 +48,8 @@
     "padding": 0
   },
   "enabledPlugins": {
-    "ralph-skills@ralph-marketplace": true
+    "ralph-skills@ralph-marketplace": true,
+    "pyright-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "ralph-marketplace": {
@@ -58,7 +59,38 @@
       }
     }
   },
+  "effortLevel": "high",
   "theme": "dark",
   "agentPushNotifEnabled": true,
-  "effortLevel": "high"
+  "autoMode": {
+    "environment": [
+      "### Org-wide",
+      "**Organization**: civicai (GitHub org on remote github.com:civicai/cyber-site-hospital.git)",
+      "**Cloud provider(s)**: Modal (used for deploy/serve per .env.example and Makefile `deploy`/`run` targets; api.modal.com and *.modal.run contacted in this project)",
+      "**Repository visibility**: assume private unless the remote host and repo name indicate otherwise, or a visibility check in the transcript shows public (gh visibility check not queryable here — org/repo not derivable)",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: .env file (MODAL_TOKEN_ID/SECRET, FIELD_ENCRYPTION_KEY, seed demo passwords) via .env.example; run_local.sh sets a fixed dev key for local runs",
+      "**Default / protected branches**: main (default; protection status not queryable here)",
+      "**CI/CD deploy targets**: Modal, via `just deploy` / `modal deploy` / `modal serve` (Makefile targets: deploy, run)",
+      "**Network posture**: None configured",
+      "**Source control**: The trusted repo (civicai/cyber-site-hospital on github.com) and its remote(s) only (no additional orgs configured)",
+      "**Trusted internal domains**: None configured",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: civai--cedarbrook-hospital-web-serve.modal.run (contacted in this project's transcripts), api.modal.com",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: .env, .env.example, accounts/management/commands/_seed_credentials.py (contain Modal tokens, field-encryption key, and demo seed account passwords) — share only with audiences cleared at the [named+specifics] bar",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment",
+      "**Protected deployment namespaces / environments**: None configured — fall back to the Sensitive remote targets heuristic",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development",
+      "**Trusted repo**: /Users/gat/s/cyber/cyber-site-hospital (working directory) and its remote github.com:civicai/cyber-site-hospital.git",
+      "**Org-specific CLIs**: None configured (project tooling: modal, just, uv — used for this repo's build/deploy)"
+    ],
+    "soft_deny": [
+      "$defaults",
+      "Bash(modal deploy:*) in /Users/gat/s/cyber/cyber-site-hospital — production deploy action to Modal, keep confirmable rather than auto-approved"
+    ]
+  }
 }

@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/gat/.config/nix-config/.codex/hooks/session-start.sh'"
+          }
+        ]
+      }
+    ]
+  }
+}
