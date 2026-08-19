@@ -49,6 +49,15 @@ AGE_KEY_FILE="$HOME/.config/sops/age/keys-nix-sops.txt"
 LIX_INSTALLER_URL="https://install.lix.systems/lix"
 NIX_DARWIN_FLAKE="github:LnL7/nix-darwin/nix-darwin-25.11"
 
+# Experimental features the bootstrap needs. These must be passed explicitly to
+# every `nix` invocation the bootstrap makes: under `sudo`, nix does not read
+# your ~/.config/nix/nix.conf (HOME isn't yours, so it falls back to /var/root),
+# and /etc/nix/nix.conf may not enable them either — the Lix installer can write
+# them per-user, and prepare_etc deliberately moves the system file aside so
+# nix-darwin can own it. Without this you get:
+#   error: experimental Lix feature 'nix-command' is disabled
+NIX_FEATURES="nix-command flakes"
+
 ASSUME_YES="${ASSUME_YES:-0}"
 
 # ----------------------------------------------------------------------------
@@ -275,7 +284,8 @@ prepare_etc() {
   # unless they're moved aside first. Do that here (the documented remediation);
   # nix-darwin regenerates nix.conf with the experimental features this config
   # declares, so nothing is lost. The bootstrap `nix run` below still works
-  # because it passes the features via NIX_CONFIG (see first_rebuild).
+  # because it passes the features explicitly (see first_rebuild) rather than
+  # relying on the file we just moved.
   # This runs during first-time bootstrap, before nix-darwin has ever managed
   # /etc, so any file present here is an unmanaged one (Lix installer, a session
   # hook, etc.) that must be moved aside whatever wrote it — matching on the Lix
@@ -298,6 +308,33 @@ prepare_etc() {
 # ----------------------------------------------------------------------------
 # 7. First rebuild
 # ----------------------------------------------------------------------------
+
+# The exact commands to bootstrap by hand, printed when we skip the rebuild or
+# when it fails. Kept next to the real invocation below so the two can't drift —
+# a stale copy here is what sends people to `sudo nix run nix-darwin -- switch`,
+# which fails on both counts: no experimental features under sudo, and the
+# unpinned `nix-darwin` registry entry instead of the version this flake pins.
+print_manual_rebuild() {
+  cat <<EOF
+  # 0. Simplest: re-run this script; every step it already did is a no-op.
+  ASSUME_YES=1 bash $CONFIG_DIR/install.sh
+
+  # Or do the same thing by hand:
+  # 1. Hand /etc/nix over to nix-darwin (no-op if already done):
+  sudo mv -n /etc/nix/nix.conf{,.before-nix-darwin} 2>/dev/null || true
+  sudo mv -n /etc/nix/nix.custom.conf{,.before-nix-darwin} 2>/dev/null || true
+
+  # 2. Build and switch. The experimental features must be passed explicitly:
+  #    under sudo, nix does not read your ~/.config/nix/nix.conf.
+  sudo --preserve-env=PATH env PATH="\$PATH" \\
+    NIX_CONFIG='extra-experimental-features = $NIX_FEATURES' \\
+    nix --extra-experimental-features '$NIX_FEATURES' \\
+    run '$NIX_DARWIN_FLAKE#darwin-rebuild' -- \\
+    switch --flake '$CONFIG_DIR#$FLAKE_NAME' --impure --show-trace \\
+    --override-input nix-gat-vscode '$VSCODE_DIR'
+EOF
+}
+
 first_rebuild() {
   step "Building the system (first darwin-rebuild switch)"
   info "Target: $CONFIG_DIR#$FLAKE_NAME"
@@ -314,37 +351,43 @@ first_rebuild() {
   info "one or more sudo ${BOLD}Password:${RESET} prompts for pkg-based casks (Office, NordVPN, …)."
   confirm "Run the rebuild now?" || {
     warn "Skipping. Run it yourself when ready:"
-    info "  # Move the Lix installer's nix config aside so nix-darwin can take over:"
-    info "  sudo mv /etc/nix/nix.conf{,.before-nix-darwin} 2>/dev/null || true"
-    info "  sudo mv /etc/nix/nix.custom.conf{,.before-nix-darwin} 2>/dev/null || true"
-    info "  sudo NIX_CONFIG='extra-experimental-features = nix-command flakes' \\"
-    info "    nix run $NIX_DARWIN_FLAKE#darwin-rebuild -- \\"
-    info "    switch --flake $CONFIG_DIR#$FLAKE_NAME --impure \\"
-    info "    --override-input nix-gat-vscode $VSCODE_DIR"
+    print_manual_rebuild
     return
   }
 
   prepare_etc
 
-  # Absolute-path nix + preserved PATH so sudo can find it. Enable the
-  # experimental features via NIX_CONFIG rather than a command-line flag: the
-  # flag would have to go to `nix run` (not darwin-rebuild, which doesn't know
-  # it — that's the `unknown option '--extra-experimental-features'` error),
-  # and NIX_CONFIG is also inherited by the nested nix invocations that
-  # darwin-rebuild spawns under sudo, in case the installer's defaults aren't
-  # picked up there.
+  # Preserved PATH so sudo can find nix at all.
+  #
+  # The experimental features are passed twice, deliberately:
+  #   • as a global `nix` flag, which enables them for *this* process. It has to
+  #     sit before `run` — anything after the `--` goes to darwin-rebuild, which
+  #     doesn't know the option (`unknown option '--extra-experimental-features'`,
+  #     and `--enable-experimental-features` isn't a flag at all).
+  #   • via NIX_CONFIG, which is inherited by the nested nix invocations that
+  #     darwin-rebuild spawns under sudo, where the flag doesn't reach.
+  # Neither is redundant, and neither can be dropped in favour of ambient config:
+  # sudo's nix reads /etc/nix/nix.conf but not the user's ~/.config/nix/nix.conf,
+  # and prepare_etc has just moved /etc/nix/nix.conf aside.
   #
   # --override-input points the nix-gat-vscode flake input at wherever we cloned
   # it. flake.nix hardcodes git+file:/Users/gat/nix/nix-gat-vscode, so without
   # this a non-default NIX_GAT_VSCODE_DIR (or user) would fail evaluation. Pass
   # the checkout as a plain path (not a git+file: URL) so a dir containing spaces
   # still parses; the nixpkgs follows in flake.nix are preserved across the override.
-  sudo --preserve-env=PATH env PATH="$PATH" \
-    NIX_CONFIG="extra-experimental-features = nix-command flakes" \
-    nix run "$NIX_DARWIN_FLAKE#darwin-rebuild" -- \
+  if ! sudo --preserve-env=PATH env PATH="$PATH" \
+    NIX_CONFIG="extra-experimental-features = $NIX_FEATURES" \
+    nix --extra-experimental-features "$NIX_FEATURES" \
+    run "$NIX_DARWIN_FLAKE#darwin-rebuild" -- \
     switch --flake "$CONFIG_DIR#$FLAKE_NAME" \
     --impure --show-trace \
-    --override-input nix-gat-vscode "$VSCODE_DIR"
+    --override-input nix-gat-vscode "$VSCODE_DIR"; then
+    warn "The rebuild failed — see the error above."
+    info "Common causes: App Management permission not granted to this terminal,"
+    info "or a cask/App Store app that couldn't install. Fix it, then resume with:"
+    print_manual_rebuild
+    die "Rebuild failed."
+  fi
 
   ok "System built"
 }
