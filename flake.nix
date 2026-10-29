@@ -66,17 +66,11 @@
       url = "github:openclaw/nix-openclaw"; # pins macOS app + gateway bundle
     };
 
-    # Claude Code straight from Anthropic's release CDN, re-pinned hourly by CI.
-    # nixpkgs' `claude-code` trails upstream by weeks (PR review + channel lag),
-    # which strands us many versions behind; this flake's package.nix is just a
-    # sha256-pinned fetchurl of the same official native binary plus a wrapper,
-    # so it is the identical artifact, only fresher. Consumed in
-    # home/claude-code (NOT as an overlay) so that module stays the single
-    # provider of `claude` on PATH -- see the note in home/nvim/default.nix.
-    claude-code-nix = {
-      url = "github:sadjow/claude-code-nix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+    # No claude-code input: the Claude Code CLI comes from the `claude-code`
+    # Homebrew cask now (modules/darwin/homebrew.nix, AI section). Brew pulls the
+    # same official Anthropic binary a flake input would, but tracks the release
+    # CDN directly, so there is no pin to keep re-locking behind a tool that
+    # ships several releases a week. See home/claude-code for the details.
   };
 
   outputs =
@@ -92,7 +86,6 @@
       nix-gat-vscode,
       zjstatus,
       nix-openclaw,
-      claude-code-nix,
       ...
     }:
     let
@@ -106,7 +99,6 @@
           nix-homebrew
           sops-nix
           nix-gat-vscode
-          claude-code-nix
           ;
       };
 

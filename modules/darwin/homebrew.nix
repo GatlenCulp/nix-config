@@ -144,7 +144,13 @@ in
       "steam"
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━ AI ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-      "claude"
+      "claude" # desktop app (Claude.app) -- distinct from the claude-code CLI below
+      # Claude Code CLI. Brew installs the same official Anthropic binary the
+      # retired claude-code-nix flake fetched (downloads.claude.ai/.../darwin-arm64),
+      # symlinked to /opt/homebrew/bin/claude, but `brew upgrade` tracks upstream
+      # directly instead of waiting on a flake re-pin. Vendor-CLI clause of the
+      # staleness rule: Claude Code ships several releases a week.
+      "claude-code"
       "codex-app" # still installed; kept per reset audit
       # "chatgpt" Don't really use
       "openclaw"

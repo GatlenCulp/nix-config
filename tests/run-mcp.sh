@@ -4,9 +4,10 @@
 #   1. mcp.json is valid JSON with the expected servers.
 #   2. NO literal secrets in mcp.json — it is committed to git; secrets must be
 #      ${ENV_VAR} references expanded by Claude Code at runtime.
-#   3. The claude wrapper points --mcp-config= (equals form) at the LIVE repo
-#      path, not a read-only /nix/store path, and the store-baked
-#      programs.claude-code.mcpServers option is not used.
+#   3. The brew-cask handover holds: the Claude Code CLI comes from the
+#      `claude-code` cask, home/claude-code installs no competing Nix copy, and
+#      register-mcp.sh replays every mcp.json server at user scope (the
+#      replacement for the removed --mcp-config wrapper).
 #   4. The whatsapp-mcp launchd agent evaluates and targets the bridge dir.
 set -uo pipefail
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -32,17 +33,49 @@ else
   ok "mcp.json has no literal secrets (env-var references only)"
 fi
 
-# --- 3. wrapper uses equals form + live path ---------------------------------
+# --- 3. brew owns the CLI; MCP servers registered at user scope --------------
+# The --mcp-config wrapper is gone: brew puts claude at /opt/homebrew/bin, which
+# precedes the home-manager profile on PATH, so a Nix shim could never win the
+# lookup. register-mcp.sh writes the servers into ~/.claude.json instead.
 mod=home/claude-code/default.nix
-if grep -q -- '--mcp-config=''${flakeDir}/home/claude-code/mcp.json' "$mod"; then
-  ok "claude wrapper uses --mcp-config=<live repo path> (equals form)"
+reg=home/claude-code/register-mcp.sh
+
+if grep -qE '^\s*"claude-code"' modules/darwin/homebrew.nix; then
+  ok "claude-code cask declared in homebrew.nix (brew owns the CLI)"
 else
-  fail "claude wrapper does not point --mcp-config= at the live mcp.json"
+  fail "claude-code cask missing from modules/darwin/homebrew.nix"
+fi
+
+# No second bin/claude from Nix: neither programs.claude-code.enable nor a
+# symlinkJoin wrapper may come back, or it shadows/collides with the cask.
+if grep -qE '^\s*(enable|package)\s*=' "$mod" || grep -q 'symlinkJoin' "$mod"; then
+  fail "$mod installs a Nix claude-code again — brew owns the CLI now"
+else
+  ok "home/claude-code installs no competing Nix claude (settings symlink only)"
 fi
 if grep -qE '^\s*mcpServers\s*=' "$mod"; then
   fail "programs.claude-code.mcpServers is set (store-baked config) — should be unset"
 else
   ok "programs.claude-code.mcpServers not used (no store-baked MCP config)"
+fi
+
+# The settings.json symlink is the one thing home/claude-code must still do.
+if grep -q 'mkOutOfStoreSymlink' "$mod"; then
+  ok "home/claude-code still symlinks settings.json to the live repo file"
+else
+  fail "$mod no longer symlinks ~/.claude/settings.json at the repo file"
+fi
+
+# register-mcp.sh must exist, be user-scoped, and cover every mcp.json server.
+if [ -f "$reg" ] && grep -q 'mcp add-json -s user' "$reg"; then
+  ok "register-mcp.sh replays mcp.json at user scope"
+else
+  fail "register-mcp.sh missing or not using 'claude mcp add-json -s user'"
+fi
+if bash -n "$reg" 2>/dev/null; then
+  ok "register-mcp.sh is syntactically valid bash"
+else
+  fail "register-mcp.sh has a syntax error"
 fi
 
 # --- 4. whatsapp launchd agent evaluates --------------------------------------

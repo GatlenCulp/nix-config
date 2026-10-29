@@ -62,10 +62,11 @@ in
       mermaid-cli
 
       ### AI
-      # claude-code is intentionally NOT listed here: home/claude-code already
-      # installs a wrapped claude-code (symlinkJoin with MCP config), and adding
-      # the plain pkgs.claude-code too makes buildEnv fail with a bin/claude
-      # path conflict. greggh/claude-code.nvim uses the wrapped `claude` CLI.
+      # claude-code is intentionally NOT listed here: the `claude` CLI comes from
+      # the `claude-code` Homebrew cask (modules/darwin/homebrew.nix), which puts
+      # it at /opt/homebrew/bin/claude -- ahead of the home-manager profile on
+      # PATH. Adding pkgs.claude-code would be a stale second copy that never
+      # wins the PATH lookup anyway. greggh/claude-code.nvim just execs `claude`.
 
       ### LSP servers
       typos-lsp
