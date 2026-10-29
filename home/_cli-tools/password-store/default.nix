@@ -46,7 +46,14 @@ in
   programs.browserpass = {
     enable = true;
     browsers = [
-      "chrome"
+      # "chrome" -- DISABLED: macOS 27 puts
+      # ~/Library/Application Support/Google/Chrome under App Management (TCC)
+      # protection, so even `gat` gets EPERM writing into it. home-manager's
+      # chrome target includes policies/managed/, and the failing `ln` aborts
+      # the whole activation script before it reaches /run/current-system (the
+      # link worked up to generation 12, pre-upgrade). Granting the terminal App
+      # Management does NOT lift it. Browserpass in Chrome proper is the cost;
+      # chromium and firefox are unaffected, writing outside the protected dir.
       "chromium"
       "firefox"
     ];
