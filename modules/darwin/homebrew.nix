@@ -85,7 +85,11 @@ in
       "netron" # On nixpkgs but not darwin
       "postman"
       "linear" # Linear desktop app (was manually installed, not in config)
-      "gcloud-cli" # Google Cloud SDK (was manually installed, not in config)
+      # "gcloud-cli" # Google Cloud SDK -- DISABLED: the cask fails to install
+      # with `Error: unknown install step: copy`, which fails `brew bundle` and
+      # so aborts the rest of the activation. The cask's DSL is ahead of the brew
+      # we run (nix-homebrew pinned); re-enable once they line up. Installed
+      # manually in the meantime: /opt/homebrew/share/google-cloud-sdk.
       # "anythingllm" # Broken for some reason
 
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━ Browsers ━━━━━━━━━━━━━━━━━━━━━━━━━━
