@@ -42,7 +42,15 @@ local servers = {
   -- lang/webdev.nix
   ts_ls = {},
   tailwindcss = {},
-  svelte = {},
+  -- In a monorepo, lspconfig's default root_dir (nearest lockfile/.git) lands
+  -- on the workspace root, not the SvelteKit app dir, so the server can't see
+  -- the app's svelte.config.js or node_modules/svelte. Prefer svelte.config.js.
+  svelte = {
+    root_dir = function(bufnr, on_dir)
+      local fname = vim.api.nvim_buf_get_name(bufnr)
+      on_dir(vim.fs.root(fname, "svelte.config.js") or vim.fs.root(fname, { "package.json", ".git" }))
+    end,
+  },
   jsonls = {},
   html = {},
   eslint = {},
