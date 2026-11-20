@@ -124,7 +124,7 @@ let
     productivity = [
       # bartender # Only version 5, use homebrew
       lastpass-cli
-      raycast
+      # raycast # Installed via Homebrew cask (nixpkgs lags behind v2)
       # spotify
       tailscale # I think just the cli
       # mailspring # eh, not a huge fan

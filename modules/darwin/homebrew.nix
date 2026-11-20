@@ -115,6 +115,7 @@ in
       # "applite" # I don't need this anymore for homebrew
       "flux-app"
       "bartender"
+      "raycast" # nixpkgs version lags behind (was stuck on v1)
       # "betterdisplay" The actual cask is broken I think
       "spotify" # For some reason, the nixpkgs version is breaking
 
